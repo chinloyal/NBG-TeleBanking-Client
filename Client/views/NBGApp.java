@@ -17,7 +17,6 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.FlowLayout;
 import net.miginfocom.swing.MigLayout;
-import database.UserProvider;
 
 public class NBGApp {
 
