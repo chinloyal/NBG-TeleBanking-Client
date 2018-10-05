@@ -2,6 +2,8 @@ package models;
 
 import java.io.Serializable;
 
+import org.springframework.security.crypto.bcrypt.BCrypt;
+
 public class User implements Serializable {
 
 	private int id;
@@ -19,7 +21,7 @@ public class User implements Serializable {
 		this.lastName = lastName;
 		this.type = type;
 		this.email = email;
-		this.password = password;
+		this.password = BCrypt.hashpw(password, BCrypt.gensalt());
 		this.photo = null;
 	}
 
@@ -29,7 +31,7 @@ public class User implements Serializable {
 		this.lastName = lastName;
 		this.type = type;
 		this.email = email;
-		this.password = password;
+		this.password = BCrypt.hashpw(password, BCrypt.gensalt());
 		this.photo = null;
 	}
 
@@ -78,7 +80,7 @@ public class User implements Serializable {
 	}
 
 	public void setPassword(String password) {
-		this.password = password;
+		this.password = BCrypt.hashpw(password, BCrypt.gensalt());
 	}
 
 	public Photo getPhoto() {

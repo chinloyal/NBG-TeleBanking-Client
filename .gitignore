@@ -54,3 +54,4 @@ logs/
 .scala_dependencies
 .worksheet
 target/
+/target/
