@@ -27,7 +27,7 @@ public class NBGApp {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		/*EventQueue.invokeLater(new Runnable() {
+		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					NBGApp window = new NBGApp();
@@ -36,11 +36,7 @@ public class NBGApp {
 					e.printStackTrace();
 				}
 			}
-		});*/
-		
-		UserProvider p = new UserProvider();
-		
-		System.out.println(p.selectAll());
+		});
 	}
 
 	/**
