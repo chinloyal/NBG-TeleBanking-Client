@@ -17,6 +17,7 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.FlowLayout;
 import net.miginfocom.swing.MigLayout;
+import database.UserProvider;
 
 public class NBGApp {
 
@@ -26,7 +27,7 @@ public class NBGApp {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
+		/*EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					NBGApp window = new NBGApp();
@@ -35,7 +36,11 @@ public class NBGApp {
 					e.printStackTrace();
 				}
 			}
-		});
+		});*/
+		
+		UserProvider p = new UserProvider();
+		
+		System.out.println(p.selectAll());
 	}
 
 	/**

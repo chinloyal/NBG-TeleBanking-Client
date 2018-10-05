@@ -2,6 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="Client"/>
 	<classpathentry kind="src" path="Server"/>
+	<classpathentry kind="src" path="Resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-10">
 		<attributes>
 			<attribute name="module" value="true"/>
@@ -9,5 +10,8 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/jgoodies-forms-1.8.0.jar"/>
 	<classpathentry kind="lib" path="lib/miglayout15-swing.jar"/>
+	<classpathentry kind="lib" path="lib/log4j-api-2.11.1.jar"/>
+	<classpathentry kind="lib" path="lib/log4j-core-2.11.1.jar"/>
+	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.40-bin.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
