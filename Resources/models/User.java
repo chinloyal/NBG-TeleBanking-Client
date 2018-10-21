@@ -2,24 +2,53 @@ package models;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+//import javax.per
+
+//import org.hibernate.validator.constraints.*;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 public class User implements Serializable {
 
 	private int id;
+	
+	@NotEmpty(message = "- First Name cannot be empty.")
+	@Size(min = 2, max = 200, message = "- First Name should be between 2 and 200 characters.")
 	private String firstName;
+	
+	@NotEmpty(message = "- Last Name cannot be empty.")
+	@Size(min = 2, max = 200, message = "- Last Name should be between 2 and 200 characters.")
 	private String lastName;
+	
+	@NotEmpty
 	private String type;
+	
+	@NotEmpty(message = "- Email address cannot be empty.")
+	@Email(message = "- Invalid email address")
 	private String email;
+	
+	@Size(min = 8, message = "- Password should be a minimum of 8 characters")
 	private String password;
 	private Photo photo;
 	
-	public User(int id, String firstName, String lastName, String type, String email, String password) {
+	public User() {
+		super();
+		this.id = 0;
+		this.firstName = "";
+		this.lastName = "";
+		this.type = "";
+		this.email = "";
+		this.password = "";
+		this.photo = null;
+	}
+	
+	public User(int id, String firstName, String lastName, String type, String email, @Size(min = 8, message = "- Password should be a minimum of 8 characters") String password) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.type = type;
+		this.type = type.trim().toLowerCase();
 		this.email = email;
 		this.password = BCrypt.hashpw(password, BCrypt.gensalt());
 		this.photo = null;
@@ -29,9 +58,9 @@ public class User implements Serializable {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.type = type;
+		this.type = type.trim().toLowerCase();
 		this.email = email;
-		this.password = BCrypt.hashpw(password, BCrypt.gensalt());
+		this.password = password;
 		this.photo = null;
 	}
 
@@ -42,15 +71,16 @@ public class User implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
-
+	
 	public String getFirstName() {
 		return firstName;
 	}
-
+	
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
-
+	
+	
 	public String getLastName() {
 		return lastName;
 	}
@@ -62,9 +92,9 @@ public class User implements Serializable {
 	public String getType() {
 		return type;
 	}
-
+	
 	public void setType(String type) {
-		this.type = type;
+		this.type = type.trim().toLowerCase();
 	}
 
 	public String getEmail() {
@@ -80,7 +110,7 @@ public class User implements Serializable {
 	}
 
 	public void setPassword(String password) {
-		this.password = BCrypt.hashpw(password, BCrypt.gensalt());
+		this.password = password;
 	}
 
 	public Photo getPhoto() {
@@ -91,6 +121,7 @@ public class User implements Serializable {
 		this.photo = photo;
 	}
 	
+	@Override
 	public String toString() {
 		
 		return "User {"

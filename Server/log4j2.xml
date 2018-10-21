@@ -5,17 +5,17 @@
     </Properties>
     <Appenders>
         <!-- General Appenders -->
-        <Appender type="Console" name="ConsoleAppender">
-        	<Layout type="PatternLayout" pattern="%d %p %C [%t] %m%n" ></Layout>
+        <Appender type="Console" name="ServerConsoleAppender">
+        	<Layout type="PatternLayout" pattern="%d %p %C [SERVER][%t] %m%n" ></Layout>
         </Appender>
-        <Appender type="File" name="FileAppender" fileName="${loggerLocation}">
-        	<Layout type="PatternLayout" pattern="%d %p %C [%t] %m%n" />
+        <Appender type="File" name="ServerFileAppender" fileName="${loggerLocation}">
+        	<Layout type="PatternLayout" pattern="%d %p %C [SERVER][%t] %m%n" />
         </Appender>
     </Appenders>
     <Loggers>
         <Root level="debug">
-        	<AppenderRef ref="ConsoleAppender" />
-        	<AppenderRef ref="FileAppender" />
+        	<AppenderRef ref="ServerConsoleAppender" />
+        	<AppenderRef ref="ServerFileAppender" />
         </Root>
     </Loggers>
 </Configuration>
