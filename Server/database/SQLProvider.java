@@ -2,6 +2,7 @@ package database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -16,6 +17,7 @@ public abstract class SQLProvider<T> {
 	protected Connection connection = null;
 	protected Statement statement = null;
 	protected ResultSet resultSet = null;
+	protected PreparedStatement preparedStatement = null;
 	
 	private static final String DRIVER = "com.mysql.jdbc.Driver";
 	
@@ -46,12 +48,31 @@ public abstract class SQLProvider<T> {
 	
 	public abstract List<T> selectAll();
 	
+	/**
+	 * Get a row of data from a table
+	 * @param id - ID of model in table
+	 * @return
+	 */
 	public abstract T get(int id);
 	
 	public abstract int update(T item, int id);
 	
 	public abstract int delete(int id);
 	
-	public abstract int deleteMultiple(int[] id);	
+	public abstract int deleteMultiple(int[] id);
+	
+	public abstract int store(T item);
+	
+	protected int getLastInsertedId(Statement statement) throws SQLException {
+		ResultSet rs = statement.getGeneratedKeys();
+		int id = 0;
+		
+		if(rs.next()) {
+			id = rs.getInt(1);
+		}
+		
+		return id;
+			
+	}
 	
 }

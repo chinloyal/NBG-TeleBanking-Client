@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 05, 2018 at 05:26 PM
+-- Generation Time: Oct 20, 2018 at 07:26 AM
 -- Server version: 10.1.34-MariaDB
 -- PHP Version: 7.2.7
 
@@ -45,7 +45,7 @@ CREATE TABLE `messages` (
 CREATE TABLE `photos` (
   `id` int(11) UNSIGNED NOT NULL,
   `user_id` int(11) UNSIGNED DEFAULT NULL,
-  `file` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `file` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -76,13 +76,6 @@ CREATE TABLE `transactions` (
   `card_type` enum('credit','debit') COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `transactions`
---
-
-INSERT INTO `transactions` (`id`, `from_id`, `to_id`, `transaction_type_id`, `amount`, `description`, `date`, `card_type`) VALUES
-(1, 1, 2, 1, 3000, 'goof', '2018-10-05 07:00:25', 'debit');
-
 -- --------------------------------------------------------
 
 --
@@ -93,13 +86,6 @@ CREATE TABLE `transaction_type` (
   `id` int(11) UNSIGNED NOT NULL,
   `name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `transaction_type`
---
-
-INSERT INTO `transaction_type` (`id`, `name`) VALUES
-(1, 'test');
 
 -- --------------------------------------------------------
 
@@ -115,14 +101,6 @@ CREATE TABLE `users` (
   `type` enum('customer','manager') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`id`, `email`, `first_name`, `last_name`, `type`, `password`) VALUES
-(1, 'taper@gmail.com', 'Taper', 'Swept', 'customer', 'pants'),
-(2, 'tg@gmail.com', 'tiger', 'woods', 'customer', 'golf');
 
 --
 -- Indexes for dumped tables
@@ -197,13 +175,13 @@ ALTER TABLE `query_type`
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `transaction_type`
 --
 ALTER TABLE `transaction_type`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
