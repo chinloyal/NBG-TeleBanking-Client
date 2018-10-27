@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml>
+<!-- File: a_transactions.aiml -->
+<!-- Author: Romario Chinloy -->
+<!-- Last modified: October 27, 2018 -->
+<!--  -->
+<!-- This AIML file is part of the SUPER 0.0.4 chat bot knowledge base. -->
+<!--  -->
+<!-- The SUPER brain is Copyright &copy; 2018 by ALICE AI Foundation. -->
+<!--  -->
+<!-- The SUPER brain is released under the terms of the GNU Lesser General -->
+<!-- Public License, as published by the Free Software Foundation. -->
+<!--  -->
+<!-- This file is distributed WITHOUT ANY WARRANTY; without even the  -->
+<!-- implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. -->
+<category><pattern>* MAKE A TRANSACTION *</pattern>
+<template><think><set name="topic">BANKING TRANSACTIONS</set></think>What type of transaction would you like to make?</template>
+</category>
+<category><pattern>MAKE A TRANSACTION</pattern>
+<template><srai>* MAKE A TRANSACTION *</srai></template>
+</category>
+<category><pattern>TRANSACTION</pattern>
+<template><srai>* MAKE A TRANSACTION *</srai></template>
+</category>
+<category><pattern>* TRANSACTION</pattern>
+<template><srai>* MAKE A TRANSACTION *</srai></template>
+</category>
+<category><pattern>* TRANSACTION *</pattern>
+<template><srai>* MAKE A TRANSACTION *</srai></template>
+</category>
+<category><pattern>* PAY A BILL</pattern>
+<template><think><set name="topic">PROVIDER BILLS</set></think>How much money would you like to pay, and to which service provider?</template>
+</category>
+<category><pattern>PAY A BILL</pattern>
+<template><srai>* PAY A BILL</srai></template>
+</category>
+<topic name="BANKING TRANSACTIONS">
+<category><pattern>* CHECK MY BALANCE</pattern>
+<template>Give me a few seconds to check your balance.</template>
+</category></topic>
+
+<topic name="BANKING TRANSACTIONS">
+<category><pattern>* CHECK MY ACCOUNT BALANCE</pattern>
+<template><srai>* CHECK MY BALANCE</srai></template>
+</category></topic>
+
+<topic name="BANKING TRANSACTIONS">
+<category><pattern>* BALANCE INQUIRY</pattern>
+<template><srai>* CHECK MY BALANCE</srai></template>
+</category></topic>
+
+<topic name="BANKING TRANSACTIONS">
+<category><pattern>BALANCE INQUIRY</pattern>
+<template><srai>* CHECK MY BALANCE</srai></template>
+</category></topic>
+
+<topic name="BANKING TRANSACTIONS">
+<category><pattern>HOW MUCH MONEY * I *</pattern>
+<template><srai>* CHECK MY BALANCE</srai></template>
+</category></topic>
+
+<topic name="BANKING TRANSACTIONS">
+<category><pattern>HOW MUCH MONEY * MY *</pattern>
+<template><srai>* CHECK MY BALANCE</srai></template>
+</category></topic>
+
+<topic name="BANKING TRANSACTIONS">
+<category><pattern>* TRANSFER * TO *</pattern>
+<template>OK, I need a few seconds to transfer <star index="2"/> to <star index="3"/></template>
+</category></topic>
+
+<topic name="BANKING TRANSACTIONS">
+<category><pattern>* SEND * TO *</pattern>
+<template><srai>* TRANSFER <star index="2"/> TO <star index="3"/></srai></template>
+</category></topic>
+
+<topic name="BANKING TRANSACTIONS">
+<category><pattern>SEND * TO *</pattern>
+<template><srai>* TRANSFER <star index="1"/> TO <star index="2"/></srai></template>
+</category></topic>
+
+<topic name="BANKING TRANSACTIONS">
+<category><pattern>TRANSFER * TO *</pattern>
+<template><srai>* TRANSFER <star index="1"/> TO <star index="2"/></srai></template>
+</category></topic>
+
+<topic name="BANKING TRANSACTIONS">
+<category><pattern>ADD MONEY TO MY ACCOUNT</pattern>
+<template>How much money do you want to add to your account?</template>
+</category></topic>
+
+<topic name="BANKING TRANSACTIONS">
+<category><pattern>* ADD MONEY TO MY ACCOUNT</pattern>
+<template><srai>ADD MONEY TO MY ACCOUNT</srai></template>
+</category></topic>
+
+<topic name="BANKING TRANSACTIONS">
+<category><pattern>* ADD FUNDS TO MY ACCOUNT</pattern>
+<template><srai>ADD MONEY TO MY ACCOUNT</srai></template>
+</category></topic>
+
+<topic name="BANKING TRANSACTIONS">
+<category><pattern>ADD FUNDS TO MY ACCOUNT</pattern>
+<template><srai>ADD MONEY TO MY ACCOUNT</srai></template>
+</category></topic>
+
+<topic name="BANKING TRANSACTIONS">
+<category><pattern>MAKE A DEPOSIT</pattern>
+<template><srai>ADD MONEY TO MY ACCOUNT</srai></template>
+</category></topic>
+
+<topic name="BANKING TRANSACTIONS">
+<category><pattern>* MAKE A DEPOSIT</pattern>
+<template><srai>ADD MONEY TO MY ACCOUNT</srai></template>
+</category></topic>
+
+<topic name="BANKING TRANSACTIONS">
+<category><pattern>* MAKE A DEPOSIT *</pattern>
+<template><srai>ADD MONEY TO MY ACCOUNT</srai></template>
+</category></topic>
+
+<topic name="BANKING TRANSACTIONS">
+<category><pattern>* DEPOSIT</pattern>
+<template><srai>ADD MONEY TO MY ACCOUNT</srai></template>
+</category></topic>
+
+<topic name="BANKING TRANSACTIONS">
+<category><pattern>DEPOSIT</pattern>
+<template><srai>ADD MONEY TO MY ACCOUNT</srai></template>
+</category></topic>
+
+<topic name="BANKING TRANSACTIONS">
+<category><pattern>* ADD * TO *</pattern>
+<template>Excellent, just give me a moment to process your transaction.</template>
+</category></topic>
+
+<topic name="BANKING TRANSACTIONS">
+<category><pattern>ADD * TO *</pattern>
+<template><srai>* ADD * TO *</srai></template>
+</category></topic>
+
+<topic name="BANKING TRANSACTIONS">
+<category><pattern>_</pattern><that>HOW MUCH MONEY DO YOU WANT TO ADD TO YOUR ACCOUNT</that>
+<template>Good choice, just give me a few seconds to process that.</template>
+</category></topic>
+
+<topic name="BANKING TRANSACTIONS">
+<category><pattern>*</pattern><that>WHAT TYPE OF TRANSACTION WOULD YOU LIKE TO MAKE</that>
+<template>I've never heard of that type of transaction before.</template>
+</category></topic>
+
+<topic name="PROVIDER BILLS">
+<category><pattern>* PAY * TO *</pattern>
+<template>Sure, I'll find <star index="3"/> and pay them <star index="2"/></template>
+</category></topic>
+
+<topic name="PROVIDER BILLS">
+<category><pattern>PAY * TO *</pattern>
+<template><srai>* PAY <star index="1"/> TO <star index="2"/></srai></template>
+</category></topic>
+
+</aiml>
