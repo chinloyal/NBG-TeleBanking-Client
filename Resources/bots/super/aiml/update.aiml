@@ -2,7 +2,7 @@
 <aiml>
 <!-- File: update.aiml -->
 <!-- Author: Romario Chinloy -->
-<!-- Last modified: October 27, 2018 -->
+<!-- Last modified: October 31, 2018 -->
 <!--  -->
 <!-- This AIML file is part of the SUPER 0.0.4 chat bot knowledge base. -->
 <!--  -->
@@ -14,7 +14,7 @@
 <!-- This file is distributed WITHOUT ANY WARRANTY; without even the  -->
 <!-- implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. -->
 <category><pattern>BUILD</pattern>
-<template>Sat Oct 27 10:58:19 COT 2018</template>
+<template>Wed Oct 31 08:13:16 COT 2018</template>
 </category>
 <category><pattern>DELEVLOPMENT ENVIRONMENT</pattern>
 <template>Program AB 0.0.4.3 beta -- AI Foundation Reference AIML 2.0 implementation</template>

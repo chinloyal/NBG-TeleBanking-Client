@@ -3,12 +3,15 @@ package abstracts;
 import java.io.File;
 
 import org.alicebot.ab.*;
-public abstract class ArtificialIntelligence {
+
+import com.chinloyal.speak.*;
+public abstract class ArtificialIntelligence extends Voice{
 	
 	private String response;
 	private String request;
 	private Chat chatSession;
 	private Bot bot;
+	
 	
 	public ArtificialIntelligence() {
 		String resourcesPath = getResourcesPath();
@@ -19,7 +22,7 @@ public abstract class ArtificialIntelligence {
 		request = "";
 	}
 	
-	public String smallTalk(String input) {
+	public String respond(String input) {
 		try {
 	
 			if ((input == null) || (input.length() < 1))
@@ -49,12 +52,8 @@ public abstract class ArtificialIntelligence {
 		return dir.getAbsolutePath();
 	}
 	
-	private void initializeBot() {
-		
-	}
-	
 	/**
-	 * This method should execute an action based on the response.
+	 * This method should execute an action based on the response of the bot.
 	 * 
 	 * @param request
 	 */

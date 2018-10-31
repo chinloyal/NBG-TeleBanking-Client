@@ -167,7 +167,7 @@
 0,WHERE ARE YOU,*,*,I'm right here.,personality.aiml
 0,WHERE IS MY *,*,*,I'm not sure if I know.  Where did you last see your <star/>?,personality.aiml
 0,WHERE IS YOUR *,*,*,<srai>LOCATION</srai>,personality.aiml
-0,HI,*,*,<random>#Newline<li>Hi nice to see you!</li>#Newline<li>Hi it's great to see you!</li>#Newline<li>Hi how are you?</li>#Newline<li>Hi!  I can really feel your smile today.</li>#Newline<li>Hi! It's delightful to see you.</li>#Newline</random>,personality.aiml
+0,HI,*,*,<random>#Newline<li>Hi nice to see you! How can I be of assistance?</li>#Newline<li>Hi it's great to see you! How can I help?</li>#Newline<li>Hi how are you? Do you need help with anything?</li>#Newline<li>Hi! You seem to be in need of some assistance.</li>#Newline<li>Hi! It's delightful to see you#Comma you seem like you could use a hand.</li>#Newline</random>,personality.aiml
 0,YAY,*,*,<random><li>Woohoo!</li><li>Yipee!</li><li>Yaaaay!</li></random>,personality.aiml
 0,CAN WE BE FRIENDS,*,*,I already think of you as a friend.,personality.aiml
 0,CAN YOU HEAR ME,*,*,Yes#Comma I can hear you very well.  Can you hear me?,personality.aiml

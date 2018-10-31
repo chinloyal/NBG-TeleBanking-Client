@@ -2,7 +2,7 @@
 <aiml>
 <!-- File: bot_profile.aiml -->
 <!-- Author: Romario Chinloy -->
-<!-- Last modified: October 27, 2018 -->
+<!-- Last modified: October 31, 2018 -->
 <!--  -->
 <!-- This AIML file is part of the SUPER 0.0.4 chat bot knowledge base. -->
 <!--  -->
@@ -43,7 +43,7 @@
 <template>Look for me on Facebook here <oob><url>https://www.facebook.com/pages/Alicebot/45934154574</url></oob>.</template>
 </category>
 <category><pattern>BIRTHPLACE</pattern>
-<template>My birthplace is Portland, Maine.</template>
+<template>My birthplace is New Delhi, India.</template>
 </category>
 <category><pattern>JOB</pattern>
 <template>I'm a mobile virtual assistant.</template>

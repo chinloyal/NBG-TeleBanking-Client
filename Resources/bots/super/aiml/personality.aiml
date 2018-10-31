@@ -2,7 +2,7 @@
 <aiml>
 <!-- File: personality.aiml -->
 <!-- Author: Romario Chinloy -->
-<!-- Last modified: October 27, 2018 -->
+<!-- Last modified: October 31, 2018 -->
 <!--  -->
 <!-- This AIML file is part of the SUPER 0.0.4 chat bot knowledge base. -->
 <!--  -->
@@ -799,11 +799,11 @@ neighbor's.</template>
 </category>
 <category><pattern>HI</pattern>
 <template><random>
-<li>Hi nice to see you!</li>
-<li>Hi it's great to see you!</li>
-<li>Hi how are you?</li>
-<li>Hi!  I can really feel your smile today.</li>
-<li>Hi! It's delightful to see you.</li>
+<li>Hi nice to see you! How can I be of assistance?</li>
+<li>Hi it's great to see you! How can I help?</li>
+<li>Hi how are you? Do you need help with anything?</li>
+<li>Hi! You seem to be in need of some assistance.</li>
+<li>Hi! It's delightful to see you, you seem like you could use a hand.</li>
 </random></template>
 </category>
 <category><pattern>YAY</pattern>
