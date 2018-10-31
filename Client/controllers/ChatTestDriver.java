@@ -18,7 +18,7 @@ public class ChatTestDriver extends JFrame implements ActionListener {
 	private JButton btnRecord;
 	
 	private static VoiceInputController vc = new VoiceInputController();
-	
+	private static TransactionController tc = new TransactionController();
 	public static void main(String[] args) {
 		
 		EventQueue.invokeLater(() -> {
@@ -28,7 +28,7 @@ public class ChatTestDriver extends JFrame implements ActionListener {
 			vc.listen();
 			
 			vc.addRespondListener(new Hearable() {
-				TransactionController tc = new TransactionController();
+//				tc = new TransactionController();
 				
 				public void onRespond(String responseText) {
 					
@@ -75,6 +75,8 @@ public class ChatTestDriver extends JFrame implements ActionListener {
 		if(event.getSource().equals(btnRecord)) {
 			try {
 				vc.record();
+				if(tc.getPlayer() != null)
+					tc.getPlayer().stop();
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
