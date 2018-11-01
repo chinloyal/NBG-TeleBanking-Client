@@ -293,7 +293,7 @@ public class RegistrationView extends JFrame implements ActionListener {
 							JOptionPane.showMessageDialog(null, "Unacceptable file format.", "Error", JOptionPane.ERROR_MESSAGE);
 							return;
 						}
-						File destination = new File("Client/storage/images", uploadedImageName);
+						File destination = new File("Client/storage/uploads", uploadedImageName);
 						
 						logger.debug("Moving image to images folder");
 						if(uploadedImage.renameTo(destination)) {
