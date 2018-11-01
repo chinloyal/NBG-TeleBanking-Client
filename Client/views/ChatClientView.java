@@ -52,7 +52,7 @@ public class ChatClientView extends JFrame implements ActionListener{
 		setResizable(false);
 		
 		label = new JLabel("");
-		label.setIcon(new ImageIcon(new ImageIcon(ChatClientView.class.getResource("/storage/images/lisa2.jpg")).getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT)));
+		label.setIcon(new ImageIcon(new ImageIcon(ChatClientView.class.getResource("/storage/uploads/lisa2.jpg")).getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT)));
 		getContentPane().add(label);
 		
 		JTextArea txtAreaInstructions = new JTextArea();
@@ -108,7 +108,7 @@ public class ChatClientView extends JFrame implements ActionListener{
 		
 		JButton btnRecord = new JButton("");
 		btnRecord.setToolTipText("Click this icon to utilize voice input, rather than text");
-		btnRecord.setIcon(new ImageIcon(new ImageIcon(ChatClientView.class.getResource("/storage/images/mic.png")).getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT)));
+		btnRecord.setIcon(new ImageIcon(new ImageIcon(ChatClientView.class.getResource("/storage/uploads/mic.png")).getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT)));
 		getContentPane().add(btnRecord);
 		initView();
 		configureListeners();
