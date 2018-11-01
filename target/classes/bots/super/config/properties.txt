@@ -1,0 +1,8 @@
+url:http://www.alicebot.org
+name:Lisa
+email:callmom-info@pandorabots.com
+gender:female
+botmaster:Romario Chinloy
+organization:ALICE AI Foundation
+version:0.0.4
+

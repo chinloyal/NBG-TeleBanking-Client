@@ -1,0 +1,68 @@
+2018-10-05 06:53:30,672 INFO database.SQLProvider [main] Attempting to connect to the database...
+2018-10-05 06:53:31,331 INFO database.SQLProvider [main] Connected to database
+2018-10-05 06:53:31,332 INFO database.UserProvider [main] Executing SELECT * FROM users
+2018-10-05 06:53:31,340 DEBUG database.UserProvider [main] Retrieved 2 users.
+2018-10-20 04:59:53,682 INFO views.RegistrationView [AWT-EventQueue-0] Initializing Registration View
+2018-10-20 04:59:54,025 INFO views.RegistrationView [AWT-EventQueue-0] Configuring Listeners
+2018-10-20 05:00:38,513 DEBUG views.RegistrationView [AWT-EventQueue-0] Moving image to images folder
+2018-10-20 06:52:01,191 INFO views.RegistrationView [AWT-EventQueue-0] Initializing Registration View
+2018-10-20 06:52:01,537 INFO views.RegistrationView [AWT-EventQueue-0] Configuring Listeners
+2018-10-20 06:53:59,234 INFO views.RegistrationView [AWT-EventQueue-0] Initializing Registration View
+2018-10-20 06:53:59,561 INFO views.RegistrationView [AWT-EventQueue-0] Configuring Listeners
+2018-10-20 06:58:38,561 INFO views.RegistrationView [AWT-EventQueue-0] Initializing Registration View
+2018-10-20 06:58:38,886 INFO views.RegistrationView [AWT-EventQueue-0] Configuring Listeners
+2018-10-20 06:59:54,281 INFO views.RegistrationView [AWT-EventQueue-0] Initializing Registration View
+2018-10-20 06:59:54,565 INFO views.RegistrationView [AWT-EventQueue-0] Configuring Listeners
+2018-10-20 07:00:09,900 DEBUG views.RegistrationView [AWT-EventQueue-0] Starting regist
+2018-10-20 07:00:25,251 DEBUG views.RegistrationView [AWT-EventQueue-0] Starting regist
+2018-10-20 07:00:41,054 DEBUG views.RegistrationView [AWT-EventQueue-0] Starting regist
+2018-10-20 07:01:00,112 DEBUG views.RegistrationView [AWT-EventQueue-0] Starting regist
+2018-10-20 07:08:04,795 INFO views.RegistrationView [AWT-EventQueue-0] Initializing Registration View
+2018-10-20 07:08:05,111 INFO views.RegistrationView [AWT-EventQueue-0] Configuring Listeners
+2018-10-20 07:08:23,459 DEBUG views.RegistrationView [AWT-EventQueue-0] Starting regist
+2018-10-20 07:09:02,240 INFO views.RegistrationView [AWT-EventQueue-0] Initializing Registration View
+2018-10-20 07:09:02,550 INFO views.RegistrationView [AWT-EventQueue-0] Configuring Listeners
+2018-10-20 07:09:09,833 DEBUG views.RegistrationView [AWT-EventQueue-0] Starting regist
+2018-10-20 07:18:41,674 INFO views.RegistrationView [AWT-EventQueue-0] Initializing Registration View
+2018-10-20 07:18:41,956 INFO views.RegistrationView [AWT-EventQueue-0] Configuring Listeners
+2018-10-20 07:18:51,663 DEBUG views.RegistrationView [AWT-EventQueue-0] Starting regist
+2018-10-20 07:21:26,627 INFO views.RegistrationView [AWT-EventQueue-0] Initializing Registration View
+2018-10-20 07:21:26,943 INFO views.RegistrationView [AWT-EventQueue-0] Configuring Listeners
+2018-10-20 07:21:51,616 DEBUG views.RegistrationView [AWT-EventQueue-0] Moving image to images folder
+2018-10-20 07:47:56,825 INFO views.RegistrationView [AWT-EventQueue-0] Initializing Registration View
+2018-10-20 07:47:57,120 INFO views.RegistrationView [AWT-EventQueue-0] Configuring Listeners
+2018-10-20 07:49:08,497 DEBUG views.RegistrationView [AWT-EventQueue-0] Moving image to images folder
+2018-10-20 15:07:29,322 INFO connection.Server [CLIENT][Thread-0] Server is starting...
+2018-10-20 15:07:29,336 INFO connection.Server [CLIENT][Thread-0] Waiting for requests
+2018-10-20 15:07:58,040 DEBUG controllers.AuthController [CLIENT][AWT-EventQueue-0] Registering user
+2018-10-20 15:07:58,109 DEBUG org.jboss.logging.LoggerProviders [CLIENT][AWT-EventQueue-0] Logging Provider: org.jboss.logging.Log4j2LoggerProvider
+2018-10-20 15:07:58,111 INFO org.hibernate.validator.internal.util.Version [CLIENT][AWT-EventQueue-0] HV000001: Hibernate Validator 6.0.13.Final
+2018-10-20 15:07:58,155 DEBUG org.hibernate.validator.internal.engine.resolver.TraversableResolvers [CLIENT][AWT-EventQueue-0] Found javax.persistence.Persistence on classpath, but no method 'getPersistenceUtil'. Assuming JPA 1 environment. All properties will per default be traversable.
+2018-10-20 15:07:58,164 DEBUG org.hibernate.validator.internal.xml.config.ValidationXmlParser [CLIENT][AWT-EventQueue-0] Trying to load META-INF/validation.xml for XML based Validator configuration.
+2018-10-20 15:07:58,168 DEBUG org.hibernate.validator.internal.xml.config.ResourceLoaderHelper [CLIENT][AWT-EventQueue-0] Trying to load META-INF/validation.xml via TCCL
+2018-10-20 15:07:58,169 DEBUG org.hibernate.validator.internal.xml.config.ResourceLoaderHelper [CLIENT][AWT-EventQueue-0] Trying to load META-INF/validation.xml via Hibernate Validator's class loader
+2018-10-20 15:07:58,170 DEBUG org.hibernate.validator.internal.xml.config.ValidationXmlParser [CLIENT][AWT-EventQueue-0] No META-INF/validation.xml found. Using annotation based configuration only.
+2018-10-20 15:07:58,502 DEBUG org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator [CLIENT][AWT-EventQueue-0] Loaded expression factory via original TCCL
+2018-10-20 15:07:58,512 DEBUG org.hibernate.validator.internal.engine.ValidatorFactoryImpl [CLIENT][AWT-EventQueue-0] HV000234: Using org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator as ValidatorFactory-scoped message interpolator.
+2018-10-20 15:07:58,513 DEBUG org.hibernate.validator.internal.engine.ValidatorFactoryImpl [CLIENT][AWT-EventQueue-0] HV000234: Using org.hibernate.validator.internal.engine.resolver.TraverseAllTraversableResolver as ValidatorFactory-scoped traversable resolver.
+2018-10-20 15:07:58,513 DEBUG org.hibernate.validator.internal.engine.ValidatorFactoryImpl [CLIENT][AWT-EventQueue-0] HV000234: Using org.hibernate.validator.internal.util.ExecutableParameterNameProvider as ValidatorFactory-scoped parameter name provider.
+2018-10-20 15:07:58,514 DEBUG org.hibernate.validator.internal.engine.ValidatorFactoryImpl [CLIENT][AWT-EventQueue-0] HV000234: Using org.hibernate.validator.internal.engine.DefaultClockProvider as ValidatorFactory-scoped clock provider.
+2018-10-20 15:07:58,515 DEBUG org.hibernate.validator.internal.engine.ValidatorFactoryImpl [CLIENT][AWT-EventQueue-0] HV000234: Using org.hibernate.validator.internal.engine.scripting.DefaultScriptEvaluatorFactory as ValidatorFactory-scoped script evaluator factory.
+2018-10-20 15:10:50,584 INFO views.RegistrationView [CLIENT][AWT-EventQueue-0] Initializing Registration View
+2018-10-20 15:10:50,835 INFO views.RegistrationView [CLIENT][AWT-EventQueue-0] Configuring Listeners
+2018-10-20 15:11:06,075 INFO connection.Server [CLIENT][Thread-0] Server is starting...
+2018-10-20 15:11:06,091 INFO connection.Server [CLIENT][Thread-0] Waiting for requests
+2018-10-20 15:11:21,662 DEBUG controllers.AuthController [CLIENT][AWT-EventQueue-0] Registering user
+2018-10-20 15:11:21,720 DEBUG org.jboss.logging.LoggerProviders [CLIENT][AWT-EventQueue-0] Logging Provider: org.jboss.logging.Log4j2LoggerProvider
+2018-10-20 15:11:21,721 INFO org.hibernate.validator.internal.util.Version [CLIENT][AWT-EventQueue-0] HV000001: Hibernate Validator 6.0.13.Final
+2018-10-20 15:11:21,741 DEBUG org.hibernate.validator.internal.engine.resolver.TraversableResolvers [CLIENT][AWT-EventQueue-0] Found javax.persistence.Persistence on classpath, but no method 'getPersistenceUtil'. Assuming JPA 1 environment. All properties will per default be traversable.
+2018-10-20 15:11:21,749 DEBUG org.hibernate.validator.internal.xml.config.ValidationXmlParser [CLIENT][AWT-EventQueue-0] Trying to load META-INF/validation.xml for XML based Validator configuration.
+2018-10-20 15:11:21,753 DEBUG org.hibernate.validator.internal.xml.config.ResourceLoaderHelper [CLIENT][AWT-EventQueue-0] Trying to load META-INF/validation.xml via TCCL
+2018-10-20 15:11:21,755 DEBUG org.hibernate.validator.internal.xml.config.ResourceLoaderHelper [CLIENT][AWT-EventQueue-0] Trying to load META-INF/validation.xml via Hibernate Validator's class loader
+2018-10-20 15:11:21,755 DEBUG org.hibernate.validator.internal.xml.config.ValidationXmlParser [CLIENT][AWT-EventQueue-0] No META-INF/validation.xml found. Using annotation based configuration only.
+2018-10-20 15:11:22,090 DEBUG org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator [CLIENT][AWT-EventQueue-0] Loaded expression factory via original TCCL
+2018-10-20 15:11:22,100 DEBUG org.hibernate.validator.internal.engine.ValidatorFactoryImpl [CLIENT][AWT-EventQueue-0] HV000234: Using org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator as ValidatorFactory-scoped message interpolator.
+2018-10-20 15:11:22,101 DEBUG org.hibernate.validator.internal.engine.ValidatorFactoryImpl [CLIENT][AWT-EventQueue-0] HV000234: Using org.hibernate.validator.internal.engine.resolver.TraverseAllTraversableResolver as ValidatorFactory-scoped traversable resolver.
+2018-10-20 15:11:22,102 DEBUG org.hibernate.validator.internal.engine.ValidatorFactoryImpl [CLIENT][AWT-EventQueue-0] HV000234: Using org.hibernate.validator.internal.util.ExecutableParameterNameProvider as ValidatorFactory-scoped parameter name provider.
+2018-10-20 15:11:22,102 DEBUG org.hibernate.validator.internal.engine.ValidatorFactoryImpl [CLIENT][AWT-EventQueue-0] HV000234: Using org.hibernate.validator.internal.engine.DefaultClockProvider as ValidatorFactory-scoped clock provider.
+2018-10-20 15:11:22,103 DEBUG org.hibernate.validator.internal.engine.ValidatorFactoryImpl [CLIENT][AWT-EventQueue-0] HV000234: Using org.hibernate.validator.internal.engine.scripting.DefaultScriptEvaluatorFactory as ValidatorFactory-scoped script evaluator factory.
