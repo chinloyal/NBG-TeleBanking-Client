@@ -15,10 +15,12 @@ public class User implements Serializable {
 	
 	@NotEmpty(message = "- First Name cannot be empty.")
 	@Size(min = 2, max = 200, message = "- First Name should be between 2 and 200 characters.")
+	@Pattern(regexp = "^[a-zA-Z]+[a-zA-Z\\-]*?$", message = "- First Name can only contain leters and a dash(-).")
 	private String firstName;
 	
 	@NotEmpty(message = "- Last Name cannot be empty.")
 	@Size(min = 2, max = 200, message = "- Last Name should be between 2 and 200 characters.")
+	@Pattern(regexp = "^[a-zA-Z]+[a-zA-Z\\\\-]*?$", message = "- Last Name can only contain leters and a dash(-).")
 	private String lastName;
 	
 	@NotEmpty
