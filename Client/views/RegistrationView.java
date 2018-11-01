@@ -47,7 +47,6 @@ import javax.swing.ButtonModel;
 
 import models.User;
 import models.Photo;
-import connection.Server;
 
 public class RegistrationView extends JFrame implements ActionListener {
 
@@ -89,14 +88,6 @@ public class RegistrationView extends JFrame implements ActionListener {
 				frame.setVisible(true);
 			}
 		});
-		
-		Thread thread = new Thread(new Runnable() {
-			public void run() {
-				Server server = new Server();
-			}
-		});
-		
-		thread.start();
 		
 	}
 
