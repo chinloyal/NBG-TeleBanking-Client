@@ -9,7 +9,10 @@ local.properties
 .settings/
 .loadpath
 .recommenders
-
+logs/
+Client/storage/images/*.jpg
+Client/storage/images/*.png
+Client/storage/images/*.jpeg
 # External tool builders
 .externalToolBuilders/
 
@@ -53,3 +56,5 @@ local.properties
 .cache-main
 .scala_dependencies
 .worksheet
+target/
+/target/
