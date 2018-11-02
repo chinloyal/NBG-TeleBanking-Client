@@ -13,7 +13,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.jgoodies.forms.layout.FormLayout;
-import com.fasterxml.classmate.util.ResolvedTypeCache.Key;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 
@@ -43,11 +42,9 @@ import java.util.regex.Pattern;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.ButtonGroup;
-import javax.swing.ButtonModel;
 
 import models.User;
 import models.Photo;
-import connection.Server;
 
 public class RegistrationView extends JFrame implements ActionListener {
 
@@ -89,14 +86,6 @@ public class RegistrationView extends JFrame implements ActionListener {
 				frame.setVisible(true);
 			}
 		});
-		
-		Thread thread = new Thread(new Runnable() {
-			public void run() {
-				Server server = new Server();
-			}
-		});
-		
-		thread.start();
 		
 	}
 
@@ -228,6 +217,7 @@ public class RegistrationView extends JFrame implements ActionListener {
 		
 		// Configure Listeners
 		configureListeners();
+		
 	}
 	
 	public void configureListeners() {
@@ -301,7 +291,7 @@ public class RegistrationView extends JFrame implements ActionListener {
 							JOptionPane.showMessageDialog(null, "Unacceptable file format.", "Error", JOptionPane.ERROR_MESSAGE);
 							return;
 						}
-						File destination = new File("Client/storage/images", uploadedImageName);
+						File destination = new File("Client/storage/uploads", uploadedImageName);
 						
 						logger.debug("Moving image to images folder");
 						if(uploadedImage.renameTo(destination)) {
