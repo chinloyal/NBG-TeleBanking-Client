@@ -73,5 +73,22 @@ public class AuthController {
 		
 		return true;
 	}
+	
+	public void login(String email, String password) {
+		try {
+			String [] arrData = {email, password};
+			Request request = new Request("login", arrData);
+			client.connect();
+			client.send(request);
+			client.readResponse();
+			client.send(new Request("EXIT"));
+			client.closeConnection();
+		} catch(IOException | ClassNotFoundException e ) {
+			logger.error("Invalid data");
+		}
+		
+		
+		
+	}
 
 }

@@ -10,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
+import data.Request;
 import models.Photo;
 import models.User;
 
@@ -87,6 +88,23 @@ public class UserProvider extends SQLProvider<User> {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	public boolean authenticate(String email, String password) {
+		try {
+			String query = "Select * from " + TABLE_NAME + "where email = ?";
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setString(1, email);
+			resultSet = preparedStatement.executeQuery();
+			if(resultSet.next()) {
+				resultSet.getString("password");
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
+	}
 
 	@Override
 	public int store(User user) {
@@ -123,5 +141,7 @@ public class UserProvider extends SQLProvider<User> {
 		
 		return 0;
 	}
+	
+	
 
 }
