@@ -13,9 +13,9 @@ import javax.validation.ValidatorFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import communication.Request;
+import communication.Response;
 import connection.Client;
-import data.Request;
-import data.Response;
 import models.User;
 
 public class AuthController {

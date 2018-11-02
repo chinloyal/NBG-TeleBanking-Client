@@ -1,119 +1,173 @@
 package views;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
-import java.net.URISyntaxException;
 
-import javax.imageio.ImageIO;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.UIManager;
 
-public class ChatClientView extends JFrame implements ActionListener{
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import controllers.TransactionController;
+import javazoom.jl.decoder.JavaLayerException;
+
+import java.awt.SystemColor;
+import java.awt.Font;
+import javax.swing.JProgressBar;
+import java.awt.Component;
+import java.awt.Color;
+
+public class ChatClientView extends JFrame implements ActionListener, KeyListener{
+	private JLabel label;
+	private JTextField txtRequest;
+	private JButton btnRecord;
+	private JTextArea txtrUserRequest;
+	private JTextArea txtrBotResponse;
+	private JProgressBar progressBar;
 	
-	private JTextArea txtResponse;
-	private JTextArea txtRequests;
-	private JButton btnMic;
-	private BufferedImage imgLisa;
-
+	private TransactionController tc = new TransactionController();
+	private Logger logger = LogManager.getLogger(ChatClientView.class);
+	
 	public static void main(String[] args) {
+		try {
+			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+		} catch(Exception e) {  
+			JOptionPane.showMessageDialog(null,"Cannot set UI");
+		}
+		
 		EventQueue.invokeLater(
 				new Runnable(){
 					public void run(){
-						new ChatClientView();
+						ChatClientView frame = new ChatClientView();
+						frame.setVisible(true);
 					}
 				}
 		);
 	}
 	
 	public ChatClientView() {
-		initView();
+		super("NBG Tele-Banking - Transactions");
+		getContentPane().setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+		setSize(450, 518);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setResizable(false);
+		
+		label = new JLabel("");
+		label.setIcon(new ImageIcon(new ImageIcon(ChatClientView.class.getResource("/storage/uploads/lisa2.jpg")).getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT)));
+		getContentPane().add(label);
+		
+		JTextArea txtAreaInstructions = new JTextArea();
+		txtAreaInstructions.setLineWrap(true);
+		txtAreaInstructions.setFont(new Font("SansSerif", Font.PLAIN, 12));
+		txtAreaInstructions.setForeground(SystemColor.desktop);
+		txtAreaInstructions.setText("Instructions:\r\n1. You can have a regular conversation with our banking bot LISA.\r\n\r\n2. Say \"I want to make a transaction\" to have the bot process transactions for you.\r\n\r\n3. Say \"I want to pay a bill\" and the bot will assist you in paying a bill\r\n\r\n4. If using voice input speak clearly.\r\nso the bot can understand you.");
+		txtAreaInstructions.setEnabled(false);
+		txtAreaInstructions.setEditable(false);
+		txtAreaInstructions.setColumns(19);
+		txtAreaInstructions.setRows(12);
+		getContentPane().add(txtAreaInstructions);
+		
+		JPanel panel = new JPanel();
+		getContentPane().add(panel);
+		panel.setLayout(new GridLayout(4, 1, 0, 0));
+		
+		JTextArea txtrSpeakNow = new JTextArea();
+		txtrSpeakNow.setDisabledTextColor(SystemColor.desktop);
+		txtrSpeakNow.setFont(new Font("SansSerif", Font.BOLD, 17));
+		txtrSpeakNow.setEnabled(false);
+		txtrSpeakNow.setEditable(false);
+		txtrSpeakNow.setColumns(29);
+		txtrSpeakNow.setText("Speak now...");
+		panel.add(txtrSpeakNow);
+		
+		txtrBotResponse = new JTextArea();
+		txtrBotResponse.setLineWrap(true);
+		txtrBotResponse.setDisabledTextColor(new Color(255, 69, 0));
+		txtrBotResponse.setEnabled(false);
+		txtrBotResponse.setEditable(false);
+		txtrBotResponse.setText("Bot Response");
+		panel.add(txtrBotResponse);
+		
+		txtrUserRequest = new JTextArea();
+		txtrUserRequest.setLineWrap(true);
+		txtrUserRequest.setRows(2);
+		txtrUserRequest.setDisabledTextColor(new Color(0, 0, 0));
+		txtrUserRequest.setEnabled(false);
+		txtrUserRequest.setEditable(false);
+		txtrUserRequest.setText("Basically you can build a buffered image in memory and write to file or put ... university and we decided for it and against the java drawing api.");
+		panel.add(txtrUserRequest);
+		
+		progressBar = new JProgressBar();
+		panel.add(progressBar);
+		
+		JLabel lblMessageHit = new JLabel("Message (Hit <Enter> to send a message to the bot):");
+		getContentPane().add(lblMessageHit);
+		
+		txtRequest = new JTextField();
+		getContentPane().add(txtRequest);
+		txtRequest.setColumns(33);
+		
+		btnRecord = new JButton("");
+		btnRecord.setToolTipText("Click this icon to utilize voice input, rather than text");
+		btnRecord.setIcon(new ImageIcon(new ImageIcon(ChatClientView.class.getResource("/storage/uploads/mic.png")).getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT)));
+		getContentPane().add(btnRecord);
 		configureListeners();
 	}
 	
-	public void initView() {
-		setTitle("NBG TeleBanking - Chat with Lisa!");
-		setSize(500,750);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setVisible(true);
-		
-		setLayout(new GridLayout(4,1));
-		
-		// ------ Avatar of the Virtual Assistant ----- //
-		JPanel panelR1 = new JPanel(new FlowLayout());
-	
-		JLabel avatar = new JLabel(new ImageIcon("Client/storage/Lisa_Chat_Bot.jpg"));
-		panelR1.add(avatar);
-		this.add(panelR1);
-		
-		// ------ Response Text Area ------ //
-		JPanel panelR2 = new JPanel(new BorderLayout());
-		JLabel response = new JLabel("RESPONSE:");
-		panelR2.add(response, BorderLayout.NORTH);
-		txtResponse = new JTextArea("\t\tRESPONSES");
-		panelR2.add(txtResponse, BorderLayout.CENTER);
-		this.add(panelR2);
-		
-		
-		// ------ Request Area ------ //
-		JPanel panelR3 = new JPanel(new BorderLayout());
-		JLabel request = new JLabel("TYPE A REQUEST BELOW:");
-		panelR3.add(request, BorderLayout.NORTH); 
-		txtRequests = new JTextArea();
-		panelR3.add(txtRequests, BorderLayout.CENTER);
-		this.add(panelR3);
-		
-		
-		// ------ Speak to Lisa (Click the Mic) ----- //
-		JPanel panelR4 = new JPanel(new GridLayout(3,1));
-		
-		// -- 1
-		JPanel panelOR = new JPanel(new FlowLayout());
-		JLabel or = new JLabel("OR");
-		panelOR.add(or);
-		panelR4.add(panelOR);
-		
-		// -- 2
-		JPanel panelSpeak = new JPanel(new FlowLayout());
-		JLabel speak = new JLabel("SPEAK TO LISA!");
-		panelSpeak.add(speak);	
-		panelR4.add(panelSpeak);
-		
-		// -- 3
-		JPanel panelMic = new JPanel(new FlowLayout());
-		btnMic = new JButton (new ImageIcon("Client/storage/microphone.png"));
-		panelMic.add(btnMic);
-		panelR4.add(panelMic);
-		
-		this.add(panelR4);
-	}
-	
 	private void configureListeners() {
-		btnMic.addActionListener(this);
+		txtRequest.addKeyListener(this);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		if (event.getSource().equals(btnMic)) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public void keyPressed(KeyEvent event) {
+		if(event.getKeyCode() == KeyEvent.VK_ENTER) {
+			String request = txtRequest.getText();
 			
-			/*
-			 * Once the Mic button is clicked,
-			 * the chat bot should request commands
-			 * from the user.
-			 * 
-			 * */
+			txtRequest.setText("");
+			
+			txtrUserRequest.setText("You: " + request);
+			
+			String response = tc.respond(request);
+			
+			txtrBotResponse.setText("Assistant: " + response);
+			try {
+				tc.speak(response);
+			} catch (IOException | JavaLayerException e) {
+				logger.error("The assistant was unable to produce voice output.");
+			}
 		}
+		
+	}
+
+
+	public void keyReleased(KeyEvent event) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void keyTyped(KeyEvent event) {
+		// TODO Auto-generated method stub
+		
 	}
 }

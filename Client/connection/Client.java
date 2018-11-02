@@ -8,9 +8,10 @@ import java.net.Socket;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import communication.Request;
+import communication.Response;
 import interfaces.Connection;
-import data.Request;
-import data.Response;
 
 public class Client implements Connection<Request>{
 	
@@ -39,7 +40,6 @@ public class Client implements Connection<Request>{
 		return status;
 	}
 	
-	@Override
 	public void getStreams() throws IOException {
 		oos = new ObjectOutputStream(socket.getOutputStream());
 		ois = new ObjectInputStream(socket.getInputStream());
@@ -49,7 +49,6 @@ public class Client implements Connection<Request>{
 		oos.writeObject("EXIT");
 	}
 
-	@Override
 	public void send(Request data) throws IOException {
 		oos.writeObject(data);
 	}
