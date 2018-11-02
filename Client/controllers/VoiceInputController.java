@@ -13,13 +13,13 @@ public class VoiceInputController extends Hear {
 
 	@Override
 	public void closing() {
-		System.out.println("Stop speaking...");
+//		System.out.println("Stop speaking...");
 	}
 
 	@Override
 	public void recording() {
-		System.out.println("Speak now...");
-		PROGRESS = 50;
+//		System.out.println("Speak now...");
+//		PROGRESS = 50;
 	}
 
 }

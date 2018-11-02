@@ -42,6 +42,7 @@ public class ChatClientView extends JFrame implements ActionListener, KeyListene
 	private JTextArea txtrUserRequest;
 	private JTextArea txtrBotResponse;
 	private JProgressBar progressBar;
+	private JTextArea txtrSpeakNow;
 	
 	private TransactionController tc = new TransactionController();
 	private VoiceInputController vc = new VoiceInputController();
@@ -90,13 +91,13 @@ public class ChatClientView extends JFrame implements ActionListener, KeyListene
 		getContentPane().add(panel);
 		panel.setLayout(new GridLayout(4, 1, 0, 0));
 		
-		JTextArea txtrSpeakNow = new JTextArea();
+		txtrSpeakNow = new JTextArea();
 		txtrSpeakNow.setDisabledTextColor(SystemColor.desktop);
 		txtrSpeakNow.setFont(new Font("SansSerif", Font.BOLD, 17));
 		txtrSpeakNow.setEnabled(false);
 		txtrSpeakNow.setEditable(false);
 		txtrSpeakNow.setColumns(29);
-		txtrSpeakNow.setText("Speak now...");
+		txtrSpeakNow.setText("");
 		panel.add(txtrSpeakNow);
 		
 		txtrBotResponse = new JTextArea();
@@ -149,7 +150,9 @@ public class ChatClientView extends JFrame implements ActionListener, KeyListene
 		if(event.getSource().equals(btnRecord)) {
 			try {
 				txtRequest.setEnabled(false);
+				txtrSpeakNow.setText("Speak now...");
 				vc.record();
+				txtrSpeakNow.setText("Stop speaking...");
 				txtRequest.setEnabled(true);
 			} catch (InterruptedException | IOException e) {
 				logger.error("Unable to record user's voice");
