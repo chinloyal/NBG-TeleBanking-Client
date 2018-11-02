@@ -27,7 +27,6 @@ public class ChatClientView extends JFrame implements ActionListener{
 	private JTextArea txtRequests;
 	private JButton btnMic;
 	private BufferedImage imgLisa;
-	private BufferedImage imgChatBubble;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(
@@ -46,7 +45,7 @@ public class ChatClientView extends JFrame implements ActionListener{
 	
 	public void initView() {
 		setTitle("NBG TeleBanking - Chat with Lisa!");
-		setSize(500,500);
+		setSize(500,750);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 		
@@ -54,28 +53,14 @@ public class ChatClientView extends JFrame implements ActionListener{
 		
 		// ------ Avatar of the Virtual Assistant ----- //
 		JPanel panelR1 = new JPanel(new FlowLayout());
-		
-		/*
-		 * The following lines of code don't work:
-		 * "ImageIcon image = new ImageIcon(getClass().getResource("/Client/storage/images/Lisa_Chat_Bot.jpg"));
-		 * JLabel img = new JLabel();
-		 * img.setIcon(image);"
-		 */
-		
-		/*
-		 * These don't work either:
-		 *BufferedImage img = ImageIO.read(new File("images/star.jpg"));
-			JLabel avatar = new JLabel();
-			avatar.setIcon((Icon) img);
-		 */
-		
-		JLabel avatar = new JLabel("<Insert Avatar for Virtual Assistant");
+	
+		JLabel avatar = new JLabel(new ImageIcon("Client/storage/Lisa_Chat_Bot.jpg"));
 		panelR1.add(avatar);
 		this.add(panelR1);
 		
 		// ------ Response Text Area ------ //
 		JPanel panelR2 = new JPanel(new BorderLayout());
-		JLabel response = new JLabel("Response:");
+		JLabel response = new JLabel("RESPONSE:");
 		panelR2.add(response, BorderLayout.NORTH);
 		txtResponse = new JTextArea("\t\tRESPONSES");
 		panelR2.add(txtResponse, BorderLayout.CENTER);
@@ -84,7 +69,7 @@ public class ChatClientView extends JFrame implements ActionListener{
 		
 		// ------ Request Area ------ //
 		JPanel panelR3 = new JPanel(new BorderLayout());
-		JLabel request = new JLabel("Type a Request Below:");
+		JLabel request = new JLabel("TYPE A REQUEST BELOW:");
 		panelR3.add(request, BorderLayout.NORTH); 
 		txtRequests = new JTextArea();
 		panelR3.add(txtRequests, BorderLayout.CENTER);
@@ -94,25 +79,29 @@ public class ChatClientView extends JFrame implements ActionListener{
 		// ------ Speak to Lisa (Click the Mic) ----- //
 		JPanel panelR4 = new JPanel(new GridLayout(3,1));
 		
+		// -- 1
 		JPanel panelOR = new JPanel(new FlowLayout());
 		JLabel or = new JLabel("OR");
 		panelOR.add(or);
-		
 		panelR4.add(panelOR);
 		
+		// -- 2
 		JPanel panelSpeak = new JPanel(new FlowLayout());
-		JLabel speak = new JLabel("Speak to Lisa!");
+		JLabel speak = new JLabel("SPEAK TO LISA!");
 		panelSpeak.add(speak);	
 		panelR4.add(panelSpeak);
 		
-		btnMic = new JButton ("<Insert Microphone Icon>");
-		panelR4.add(btnMic);
+		// -- 3
+		JPanel panelMic = new JPanel(new FlowLayout());
+		btnMic = new JButton (new ImageIcon("Client/storage/microphone.png"));
+		panelMic.add(btnMic);
+		panelR4.add(panelMic);
+		
 		this.add(panelR4);
 	}
 	
 	private void configureListeners() {
 		btnMic.addActionListener(this);
-		
 	}
 
 	@Override

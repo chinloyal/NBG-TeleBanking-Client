@@ -228,7 +228,6 @@ public class RegistrationView extends JFrame implements ActionListener {
 		
 		// Configure Listeners
 		configureListeners();
-		
 	}
 	
 	public void configureListeners() {
