@@ -23,7 +23,10 @@ import javax.swing.UIManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.chinloyal.listen.Hearable;
+
 import controllers.TransactionController;
+import controllers.VoiceInputController;
 import javazoom.jl.decoder.JavaLayerException;
 
 import java.awt.SystemColor;
@@ -32,7 +35,7 @@ import javax.swing.JProgressBar;
 import java.awt.Component;
 import java.awt.Color;
 
-public class ChatClientView extends JFrame implements ActionListener, KeyListener{
+public class ChatClientView extends JFrame implements ActionListener, KeyListener, Hearable{
 	private JLabel label;
 	private JTextField txtRequest;
 	private JButton btnRecord;
@@ -41,6 +44,7 @@ public class ChatClientView extends JFrame implements ActionListener, KeyListene
 	private JProgressBar progressBar;
 	
 	private TransactionController tc = new TransactionController();
+	private VoiceInputController vc = new VoiceInputController();
 	private Logger logger = LogManager.getLogger(ChatClientView.class);
 	
 	public static void main(String[] args) {
@@ -100,7 +104,7 @@ public class ChatClientView extends JFrame implements ActionListener, KeyListene
 		txtrBotResponse.setDisabledTextColor(new Color(255, 69, 0));
 		txtrBotResponse.setEnabled(false);
 		txtrBotResponse.setEditable(false);
-		txtrBotResponse.setText("Bot Response");
+		txtrBotResponse.setText("");
 		panel.add(txtrBotResponse);
 		
 		txtrUserRequest = new JTextArea();
@@ -109,7 +113,7 @@ public class ChatClientView extends JFrame implements ActionListener, KeyListene
 		txtrUserRequest.setDisabledTextColor(new Color(0, 0, 0));
 		txtrUserRequest.setEnabled(false);
 		txtrUserRequest.setEditable(false);
-		txtrUserRequest.setText("Basically you can build a buffered image in memory and write to file or put ... university and we decided for it and against the java drawing api.");
+		txtrUserRequest.setText("");
 		panel.add(txtrUserRequest);
 		
 		progressBar = new JProgressBar();
@@ -131,11 +135,26 @@ public class ChatClientView extends JFrame implements ActionListener, KeyListene
 	
 	private void configureListeners() {
 		txtRequest.addKeyListener(this);
+		btnRecord.addActionListener(this);
+		
+		vc.setRecordTime(5000);
+		vc.listen();
+		vc.addRespondListener(this);
+		
+		progressBar.setValue(VoiceInputController.PROGRESS);
 	}
 
-	@Override
+
 	public void actionPerformed(ActionEvent event) {
-		// TODO Auto-generated method stub
+		if(event.getSource().equals(btnRecord)) {
+			try {
+				txtRequest.setEnabled(false);
+				vc.record();
+				txtRequest.setEnabled(true);
+			} catch (InterruptedException | IOException e) {
+				logger.error("Unable to record user's voice");
+			}
+		}
 		
 	}
 
@@ -161,13 +180,22 @@ public class ChatClientView extends JFrame implements ActionListener, KeyListene
 	}
 
 
-	public void keyReleased(KeyEvent event) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void keyReleased(KeyEvent event) {}
 
-	public void keyTyped(KeyEvent event) {
-		// TODO Auto-generated method stub
+	public void keyTyped(KeyEvent event) {}
+
+	
+	public void onRespond(String responseText) {
 		
+		txtrUserRequest.setText("You: "+ responseText);
+		String response = tc.respond(responseText);
+		
+		txtrBotResponse.setText("Assistant: " + response);
+		
+		try {
+			tc.speak(response);
+		} catch (IOException | JavaLayerException e) {
+			logger.error("The assistant was unable to produce voice output.");
+		}
 	}
 }
