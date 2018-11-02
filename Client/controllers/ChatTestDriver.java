@@ -1,8 +1,12 @@
 package controllers;
 
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -20,7 +24,14 @@ public class ChatTestDriver extends JFrame implements ActionListener {
 	private static VoiceInputController vc = new VoiceInputController();
 	private static TransactionController tc = new TransactionController();
 	public static void main(String[] args) {
+		/*System.out.println(
+		tc.getResourcesPath()
+		);
+		*/
 		
+	
+		
+	
 		EventQueue.invokeLater(() -> {
 			ChatTestDriver frame = new ChatTestDriver();
 			frame.setVisible(true);
@@ -61,13 +72,16 @@ public class ChatTestDriver extends JFrame implements ActionListener {
 	
 	public ChatTestDriver() {
 		setTitle("A.I.");
-		setSize(100, 100);
+		setSize(250, 250);
+		setLayout(new FlowLayout(FlowLayout.LEFT));
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		btnRecord = new JButton("Record");
 		
 		btnRecord.addActionListener(this);
 		
 		add(btnRecord);
+		
+		
 	}
 
 	@Override

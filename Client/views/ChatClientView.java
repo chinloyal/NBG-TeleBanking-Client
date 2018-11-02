@@ -6,6 +6,9 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -17,16 +20,29 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import controllers.TransactionController;
+import javazoom.jl.decoder.JavaLayerException;
+
 import java.awt.SystemColor;
 import java.awt.Font;
 import javax.swing.JProgressBar;
 import java.awt.Component;
 import java.awt.Color;
 
-public class ChatClientView extends JFrame implements ActionListener{
+public class ChatClientView extends JFrame implements ActionListener, KeyListener{
 	private JLabel label;
 	private JTextField txtRequest;
-
+	private JButton btnRecord;
+	private JTextArea txtrUserRequest;
+	private JTextArea txtrBotResponse;
+	private JProgressBar progressBar;
+	
+	private TransactionController tc = new TransactionController();
+	private Logger logger = LogManager.getLogger(ChatClientView.class);
+	
 	public static void main(String[] args) {
 		try {
 			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
@@ -79,7 +95,7 @@ public class ChatClientView extends JFrame implements ActionListener{
 		txtrSpeakNow.setText("Speak now...");
 		panel.add(txtrSpeakNow);
 		
-		JTextArea txtrBotResponse = new JTextArea();
+		txtrBotResponse = new JTextArea();
 		txtrBotResponse.setLineWrap(true);
 		txtrBotResponse.setDisabledTextColor(new Color(255, 69, 0));
 		txtrBotResponse.setEnabled(false);
@@ -87,16 +103,16 @@ public class ChatClientView extends JFrame implements ActionListener{
 		txtrBotResponse.setText("Bot Response");
 		panel.add(txtrBotResponse);
 		
-		JTextArea txtrUserResponse = new JTextArea();
-		txtrUserResponse.setLineWrap(true);
-		txtrUserResponse.setRows(2);
-		txtrUserResponse.setDisabledTextColor(new Color(0, 0, 0));
-		txtrUserResponse.setEnabled(false);
-		txtrUserResponse.setEditable(false);
-		txtrUserResponse.setText("Basically you can build a buffered image in memory and write to file or put ... university and we decided for it and against the java drawing api.");
-		panel.add(txtrUserResponse);
+		txtrUserRequest = new JTextArea();
+		txtrUserRequest.setLineWrap(true);
+		txtrUserRequest.setRows(2);
+		txtrUserRequest.setDisabledTextColor(new Color(0, 0, 0));
+		txtrUserRequest.setEnabled(false);
+		txtrUserRequest.setEditable(false);
+		txtrUserRequest.setText("Basically you can build a buffered image in memory and write to file or put ... university and we decided for it and against the java drawing api.");
+		panel.add(txtrUserRequest);
 		
-		JProgressBar progressBar = new JProgressBar();
+		progressBar = new JProgressBar();
 		panel.add(progressBar);
 		
 		JLabel lblMessageHit = new JLabel("Message (Hit <Enter> to send a message to the bot):");
@@ -106,23 +122,51 @@ public class ChatClientView extends JFrame implements ActionListener{
 		getContentPane().add(txtRequest);
 		txtRequest.setColumns(33);
 		
-		JButton btnRecord = new JButton("");
+		btnRecord = new JButton("");
 		btnRecord.setToolTipText("Click this icon to utilize voice input, rather than text");
 		btnRecord.setIcon(new ImageIcon(new ImageIcon(ChatClientView.class.getResource("/storage/uploads/mic.png")).getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT)));
 		getContentPane().add(btnRecord);
-		initView();
 		configureListeners();
 	}
 	
-	public void initView() {
-	}
-	
 	private void configureListeners() {
-		
+		txtRequest.addKeyListener(this);
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
+	public void actionPerformed(ActionEvent event) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public void keyPressed(KeyEvent event) {
+		if(event.getKeyCode() == KeyEvent.VK_ENTER) {
+			String request = txtRequest.getText();
+			
+			txtRequest.setText("");
+			
+			txtrUserRequest.setText("You: " + request);
+			
+			String response = tc.respond(request);
+			
+			txtrBotResponse.setText("Assistant: " + response);
+			try {
+				tc.speak(response);
+			} catch (IOException | JavaLayerException e) {
+				logger.error("The assistant was unable to produce voice output.");
+			}
+		}
+		
+	}
+
+
+	public void keyReleased(KeyEvent event) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void keyTyped(KeyEvent event) {
 		// TODO Auto-generated method stub
 		
 	}

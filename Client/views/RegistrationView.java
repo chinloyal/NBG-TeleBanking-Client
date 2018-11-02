@@ -13,7 +13,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.jgoodies.forms.layout.FormLayout;
-import com.fasterxml.classmate.util.ResolvedTypeCache.Key;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 
@@ -43,7 +42,6 @@ import java.util.regex.Pattern;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.ButtonGroup;
-import javax.swing.ButtonModel;
 
 import models.User;
 import models.Photo;
