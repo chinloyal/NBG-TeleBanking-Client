@@ -17,49 +17,20 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import controllers.AuthController;
+import controllers.LoginController;
 
 public class MainScreenView extends JFrame implements ActionListener {
 
-	private AuthController controller;
+	private LoginController controller;
 	private JTextField txtEmail;
 	private JPasswordField txtPassword;
 	private JButton btnLogin;
 	private JButton btnRegister;
 	private JCheckBox checkShowPassword;
-	private JLabel showP;
 
 	public MainScreenView() {
 		initView();
 		configureListeners();
-	}
-
-	private void inputValidation() {
-		String email = txtEmail.getText();
-		char[] emailChars = email.toCharArray();
-		int emailLength = email.length(), spaces=0;
-
-		// Checking for spaces in email text box
-		for (int i = 0; i < emailLength; i++) {
-			if (emailChars[i] == ' ') {
-				spaces++;
-			}
-		}
-		if (spaces>0)
-			JOptionPane.showMessageDialog(null, "No spaces can be entered within your email!\n\nPlease omit the space(s).");
-
-		// Checking for blank email text box
-		if (emailLength < 1) {
-			JOptionPane.showMessageDialog(null, "Please enter your email!\n\nIt cannot be left blank.");
-		}
-		
-		char[] password = txtPassword.getPassword();
-		int pwdLength = password.length;
-
-		// Checking for blank email text box
-		if (pwdLength < 1) {
-			JOptionPane.showMessageDialog(null, "Please enter your password!\n\nIt cannot be left blank.");
-		}
-
 	}
 
 	public static void main(String[] args) {
@@ -93,12 +64,10 @@ public class MainScreenView extends JFrame implements ActionListener {
 		this.add(panelR2);
 
 		// ------ ROW 3: Password Check ---- //
-		JPanel panelR3 = new JPanel(new GridLayout(1, 3));
+		JPanel panelR3 = new JPanel(new GridLayout(1, 2));
 		panelR3.add(new Label("Show My Password:"));
 		checkShowPassword = new JCheckBox();
 		panelR3.add(checkShowPassword);
-		showP = new JLabel(" ");
-		panelR3.add(showP);
 		this.add(panelR3);
 
 		// ------ ROW 4: Login Button ----- //
@@ -125,17 +94,18 @@ public class MainScreenView extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		if (event.getSource().equals(btnLogin)) {
-
-			inputValidation();
-
-			// Checks Authorization & Authentication for User
-
+			String pwd = txtPassword.getText();
+			
+			// Sending email and password over to LoginController
+			controller = new LoginController(txtEmail.getText(),pwd);
+			System.out.println("Password:"+pwd);
+			
 		} else if (event.getSource().equals(btnRegister)) {
 			this.setVisible(false);
-			RegistrationView rv = new RegistrationView();
-			String[] args = { "testing, registration" };
-			rv.main(args);
-
+			
+			// Open the Registration
+			
+			
 		} else if (event.getSource().equals(checkShowPassword)) {
 			if (checkShowPassword.isSelected()) {
 				// Reveal the characters typed by the user
