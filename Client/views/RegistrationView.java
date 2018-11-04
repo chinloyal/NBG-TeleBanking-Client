@@ -51,6 +51,10 @@ import connection.Server;
 
 public class RegistrationView extends JFrame implements ActionListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2551132691141943604L;
 	private JPanel contentPane;
 	private JTextField txtFname;
 	private JTextField txtLname;
@@ -83,7 +87,6 @@ public class RegistrationView extends JFrame implements ActionListener {
 		}
 		
 		EventQueue.invokeLater(new Runnable() {
-			@Override
 			public void run() {
 				RegistrationView frame = new RegistrationView();
 				frame.setVisible(true);
@@ -253,7 +256,6 @@ public class RegistrationView extends JFrame implements ActionListener {
 		});
 	}
 	
-	@Override
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource().equals(rdbtnCustomer)) {// radio button event
 			user.setType(rdbtnCustomer.getText());

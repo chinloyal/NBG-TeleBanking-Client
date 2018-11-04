@@ -39,7 +39,6 @@ public class Client implements Connection<Request>{
 		return status;
 	}
 	
-	@Override
 	public void getStreams() throws IOException {
 		oos = new ObjectOutputStream(socket.getOutputStream());
 		ois = new ObjectInputStream(socket.getInputStream());
@@ -49,12 +48,10 @@ public class Client implements Connection<Request>{
 		oos.writeObject("EXIT");
 	}
 
-	@Override
 	public void send(Request data) throws IOException {
 		oos.writeObject(data);
 	}
 
-	@Override
 	public void closeConnection() {
 		try{
 			exit();
