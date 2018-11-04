@@ -94,11 +94,10 @@ public class MainScreenView extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		if (event.getSource().equals(btnLogin)) {
-			String pwd = txtPassword.getText();
+			String pwd = new String (txtPassword.getPassword());
 			
 			// Sending email and password over to LoginController
 			controller = new LoginController(txtEmail.getText(),pwd);
-			System.out.println("Password:"+pwd);
 			
 		} else if (event.getSource().equals(btnRegister)) {
 			this.setVisible(false);
@@ -111,7 +110,7 @@ public class MainScreenView extends JFrame implements ActionListener {
 				// Reveal the characters typed by the user
 				txtPassword.setEchoChar((char) 0);
 			} else {
-				// Hide the characters typed with the 'bullet' operator
+				// Hide the characters typed, by replacing them with the 'bullet' operator
 				txtPassword.setEchoChar('\u2022');
 			}
 		}
