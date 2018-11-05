@@ -4,19 +4,21 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
+import communication.Response;
 import connection.Client;
 import controllers.AuthController;
-import data.Response;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.Frame;
+
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
@@ -30,9 +32,10 @@ import javax.swing.JPasswordField;
 public class Login extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField idField;
+	private JTextField emailField;
 	private final ButtonGroup rbtnAccType = new ButtonGroup();
 	private JPasswordField passwordField;
+	JInternalFrame frame;
 	AuthController auth = new AuthController(new Client());
 
 	/**
@@ -61,15 +64,15 @@ public class Login extends JFrame {
 		setBounds(100, 100, 578, 560);
 		getContentPane().setLayout(null);
 		
-		JLabel lblId = new JLabel("ID:");
-		lblId.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblId.setBounds(94, 61, 103, 36);
-		getContentPane().add(lblId);
+		JLabel lblemail = new JLabel("Email:");
+		lblemail.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblemail.setBounds(94, 61, 103, 36);
+		getContentPane().add(lblemail);
 		
-		idField = new JTextField();
-		idField.setColumns(10);
-		idField.setBounds(207, 61, 221, 36);
-		getContentPane().add(idField);
+		emailField = new JTextField();
+		emailField.setColumns(10);
+		emailField.setBounds(207, 61, 221, 36);
+		getContentPane().add(emailField);
 		
 		
 		JLabel lblPassword = new JLabel("Password:");
@@ -99,11 +102,16 @@ public class Login extends JFrame {
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(rdbtnCustomer.isSelected()) {
-					if(idField.getText().equals("") | passwordField.equals(null)) {
-						JOptionPane.showMessageDialog(null, "Either the ID or password field is empty. Please enter Valid credentials");
+					if(emailField.getText().equals("") | passwordField.equals(null)) {
+						JOptionPane.showMessageDialog(null, "Required field is empty. Please enter Valid credentials");
 					} else {
-						auth.login(idField.getText(), new String(passwordField.getPassword()));
-								}
+						Response response = auth.login(emailField.getText(), new String(passwordField.getPassword()));
+						if(response.isSuccess()) {
+							JOptionPane.showMessageDialog(null, "Welcome");
+						}else {
+							JOptionPane.showMessageDialog(null, "Invalid credentials");
+						}
+					}
 				}
 			}
 		});

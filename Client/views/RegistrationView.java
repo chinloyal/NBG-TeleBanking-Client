@@ -320,9 +320,7 @@ public class RegistrationView extends JFrame implements ActionListener {
 					btnOpenFileChooser.setText("Open File Chooser");
 				}else {
 					JOptionPane.showMessageDialog(null, "Failed to register you. Please try again.");
-				}					
-				
-				
+				}
 			}else {
 				JOptionPane.showMessageDialog(null, "Passwords do not match.", "Error", JOptionPane.ERROR_MESSAGE);
 				passwordField.setText("");

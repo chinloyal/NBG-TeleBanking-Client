@@ -6,6 +6,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -13,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import data.Request;
 import models.Photo;
 import models.User;
+import views.Login;
 
 public class UserProvider extends SQLProvider<User> {
 	private static final String TABLE_NAME = "users";
@@ -89,7 +92,8 @@ public class UserProvider extends SQLProvider<User> {
 		return 0;
 	}
 	
-	public boolean authenticate(String email, String password) {
+	public boolean authenticate(String email, String userPassword) {
+		boolean success = false;
 		try {
 			String query = "Select * from " + TABLE_NAME + "where email = ?";
 			preparedStatement = connection.prepareStatement(query);
@@ -97,13 +101,18 @@ public class UserProvider extends SQLProvider<User> {
 			resultSet = preparedStatement.executeQuery();
 			if(resultSet.next()) {
 				resultSet.getString("password");
+				if(BCrypt.checkpw(userPassword, password)) {
+					 System.out.println("Valid credentials");
+s					 success = send(Response(isSuccess()));
+				}else {
+					System.out.println("Invalid credentials");				
+				}
 			}
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Fail to get user credentials", e.getMessage());
 		}
-		return true;
+		return success;
 	}
 
 	@Override
@@ -136,7 +145,7 @@ public class UserProvider extends SQLProvider<User> {
 			return userRowsAffected;
 		}catch(SQLException e) {
 			logger.error("Failed to store user", e.getMessage());
-//			e.printStackTrace();
+			e.printStackTrace();
 		}
 		
 		return 0;
