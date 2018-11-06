@@ -12,7 +12,7 @@ public class TransactionController extends ArtificialIntelligence{
 		
 	}
 
-	public void processResponse(String response) {
+	public void processAction(String response, String request) {
 		// TODO Auto-generated method stub
 		
 	}

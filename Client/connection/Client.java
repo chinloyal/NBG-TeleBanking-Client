@@ -24,7 +24,7 @@ public class Client implements Connection<Request>{
 	public Client() {
 		// TODO Auto-generated constructor stub
 	}
-	
+		
 	public boolean connect() {
 		boolean status = false;
 		
@@ -57,7 +57,6 @@ public class Client implements Connection<Request>{
 		oos.writeObject(data);
 	}
 
-	@Override
 	public void closeConnection() {
 		try{
 			exit();

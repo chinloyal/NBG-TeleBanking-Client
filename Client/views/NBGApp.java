@@ -16,7 +16,6 @@ public class NBGApp {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
-			@Override
 			public void run() {
 				try {
 					NBGApp window = new NBGApp();
