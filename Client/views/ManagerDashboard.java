@@ -23,7 +23,6 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 @SuppressWarnings("serial")
 public class ManagerDashboard extends JFrame implements ActionListener {
-
 	private JButton btnLogout;
 	private JLabel label;
 	
@@ -31,6 +30,7 @@ public class ManagerDashboard extends JFrame implements ActionListener {
 	{
 		super("NBG TeleBanking - Manager Dashboard");
 		
+		  
 		   initView();
 	}
 	

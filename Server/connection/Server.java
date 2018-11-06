@@ -12,6 +12,7 @@ import interfaces.Connection;
 import models.User;
 import data.Request;
 import data.Response;
+import database.ManagerProvider;
 import database.UserProvider;
 
 
@@ -64,10 +65,21 @@ public class Server implements Connection<Response> {
 							
 							if(provider.store((User) request.getData()) > 0) {
 								send(new Response(true, "Customer has been registered"));
-							}else {
+							}
+							else {
 								send(new Response(false));
 							}
 							
+						}else if(request.getAction().equals("SumDebitBP"))
+						{
+							ManagerProvider mprovider = new ManagerProvider();
+							if(mprovider.SumDebitBP() > 0)
+							{
+								send(new Response(true, new String(mprovider.SumDebitBP() + ""), ""));
+							}
+							else {
+								send(new Response(false));
+							}
 						}
 					} catch (ClassNotFoundException e) {
 						logger.error("Cannot locate class.");

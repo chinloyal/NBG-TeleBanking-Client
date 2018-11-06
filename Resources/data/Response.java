@@ -7,6 +7,7 @@ public class Response implements Serializable {
 	private boolean success;
 	private Object data;
 	private String message;
+	private double amount;
 	
 	public Response(boolean success, Object data, String message) {
 		super();
@@ -18,7 +19,6 @@ public class Response implements Serializable {
 	public Response(boolean success, String message) {
 		this(success, null, message);
 	}
-	
 	
 	public Response(boolean success) {
 		this(success, null, "");
@@ -48,7 +48,15 @@ public class Response implements Serializable {
 		this.message = message;
 	}
 	
+	public double getAmount()
+	{
+		return amount;
+	}
 	
+	public void setAmount(double amount)
+	{
+		this.amount = amount;
+	}
 	
 	
 
