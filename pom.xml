@@ -38,7 +38,16 @@
 		<artifactId>hibernate-validator</artifactId>
 		<version>6.0.12.Final</version>
 	</dependency>
-  	
+	<dependency>
+    	<groupId>org.hibernate.validator</groupId>
+    	<artifactId>hibernate-validator-annotation-processor</artifactId>
+    	<version>6.0.12.Final</version>
+	</dependency>
+  	<dependency>
+  		<groupId>org.hibernate.validator</groupId>
+  		<artifactId>hibernate-validator-cdi</artifactId>
+  		<version>6.0.12.Final</version>
+  	</dependency>
   	<!-- <dependency>
    		<groupId>javax.el</groupId>
    		<artifactId>el-api</artifactId>
@@ -66,7 +75,21 @@
     	<artifactId>persistence-api</artifactId>
     	<version>1.0</version>
 	</dependency>
-
-	
+	<dependency>
+		<groupId>org.slf4j</groupId>
+	    <artifactId>slf4j-api</artifactId>
+	    <version>1.7.5</version>
+	</dependency>
+	<dependency>
+	    <groupId>org.slf4j</groupId>
+	    <artifactId>jcl-over-slf4j</artifactId>
+	    <version>1.7.5</version>
+	    <scope>runtime</scope>
+	 </dependency>
+	 <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-log4j12</artifactId>
+        <version>1.6.1</version>
+    </dependency>
   </dependencies>
 </project>
