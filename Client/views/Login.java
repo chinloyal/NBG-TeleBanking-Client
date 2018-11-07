@@ -26,6 +26,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
+import javax.swing.JCheckBox;
 
 
 
@@ -89,13 +90,13 @@ public class Login extends JFrame {
 		rbtnAccType.add(rdbtnCustomer);
 		rdbtnCustomer.setSelected(true);
 		rdbtnCustomer.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		rdbtnCustomer.setBounds(94, 232, 149, 36);
+		rdbtnCustomer.setBounds(94, 264, 149, 36);
 		getContentPane().add(rdbtnCustomer);
 		
 		JRadioButton rdbtnManager = new JRadioButton("Manager");
 		rbtnAccType.add(rdbtnManager);
 		rdbtnManager.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		rdbtnManager.setBounds(302, 232, 149, 36);
+		rdbtnManager.setBounds(301, 264, 149, 36);
 		getContentPane().add(rdbtnManager);
 		
 		JButton btnLogin = new JButton("Login");
@@ -105,8 +106,7 @@ public class Login extends JFrame {
 					if(emailField.getText().equals("") | passwordField.equals(null)) {
 						JOptionPane.showMessageDialog(null, "Required field is empty. Please enter Valid credentials");
 					} else {
-						Response response = auth.login(emailField.getText(), new String(passwordField.getPassword()));
-						if(response.isSuccess()) {
+						if(auth.login(emailField.getText(), new String(passwordField.getPassword()))) {
 							JOptionPane.showMessageDialog(null, "Welcome");
 						}else {
 							JOptionPane.showMessageDialog(null, "Invalid credentials");
@@ -131,6 +131,20 @@ public class Login extends JFrame {
 		btnRegister.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnRegister.setBounds(279, 356, 149, 42);
 		getContentPane().add(btnRegister);
+		
+		JCheckBox passwordCheckBox = new JCheckBox(" Show Password");
+		passwordCheckBox.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		passwordCheckBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(passwordCheckBox.isSelected()) {
+					passwordField.setEchoChar((char) 0);
+				} else {
+					passwordField.setEchoChar('\u2022');
+				}
+			}
+		});
+		passwordCheckBox.setBounds(95, 218, 181, 23);
+		getContentPane().add(passwordCheckBox);
 		
 		
 	}
