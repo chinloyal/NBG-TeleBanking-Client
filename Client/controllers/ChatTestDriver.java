@@ -24,40 +24,37 @@ public class ChatTestDriver extends JFrame implements ActionListener {
 	private static VoiceInputController vc = new VoiceInputController();
 	private static TransactionController tc = new TransactionController();
 	public static void main(String[] args) {
-		/*System.out.println(
-		tc.getResourcesPath()
-		);
-		*/
+		String s = "0na12m..e";
 		
-	
+		s = s.replaceAll("[^0-9\\.]", "");
 		
-	
-		EventQueue.invokeLater(() -> {
-			ChatTestDriver frame = new ChatTestDriver();
-			frame.setVisible(true);
-			
-			vc.listen();
-			
-			vc.addRespondListener(new Hearable() {
-//				tc = new TransactionController();
-				
-				public void onRespond(String responseText) {
-					
-					String input = responseText;
-					
-					System.out.println("You: "+ input);
-					
-					String response = tc.respond(input);
-					System.out.println("Assistant: " + response);
-					
-					try {
-						tc.speak(response);
-					}catch(IOException | JavaLayerException e) {
-						e.printStackTrace();
-					}
-				}
-			});
-		});
+		System.out.println(Double.parseDouble(s));
+//		EventQueue.invokeLater(() -> {
+//			ChatTestDriver frame = new ChatTestDriver();
+//			frame.setVisible(true);
+//			
+//			vc.listen();
+//			
+//			vc.addRespondListener(new Hearable() {
+////				tc = new TransactionController();
+//				
+//				public void onRespond(String responseText) {
+//					
+//					String input = responseText;
+//					
+//					System.out.println("You: "+ input);
+//					
+//					String response = tc.respond(input);
+//					System.out.println("Assistant: " + response);
+//					
+//					try {
+//						tc.speak(response);
+//					}catch(IOException | JavaLayerException e) {
+//						e.printStackTrace();
+//					}
+//				}
+//			});
+//		});
 		
 		/*try {
 			TransactionController tc = new TransactionController();
