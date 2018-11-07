@@ -289,6 +289,8 @@ public class RegistrationView extends JFrame implements ActionListener {
 						Pattern extensions = Pattern.compile("([^\\s]+(\\.(?i)(jpg|jpeg|png))$)");
 						if(!extensions.matcher(uploadedImage.getName()).matches()) {
 							JOptionPane.showMessageDialog(null, "Unacceptable file format.", "Error", JOptionPane.ERROR_MESSAGE);
+							
+							btnRegister.setEnabled(true);
 							return;
 						}
 						File destination = new File("Client/storage/uploads", uploadedImageName);

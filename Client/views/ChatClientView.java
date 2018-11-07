@@ -32,8 +32,9 @@ import javazoom.jl.decoder.JavaLayerException;
 import java.awt.SystemColor;
 import java.awt.Font;
 import javax.swing.JProgressBar;
-import java.awt.Component;
 import java.awt.Color;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 public class ChatClientView extends JFrame implements ActionListener, KeyListener, Hearable{
 	private JLabel label;
@@ -47,6 +48,9 @@ public class ChatClientView extends JFrame implements ActionListener, KeyListene
 	private TransactionController tc = new TransactionController();
 	private VoiceInputController vc = new VoiceInputController();
 	private Logger logger = LogManager.getLogger(ChatClientView.class);
+	private JScrollPane scrollPaneInstructions;
+	private JScrollPane scrollPaneBot;
+	private JScrollPane scrollPane;
 	
 	public static void main(String[] args) {
 		try {
@@ -76,16 +80,20 @@ public class ChatClientView extends JFrame implements ActionListener, KeyListene
 		label.setIcon(new ImageIcon(new ImageIcon(ChatClientView.class.getResource("/storage/uploads/lisa2.jpg")).getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT)));
 		getContentPane().add(label);
 		
+		scrollPaneInstructions = new JScrollPane();
+		scrollPaneInstructions.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		getContentPane().add(scrollPaneInstructions);
+		
 		JTextArea txtAreaInstructions = new JTextArea();
+		scrollPaneInstructions.setViewportView(txtAreaInstructions);
 		txtAreaInstructions.setLineWrap(true);
 		txtAreaInstructions.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		txtAreaInstructions.setForeground(SystemColor.desktop);
 		txtAreaInstructions.setText("Instructions:\r\n1. You can have a regular conversation with our banking bot LISA.\r\n\r\n2. Say \"I want to make a transaction\" to have the bot process transactions for you.\r\n\r\n3. Say \"I want to pay a bill\" and the bot will assist you in paying a bill\r\n\r\n4. If using voice input speak clearly.\r\nso the bot can understand you.");
 		txtAreaInstructions.setEnabled(false);
 		txtAreaInstructions.setEditable(false);
-		txtAreaInstructions.setColumns(19);
+		txtAreaInstructions.setColumns(17);
 		txtAreaInstructions.setRows(12);
-		getContentPane().add(txtAreaInstructions);
 		
 		JPanel panel = new JPanel();
 		getContentPane().add(panel);
@@ -100,22 +108,27 @@ public class ChatClientView extends JFrame implements ActionListener, KeyListene
 		txtrSpeakNow.setText("");
 		panel.add(txtrSpeakNow);
 		
+		scrollPaneBot = new JScrollPane();
+		panel.add(scrollPaneBot);
+		
 		txtrBotResponse = new JTextArea();
+		txtrBotResponse.setRows(2);
+		scrollPaneBot.setViewportView(txtrBotResponse);
 		txtrBotResponse.setLineWrap(true);
 		txtrBotResponse.setDisabledTextColor(new Color(255, 69, 0));
 		txtrBotResponse.setEnabled(false);
 		txtrBotResponse.setEditable(false);
-		txtrBotResponse.setText("");
-		panel.add(txtrBotResponse);
+		
+		scrollPane = new JScrollPane();
+		panel.add(scrollPane);
 		
 		txtrUserRequest = new JTextArea();
+		scrollPane.setViewportView(txtrUserRequest);
 		txtrUserRequest.setLineWrap(true);
 		txtrUserRequest.setRows(2);
 		txtrUserRequest.setDisabledTextColor(new Color(0, 0, 0));
 		txtrUserRequest.setEnabled(false);
 		txtrUserRequest.setEditable(false);
-		txtrUserRequest.setText("");
-		panel.add(txtrUserRequest);
 		
 		progressBar = new JProgressBar();
 		panel.add(progressBar);
@@ -166,18 +179,21 @@ public class ChatClientView extends JFrame implements ActionListener, KeyListene
 		if(event.getKeyCode() == KeyEvent.VK_ENTER) {
 			String request = txtRequest.getText();
 			
-			txtRequest.setText("");
-			
-			txtrUserRequest.setText("You: " + request);
-			
-			String response = tc.respond(request);
-			
-			txtrBotResponse.setText("Assistant: " + response);
-			try {
-				tc.speak(response);
-			} catch (IOException | JavaLayerException e) {
-				logger.error("The assistant was unable to produce voice output.");
+			if(!request.trim().equals("")) {
+				txtRequest.setText("");
+				
+				txtrUserRequest.setText("You: " + request);
+				
+				String response = tc.respond(request);
+				
+				txtrBotResponse.setText("Assistant: " + response);
+				try {
+					tc.speak(response);
+				} catch (IOException | JavaLayerException e) {
+					logger.error("The assistant was unable to produce voice output.");
+				}
 			}
+			
 		}
 		
 	}
@@ -187,14 +203,16 @@ public class ChatClientView extends JFrame implements ActionListener, KeyListene
 
 	public void keyTyped(KeyEvent event) {}
 
-	
+	// For voice
 	public void onRespond(String responseText) {
 		
 		txtrUserRequest.setText("You: "+ responseText);
 		String response = tc.respond(responseText);
-		
+
+
+
 		txtrBotResponse.setText("Assistant: " + response);
-		
+
 		try {
 			tc.speak(response);
 		} catch (IOException | JavaLayerException e) {
