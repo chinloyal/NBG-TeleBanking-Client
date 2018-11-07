@@ -18,11 +18,15 @@ import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.GridLayout;
+import java.awt.Label;
 
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
@@ -84,6 +88,16 @@ public class Login extends JFrame {
 		passwordField.setBounds(207, 131, 221, 32);
 		getContentPane().add(passwordField);
 		
+		// ------ CheckBox Gives Option to Show Password
+		JLabel lblShowPwd = new JLabel("Show My Password:");
+		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblPassword.setBounds(94, 131, 103, 36);
+		getContentPane().add(lblShowPwd);
+		
+		JCheckBox checkShowPassword = new JCheckBox();
+		add(checkShowPassword);
+		getContentPane().add(checkShowPassword);
+		// ----- User Can Show Password to Locate Errors
 		
 		final JRadioButton rdbtnCustomer = new JRadioButton("Customer");
 		rbtnAccType.add(rdbtnCustomer);
@@ -107,9 +121,13 @@ public class Login extends JFrame {
 					} else {
 						Response response = auth.login(emailField.getText(), new String(passwordField.getPassword()));
 						if(response.isSuccess()) {
-							JOptionPane.showMessageDialog(null, "Welcome");
+							JOptionPane.showMessageDialog(null, "Login Successful! :)");
+							setVisible(false);
+			
+							//Sending Customer Information to Customer Dashboard
+							new CustomerDashboard(response.getData());
 						}else {
-							JOptionPane.showMessageDialog(null, "Invalid credentials");
+							JOptionPane.showMessageDialog(null, "Invalid Credentials! :(\nPlease Try Again.");
 						}
 					}
 				}
@@ -131,6 +149,7 @@ public class Login extends JFrame {
 		btnRegister.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnRegister.setBounds(279, 356, 149, 42);
 		getContentPane().add(btnRegister);
+		
 		
 		
 	}
