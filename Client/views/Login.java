@@ -106,7 +106,7 @@ public class Login extends JFrame {
 					if(emailField.getText().equals("") | passwordField.equals(null)) {
 						JOptionPane.showMessageDialog(null, "Required field is empty. Please enter Valid credentials");
 					} else {
-						if(auth.login(emailField.getText(), new String(passwordField.getPassword()))) {
+						if(auth.login(emailField.getText(), new String(passwordField.getPassword())).isSuccess()) {
 							JOptionPane.showMessageDialog(null, "Welcome");
 						}else {
 							JOptionPane.showMessageDialog(null, "Invalid credentials");
