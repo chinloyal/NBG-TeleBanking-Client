@@ -18,11 +18,15 @@ import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.GridLayout;
+import java.awt.Label;
 
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
@@ -85,6 +89,16 @@ public class Login extends JFrame {
 		passwordField.setBounds(207, 131, 221, 32);
 		getContentPane().add(passwordField);
 		
+		// ------ CheckBox Gives Option to Show Password
+		JLabel lblShowPwd = new JLabel("Show My Password:");
+		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblPassword.setBounds(94, 131, 103, 36);
+		getContentPane().add(lblShowPwd);
+		
+		JCheckBox checkShowPassword = new JCheckBox();
+		add(checkShowPassword);
+		getContentPane().add(checkShowPassword);
+		// ----- User Can Show Password to Locate Errors
 		
 		final JRadioButton rdbtnCustomer = new JRadioButton("Customer");
 		rbtnAccType.add(rdbtnCustomer);
@@ -106,10 +120,24 @@ public class Login extends JFrame {
 					if(emailField.getText().equals("") | passwordField.equals(null)) {
 						JOptionPane.showMessageDialog(null, "Required field is empty. Please enter Valid credentials");
 					} else {
+<<<<<<< HEAD
 						if(auth.login(emailField.getText(), new String(passwordField.getPassword())).isSuccess()) {
+=======
+<<<<<<< HEAD
+						if(auth.login(emailField.getText(), new String(passwordField.getPassword()))) {
+>>>>>>> 551dc900c80d8f23e1d12469f472ee580facd9f9
 							JOptionPane.showMessageDialog(null, "Welcome");
+=======
+						Response response = auth.login(emailField.getText(), new String(passwordField.getPassword()));
+						if(response.isSuccess()) {
+							JOptionPane.showMessageDialog(null, "Login Successful! :)");
+							setVisible(false);
+			
+							//Sending Customer Information to Customer Dashboard
+							new CustomerDashboard(response.getData());
+>>>>>>> 95a3bb07cbb63b3d2834b89862f1d9da9b329ee4
 						}else {
-							JOptionPane.showMessageDialog(null, "Invalid credentials");
+							JOptionPane.showMessageDialog(null, "Invalid Credentials! :(\nPlease Try Again.");
 						}
 					}
 				}
@@ -145,6 +173,7 @@ public class Login extends JFrame {
 		});
 		passwordCheckBox.setBounds(95, 218, 181, 23);
 		getContentPane().add(passwordCheckBox);
+		
 		
 		
 	}
