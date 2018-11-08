@@ -1,7 +1,11 @@
 package controllers;
 
+import java.sql.Date;
+import java.util.List;
+
 import abstracts.ArtificialIntelligence;
 import connection.Client;
+import models.Transaction;
 
 public class TransactionController extends ArtificialIntelligence{
 
@@ -23,6 +27,9 @@ public class TransactionController extends ArtificialIntelligence{
 		
 	}
 	
-	
+	public List<Transaction> filter (String[] start, String[] end){
+		return null;
+		
+	}
 
 }

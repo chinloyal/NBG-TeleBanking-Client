@@ -1,12 +1,13 @@
 package views;
 
-import java.awt.BorderLayout;
+import java.awt.BorderLayout; 
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -18,6 +19,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import controllers.CustomerController;
+import controllers.TransactionController;
+import models.Transaction;
 import models.User;
 
 public class CustomerDashboard extends JFrame implements ActionListener {
@@ -34,7 +37,7 @@ public class CustomerDashboard extends JFrame implements ActionListener {
 	private JComboBox endYear;
 	private JComboBox lowestVal;
 	private JComboBox highestVal;
-	private JButton btnSearch;
+	private JButton btnFilter;
 	private JButton btnClrSearch;
 
 	public CustomerDashboard(Object customer) {
@@ -155,16 +158,16 @@ public class CustomerDashboard extends JFrame implements ActionListener {
 		Date.add(new JLabel(" "));
 		Date.add(new JLabel("To:"));
 		endMonth = new JComboBox<String>(
-				new String[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov" });
+				new String[] {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov" });
 
 		Date.add(endMonth);
-		endDay = new JComboBox<String>(new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11",
+		endDay = new JComboBox<String>(new String[] {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11",
 				"12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28",
 				"29", "30", "31" });
 
 		Date.add(endDay);
 		endYear = new JComboBox<String>(
-				new String[] { "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018" });
+				new String[] {"2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018" });
 		Date.add(endYear);
 		Date.add(new JLabel(" "));
 
@@ -187,8 +190,8 @@ public class CustomerDashboard extends JFrame implements ActionListener {
 		filters.add(values);
 
 		JPanel search = new JPanel(new GridLayout(1, 2));
-		btnSearch = new JButton("Filter Results!");
-		search.add(btnSearch);
+		btnFilter = new JButton("Filter Results!");
+		search.add(btnFilter);
 		btnClrSearch = new JButton("Clear Search");
 		search.add(btnClrSearch);
 		filters.add(search);
@@ -200,7 +203,7 @@ public class CustomerDashboard extends JFrame implements ActionListener {
 
 	public void configureListeners() {
 		btnGo.addActionListener(this);
-		btnSearch.addActionListener(this);
+		btnFilter.addActionListener(this);
 		btnClrSearch.addActionListener(this);
 	}
 
@@ -213,12 +216,27 @@ public class CustomerDashboard extends JFrame implements ActionListener {
 				// 'Leave a Message' Window appears here
 			} else if (selection.equals("Open Chat Client")) {
 				JOptionPane.showMessageDialog(null, "Lisa is Ready to Help You with your Transaction! :)");
-				
 				setVisible(false);
-				new ChatClientView();
+				ChatClientView chatView = new ChatClientView();
+				chatView.setVisible(true);
 			}
-		} else if (event.getSource().equals(btnSearch)) {
-			// Perform Filter on Transactions
+		} else if (event.getSource().equals(btnFilter)) {
+			String[] start = {
+					(String) startMonth.getSelectedItem(), 
+					(String) startDay.getSelectedItem(),
+					(String) startYear.getSelectedItem()
+			};
+			String[] end = {
+					(String) endMonth.getSelectedItem(), 
+					(String) endDay.getSelectedItem(),
+					(String) endYear.getSelectedItem()
+			};
+			
+			TransactionController filter = new TransactionController();
+			List<Transaction> filteredTransactions = filter.filter(start, end);
+			
+			//Display filtered transactions inside TransactionList Text Area
+			
 		} else if (event.getSource().equals(btnClrSearch)) {
 			// Set default values for fields
 		}
