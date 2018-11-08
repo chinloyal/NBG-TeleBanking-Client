@@ -120,22 +120,12 @@ public class Login extends JFrame {
 					if(emailField.getText().equals("") | passwordField.equals(null)) {
 						JOptionPane.showMessageDialog(null, "Required field is empty. Please enter Valid credentials");
 					} else {
-<<<<<<< HEAD
-						if(auth.login(emailField.getText(), new String(passwordField.getPassword())).isSuccess()) {
-=======
-<<<<<<< HEAD
-						if(auth.login(emailField.getText(), new String(passwordField.getPassword()))) {
->>>>>>> 551dc900c80d8f23e1d12469f472ee580facd9f9
-							JOptionPane.showMessageDialog(null, "Welcome");
-=======
 						Response response = auth.login(emailField.getText(), new String(passwordField.getPassword()));
 						if(response.isSuccess()) {
 							JOptionPane.showMessageDialog(null, "Login Successful! :)");
-							setVisible(false);
-			
+							setVisible(false);			
 							//Sending Customer Information to Customer Dashboard
 							new CustomerDashboard(response.getData());
->>>>>>> 95a3bb07cbb63b3d2834b89862f1d9da9b329ee4
 						}else {
 							JOptionPane.showMessageDialog(null, "Invalid Credentials! :(\nPlease Try Again.");
 						}

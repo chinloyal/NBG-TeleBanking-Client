@@ -213,7 +213,9 @@ public class CustomerDashboard extends JFrame implements ActionListener {
 			String selection = (String) transactionBox.getSelectedItem();
 			if (selection.equals("Leave a Message")) {
 				JOptionPane.showMessageDialog(null, "Leave a Message for our CSR!");
-				// 'Leave a Message' Window appears here
+				setVisible(false);
+				QueryView query = new QueryView();
+				query.setVisible(true);
 			} else if (selection.equals("Open Chat Client")) {
 				JOptionPane.showMessageDialog(null, "Lisa is Ready to Help You with your Transaction! :)");
 				setVisible(false);
