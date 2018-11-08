@@ -16,6 +16,12 @@ public class TransactionController extends ArtificialIntelligence{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void processResponse(String response) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 
