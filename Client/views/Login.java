@@ -30,6 +30,7 @@ import javax.swing.JCheckBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
+import javax.swing.JCheckBox;
 
 
 
@@ -103,13 +104,13 @@ public class Login extends JFrame {
 		rbtnAccType.add(rdbtnCustomer);
 		rdbtnCustomer.setSelected(true);
 		rdbtnCustomer.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		rdbtnCustomer.setBounds(94, 232, 149, 36);
+		rdbtnCustomer.setBounds(94, 264, 149, 36);
 		getContentPane().add(rdbtnCustomer);
 		
 		JRadioButton rdbtnManager = new JRadioButton("Manager");
 		rbtnAccType.add(rdbtnManager);
 		rdbtnManager.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		rdbtnManager.setBounds(302, 232, 149, 36);
+		rdbtnManager.setBounds(301, 264, 149, 36);
 		getContentPane().add(rdbtnManager);
 		
 		JButton btnLogin = new JButton("Login");
@@ -119,6 +120,14 @@ public class Login extends JFrame {
 					if(emailField.getText().equals("") | passwordField.equals(null)) {
 						JOptionPane.showMessageDialog(null, "Required field is empty. Please enter Valid credentials");
 					} else {
+<<<<<<< HEAD
+						if(auth.login(emailField.getText(), new String(passwordField.getPassword())).isSuccess()) {
+=======
+<<<<<<< HEAD
+						if(auth.login(emailField.getText(), new String(passwordField.getPassword()))) {
+>>>>>>> 551dc900c80d8f23e1d12469f472ee580facd9f9
+							JOptionPane.showMessageDialog(null, "Welcome");
+=======
 						Response response = auth.login(emailField.getText(), new String(passwordField.getPassword()));
 						if(response.isSuccess()) {
 							JOptionPane.showMessageDialog(null, "Login Successful! :)");
@@ -126,6 +135,7 @@ public class Login extends JFrame {
 			
 							//Sending Customer Information to Customer Dashboard
 							new CustomerDashboard(response.getData());
+>>>>>>> 95a3bb07cbb63b3d2834b89862f1d9da9b329ee4
 						}else {
 							JOptionPane.showMessageDialog(null, "Invalid Credentials! :(\nPlease Try Again.");
 						}
@@ -149,6 +159,20 @@ public class Login extends JFrame {
 		btnRegister.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnRegister.setBounds(279, 356, 149, 42);
 		getContentPane().add(btnRegister);
+		
+		JCheckBox passwordCheckBox = new JCheckBox(" Show Password");
+		passwordCheckBox.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		passwordCheckBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(passwordCheckBox.isSelected()) {
+					passwordField.setEchoChar((char) 0);
+				} else {
+					passwordField.setEchoChar('\u2022');
+				}
+			}
+		});
+		passwordCheckBox.setBounds(95, 218, 181, 23);
+		getContentPane().add(passwordCheckBox);
 		
 		
 		
