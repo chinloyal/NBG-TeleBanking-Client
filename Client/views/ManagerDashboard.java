@@ -19,13 +19,17 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 
+import connection.Client;
+import controllers.TransactionController;
+
 
 
 @SuppressWarnings("serial")
 public class ManagerDashboard extends JFrame implements ActionListener {
 	private JButton btnLogout;
 	private JLabel label;
-	
+	TransactionController trans;
+	Client client;
 	public ManagerDashboard()
 	{
 		super("NBG TeleBanking - Manager Dashboard");
@@ -34,25 +38,37 @@ public class ManagerDashboard extends JFrame implements ActionListener {
 		   initView();
 	}
 	
- CategoryDataset createDatase() // creating the values and attributes to generate the bar chart
+ CategoryDataset createDatase() 
 		{
-		   	final String AddFunds = "Addition of Funds";
+	 		double DB =0.0, DT = 0.0, DA = 0.0, CB =0.0, CT = 0.0, CA = 0.0;
+	 		
+	 				DB = trans.managerchartvalues("SumDebitBP");
+	 				DT = trans.managerchartvalues("SumDebitT");
+	 				DA = trans.managerchartvalues("SumDebitA");
+	 				CB = trans.managerchartvalues("SumCreditBP"); 
+	 				CT = trans.managerchartvalues("SumCreditT");
+	 				CA = trans.managerchartvalues("SumCreditA"); 
+	 			
+	 	//	DB = client.send(new Request("SumDebitBP"));
+	 		
+	 		
+	 		
+		   	  final String AddFunds = "Addition of Funds";
 		      final String TransferFunds = "Transfer of Funds";
 		      final String BillPay = "Bill Payment";
 		      final String Debit = "Debit";
 		      final String Credit = "Credit";
 		   
-// where the double values are, write a function that will generate the total from the database and return the values there for each 
 		      
 		      final DefaultCategoryDataset dataset = new DefaultCategoryDataset( );
-		      dataset.addValue(1.0, Debit, BillPay);
-		      dataset.addValue(2.0, Debit, TransferFunds);
-		      dataset.addValue(3.0, Debit, AddFunds);
+		      dataset.addValue(DB, Debit, BillPay);
+		      dataset.addValue(DT, Debit, TransferFunds);
+		      dataset.addValue(DA, Debit, AddFunds);
 		      
 		      
-		      dataset.addValue(2.0, Credit, BillPay);
-		      dataset.addValue(3.0, Credit, TransferFunds);
-		      dataset.addValue(4.0, Credit, AddFunds);
+		      dataset.addValue(CB, Credit, BillPay);
+		      dataset.addValue(CT, Credit, TransferFunds);
+		      dataset.addValue(CA, Credit, AddFunds);
 		     return dataset; 
 		}
 		
