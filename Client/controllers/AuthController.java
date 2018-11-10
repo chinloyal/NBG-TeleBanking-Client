@@ -89,5 +89,26 @@ public class AuthController {
 		}
 		return response;		
 	}
+	
+	// This can only be accessed if the server is running
+	public static User getLoggedInUser() {
+		try {
+			Request request = new Request("get_session");
+			Client client = new Client();
+			
+			client.connect();
+			client.send(request);
+			
+			Response response = client.readResponse();
+			client.send(new Request("EXIT"));
+			client.closeConnection();
+			
+			return (User) response.getData();
+		}catch(IOException | ClassNotFoundException | NullPointerException e) {
+			LogManager.getLogger().error("Unable to get session from server, the server may not be running.");
+		}
+		
+		return null;
+	}
 
 }

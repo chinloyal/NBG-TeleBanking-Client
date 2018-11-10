@@ -59,8 +59,8 @@
 	<classpathentry kind="lib" path="lib/log4j-core-2.11.1.jar"/>
 	<classpathentry kind="lib" path="lib/miglayout-src.zip"/>
 	<classpathentry kind="lib" path="lib/miglayout15-swing.jar"/>
-	<classpathentry kind="lib" path="lib/Ab.jar"/>
 	<classpathentry kind="lib" path="lib/listen-speak-api.jar"/>
+	<classpathentry kind="lib" path="lib/Ab.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/NBG-Resources"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

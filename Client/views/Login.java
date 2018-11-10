@@ -20,6 +20,7 @@ import java.awt.Font;
 import java.awt.Frame;
 
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -42,6 +43,12 @@ public class Login extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		try {
+			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+		} catch(Exception e) {  
+			JOptionPane.showMessageDialog(null,"Cannot set UI");
+		}
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -84,39 +91,23 @@ public class Login extends JFrame {
 		passwordField.setBounds(207, 131, 221, 32);
 		getContentPane().add(passwordField);
 		
-		
-		final JRadioButton rdbtnCustomer = new JRadioButton("Customer");
-		rbtnAccType.add(rdbtnCustomer);
-		rdbtnCustomer.setSelected(true);
-		rdbtnCustomer.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		rdbtnCustomer.setBounds(94, 232, 149, 36);
-		getContentPane().add(rdbtnCustomer);
-		
-		JRadioButton rdbtnManager = new JRadioButton("Manager");
-		rbtnAccType.add(rdbtnManager);
-		rdbtnManager.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		rdbtnManager.setBounds(302, 232, 149, 36);
-		getContentPane().add(rdbtnManager);
-		
 		JButton btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(rdbtnCustomer.isSelected()) {
-					if(emailField.getText().equals("") | passwordField.equals(null)) {
-						JOptionPane.showMessageDialog(null, "Required field is empty. Please enter Valid credentials");
-					} else {
-						Response response = auth.login(emailField.getText(), new String(passwordField.getPassword()));
-						if(response.isSuccess()) {
-							JOptionPane.showMessageDialog(null, "Welcome");
-						}else {
-							JOptionPane.showMessageDialog(null, "Invalid credentials");
-						}
+				if(emailField.getText().equals("") | passwordField.equals(null)) {
+					JOptionPane.showMessageDialog(null, "Required field is empty. Please enter Valid credentials");
+				} else {
+					Response response = auth.login(emailField.getText(), new String(passwordField.getPassword()));
+					if(response.isSuccess()) {
+						JOptionPane.showMessageDialog(null, "Welcome " + AuthController.getLoggedInUser().getFirstName());
+					}else {
+						JOptionPane.showMessageDialog(null, "Invalid credentials");
 					}
 				}
 			}
 		});
 		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnLogin.setBounds(94, 356, 149, 42);
+		btnLogin.setBounds(94, 223, 149, 42);
 		getContentPane().add(btnLogin);
 		
 		JButton btnRegister = new JButton("Register");
@@ -129,7 +120,7 @@ public class Login extends JFrame {
 			}
 		});
 		btnRegister.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnRegister.setBounds(279, 356, 149, 42);
+		btnRegister.setBounds(279, 223, 149, 42);
 		getContentPane().add(btnRegister);
 		
 		

@@ -9,7 +9,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
+import javax.net.ssl.SSLHandshakeException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -35,6 +37,7 @@ import javax.swing.JProgressBar;
 import java.awt.Color;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.Timer;
 
 public class ChatClientView extends JFrame implements ActionListener, KeyListener, Hearable{
 	private JLabel label;
@@ -161,15 +164,27 @@ public class ChatClientView extends JFrame implements ActionListener, KeyListene
 
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource().equals(btnRecord)) {
-			try {
-				txtRequest.setEnabled(false);
-				txtrSpeakNow.setText("Speak now...");
-				vc.record();
+			txtRequest.setEnabled(false);
+			txtrSpeakNow.setText("Speak now...");
+			btnRecord.setEnabled(false);
+			
+			new Thread(()-> {
+				try {
+					vc.record();
+				}catch (InterruptedException | IOException e) {
+					logger.error("Unable to record user's voice");
+				}
+			}).start();
+
+			ActionListener listener = (ev) -> {
 				txtrSpeakNow.setText("Stop speaking...");
 				txtRequest.setEnabled(true);
-			} catch (InterruptedException | IOException e) {
-				logger.error("Unable to record user's voice");
-			}
+				btnRecord.setEnabled(true);
+			};
+			
+			Timer timer = new Timer(vc.getRecordTime(), listener);
+			timer.setRepeats(false);
+		    timer.start();
 		}
 		
 	}
@@ -177,21 +192,26 @@ public class ChatClientView extends JFrame implements ActionListener, KeyListene
 
 	public void keyPressed(KeyEvent event) {
 		if(event.getKeyCode() == KeyEvent.VK_ENTER) {
+			
 			String request = txtRequest.getText();
 			
-			if(!request.trim().equals("")) {
-				txtRequest.setText("");
-				
-				txtrUserRequest.setText("You: " + request);
-				
-				String response = tc.respond(request);
-				
-				txtrBotResponse.setText("Assistant: " + response);
-				try {
-					tc.speak(response);
-				} catch (IOException | JavaLayerException e) {
-					logger.error("The assistant was unable to produce voice output.");
+			if(request.trim().length() <= 140) {
+				if(!request.trim().equals("")) {
+					txtRequest.setText("");
+
+					txtrUserRequest.setText("You: " + request);
+
+					String response = tc.respond(request);
+
+					txtrBotResponse.setText("Assistant: " + response);
+					try {
+						tc.speak(response);
+					} catch (InterruptedException | ExecutionException e) {
+						logger.error("The assistant was unable to produce voice output.");
+					}
 				}
+			}else {
+				JOptionPane.showMessageDialog(null, "Your request cannot exceed more than 140 characters.", "Warning", JOptionPane.WARNING_MESSAGE);
 			}
 			
 		}
@@ -215,7 +235,7 @@ public class ChatClientView extends JFrame implements ActionListener, KeyListene
 
 		try {
 			tc.speak(response);
-		} catch (IOException | JavaLayerException e) {
+		} catch (InterruptedException | ExecutionException e) {
 			logger.error("The assistant was unable to produce voice output.");
 		}
 	}
