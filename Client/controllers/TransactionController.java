@@ -23,7 +23,7 @@ public class TransactionController extends ArtificialIntelligence{
 	
 	
 	public TransactionController() {
-		
+		this(new Client());
 	}
 
 	public void processAction(String response, String request) {
@@ -33,16 +33,16 @@ public class TransactionController extends ArtificialIntelligence{
 	
 	public double managerchartvalues(String type)
 	{
-		
 		try {
 			client.connect();
 			client.send(new Request("values_for_chart", type));
 			
 			Response response = (Response)client.readResponse();
-			
+					
 			client.send(new Request("EXIT"));
+		
 			
-			return (double)response.getData();
+			return (Double)response.getData();
 			
 		}catch(IOException e)
 		{
@@ -83,3 +83,4 @@ public class TransactionController extends ArtificialIntelligence{
 	
 
 }
+

@@ -28,8 +28,7 @@ import controllers.TransactionController;
 public class ManagerDashboard extends JFrame implements ActionListener {
 	private JButton btnLogout;
 	private JLabel label;
-	TransactionController trans;
-	Client client;
+	TransactionController trans = new TransactionController();
 	public ManagerDashboard()
 	{
 		super("NBG TeleBanking - Manager Dashboard");
@@ -42,14 +41,15 @@ public class ManagerDashboard extends JFrame implements ActionListener {
 		{
 	 		double DB =0.0, DT = 0.0, DA = 0.0, CB =0.0, CT = 0.0, CA = 0.0;
 	 		
-	 				DB = trans.managerchartvalues("SumDebitBP");
-	 				DT = trans.managerchartvalues("SumDebitT");
-	 				DA = trans.managerchartvalues("SumDebitA");
-	 				CB = trans.managerchartvalues("SumCreditBP"); 
-	 				CT = trans.managerchartvalues("SumCreditT");
-	 				CA = trans.managerchartvalues("SumCreditA"); 
+	 		
+	 		
+			  DB = trans.managerchartvalues("SumDebitBP");
+			  DT = trans.managerchartvalues("SumDebitT");
+		      DA = trans.managerchartvalues("SumDebitA");
+			  CB = trans.managerchartvalues("SumCreditBP"); 
+			  CT = trans.managerchartvalues("SumCreditT");
+			  CA = trans.managerchartvalues("SumCreditA"); 
 	 			
-	 	//	DB = client.send(new Request("SumDebitBP"));
 	 		
 	 		
 	 		
