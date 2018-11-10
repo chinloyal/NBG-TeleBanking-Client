@@ -217,7 +217,6 @@ public class RegistrationView extends JFrame implements ActionListener {
 		
 		// Configure Listeners
 		configureListeners();
-		
 	}
 	
 	public void configureListeners() {
@@ -268,7 +267,6 @@ public class RegistrationView extends JFrame implements ActionListener {
 				btnOpenFileChooser.setText(uploadedImage.getName());
 				
 				uploadedImageName = renameImage(uploadedImageName) + "-" + (new Date()).getTime() + "." + FilenameUtils.getExtension(uploadedImage.getName());
-				
 			}
 			
 		}else if(event.getSource().equals(btnRegister)) { // register user

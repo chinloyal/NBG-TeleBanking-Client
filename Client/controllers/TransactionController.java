@@ -9,6 +9,8 @@ import javax.swing.JOptionPane;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import java.util.ArrayList;
+import java.util.List;
 
 import abstracts.ArtificialIntelligence;
 import communication.Request;
@@ -136,32 +138,13 @@ public class TransactionController extends ArtificialIntelligence{
 	}
 
 	private void handleInquiry(String response) {
+		double balance = getBalance();
+		String message = "Your balance is $" + balance;
+		
 		try {
-			client.connect();
-			client.send(new Request("transaction_inquiry"));
-			
-			Response clientResponse = (Response) client.readResponse();
-			
-			if(clientResponse.isSuccess()) {
-				JOptionPane.showMessageDialog(null, clientResponse.getMessage());
-				
-				try {
-					speak(clientResponse.getMessage());
-				}catch(InterruptedException | ExecutionException e) {
-					logger.error("The assistant was unable to produce voice output.");
-				}
-				
-			}else {
-				JOptionPane.showMessageDialog(null, clientResponse.getMessage());
-				
-				try {
-					speak(clientResponse.getMessage());
-				}catch(InterruptedException | ExecutionException e) {
-					logger.error("The assistant was unable to produce voice output.");
-				}
-			}
-		}catch(IOException | ClassNotFoundException e) {
-			logger.error("Unable to send or receive transaction transfer request/response.");
+			speak(message);
+		}catch(InterruptedException | ExecutionException e) {
+			logger.error("The assistant was unable to produce voice output.");
 		}
 	}
 	
@@ -281,12 +264,62 @@ public class TransactionController extends ArtificialIntelligence{
 		}
 	}
 	
+	public static double getBalance() {
+		try {
+			Client client = new Client();
+			client.connect();
+			client.send(new Request("transaction_inquiry"));
+			
+			Response clientResponse = (Response) client.readResponse();
+			
+			if(clientResponse.isSuccess()) {
+				return (double) clientResponse.getData();
+				
+			}else {
+				JOptionPane.showMessageDialog(null, clientResponse.getMessage());
+			}
+		}catch(IOException | ClassNotFoundException e) {
+			LogManager.getLogger().error("Unable to send or receive transaction inquiry request/response.");
+		}
+		
+		return 0;
+	}
+	
 	private boolean confirmTransfer(double amount, String email) {
 		return JOptionPane.OK_OPTION == JOptionPane.showConfirmDialog(null, "Are you sure you want to send $"+ amount +" to "+ email + "?", "Confirm your transaction", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
 	private boolean confirmBillPayment(double amount, String provider) {
 		return JOptionPane.OK_OPTION == JOptionPane.showConfirmDialog(null, "Are you sure you want to pay $"+ amount +" to "+ provider +"?", "Confirm payment", JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	public List<Transaction> filter (String[] start, String[] end){
+		return null;
+		
+	}
+	
+	public boolean storeMessage(String message, String email, String queryType) {
+		boolean success = false;
+		
+		try {
+			
+			List<String> cusMessage = new ArrayList<String>();
+			cusMessage.add(email);
+			cusMessage.add(message);
+			cusMessage.add(queryType);
+			
+			client.send(new Request("store_message",cusMessage));
+			Response response = client.readResponse();
+			
+			success = response.isSuccess();
+			
+			client.send(new Request("EXIT"));
+			return success;
+		}catch(IOException | ClassNotFoundException | ClassCastException e) {
+			logger.error("Unable to send message to customer reppresentative.");
+		}
+		
+		return success;
 	}
 
 }

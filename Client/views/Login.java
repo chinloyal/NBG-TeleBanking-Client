@@ -13,20 +13,27 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import communication.Response;
 import connection.Client;
 import controllers.AuthController;
+import models.User;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.GridLayout;
+import java.awt.Label;
 
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
+import javax.swing.JCheckBox;
 
 
 
@@ -91,6 +98,17 @@ public class Login extends JFrame {
 		passwordField.setBounds(207, 131, 221, 32);
 		getContentPane().add(passwordField);
 		
+		// ------ CheckBox Gives Option to Show Password
+		JLabel lblShowPwd = new JLabel("Show My Password:");
+		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblPassword.setBounds(94, 131, 103, 36);
+		getContentPane().add(lblShowPwd);
+
+		JCheckBox checkShowPassword = new JCheckBox();
+		getContentPane().add(checkShowPassword);
+		getContentPane().add(checkShowPassword);
+		// ----- User Can Show Password to Locate Errors
+		
 		JButton btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -99,15 +117,22 @@ public class Login extends JFrame {
 				} else {
 					Response response = auth.login(emailField.getText(), new String(passwordField.getPassword()));
 					if(response.isSuccess()) {
-						JOptionPane.showMessageDialog(null, "Welcome " + AuthController.getLoggedInUser().getFirstName());
+						User loggedInUser = AuthController.getLoggedInUser();
+						JOptionPane.showMessageDialog(null, "Welcome " + loggedInUser.getFirstName());
+						setVisible(false);			
+						//Sending Customer Information to Customer Dashboard
+						if(loggedInUser.getType().equals("customer")) {
+							new CustomerDashboard(loggedInUser);
+						}
 					}else {
 						JOptionPane.showMessageDialog(null, "Invalid credentials");
 					}
 				}
 			}
 		});
+		
 		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnLogin.setBounds(94, 223, 149, 42);
+		btnLogin.setBounds(94, 267, 149, 42);
 		getContentPane().add(btnLogin);
 		
 		JButton btnRegister = new JButton("Register");
@@ -120,8 +145,23 @@ public class Login extends JFrame {
 			}
 		});
 		btnRegister.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnRegister.setBounds(279, 223, 149, 42);
+		btnRegister.setBounds(279, 267, 149, 42);
 		getContentPane().add(btnRegister);
+		
+		JCheckBox passwordCheckBox = new JCheckBox(" Show Password");
+		passwordCheckBox.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		passwordCheckBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(passwordCheckBox.isSelected()) {
+					passwordField.setEchoChar((char) 0);
+				} else {
+					passwordField.setEchoChar('\u2022');
+				}
+			}
+		});
+		passwordCheckBox.setBounds(94, 217, 181, 23);
+		getContentPane().add(passwordCheckBox);
+		
 		
 		
 	}

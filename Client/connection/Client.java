@@ -59,7 +59,7 @@ public class Client implements Connection<Request>{
 			ois.close();
 			oos.close();
 			socket.close();
-			logger.info("Server closed connection.");
+			logger.info("Client closed connection.");
 		}catch(NullPointerException | IOException e){
 			logger.error("Could not close all connections");
 		}
@@ -69,7 +69,5 @@ public class Client implements Connection<Request>{
 	public Response readResponse() throws ClassNotFoundException, ClassCastException, IOException {
 		return (Response) ois.readObject();
 	}
-	
-	
 
 }
