@@ -52,7 +52,7 @@ public class Client implements Connection<Request>{
 	public void send(Request data) throws IOException {
 		oos.writeObject(data);
 	}
-
+	
 	public void closeConnection() {
 		try{
 			exit();

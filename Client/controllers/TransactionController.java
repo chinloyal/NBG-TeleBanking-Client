@@ -284,6 +284,32 @@ public class TransactionController extends ArtificialIntelligence{
 		
 		return 0;
 	}
+
+	public double managerchartvalues(String type)
+	{
+		try {
+			client.connect();
+			client.send(new Request("values_for_chart", type));
+			
+			Response response = (Response)client.readResponse();
+					
+			client.send(new Request("EXIT"));
+		
+			
+			return (Double)response.getData();
+			
+		}catch(IOException e)
+		{
+			logger.error("Unable to send request for chart values ", e.getMessage());
+		}catch(ClassCastException | ClassNotFoundException e)
+		{
+			logger.error("Unable to read response");
+		}
+		return 0;
+		
+
+		
+	}
 	
 	private boolean confirmTransfer(double amount, String email) {
 		return JOptionPane.OK_OPTION == JOptionPane.showConfirmDialog(null, "Are you sure you want to send $"+ amount +" to "+ email + "?", "Confirm your transaction", JOptionPane.INFORMATION_MESSAGE);
@@ -324,3 +350,4 @@ public class TransactionController extends ArtificialIntelligence{
 	}
 
 }
+
