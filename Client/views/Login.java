@@ -34,17 +34,19 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 import javax.swing.JCheckBox;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.FormSpecs;
+import com.jgoodies.forms.layout.RowSpec;
+import java.awt.Dimension;
 
 
 
 public class Login extends JFrame {
 
-	private JPanel contentPane;
 	private JTextField emailField;
-	private final ButtonGroup rbtnAccType = new ButtonGroup();
+	private AuthController auth = new AuthController(new Client());
 	private JPasswordField passwordField;
-	JInternalFrame frame;
-	AuthController auth = new AuthController(new Client());
 
 	/**
 	 * Launch the application.
@@ -75,38 +77,39 @@ public class Login extends JFrame {
 	public Login() {
 		super("NBG TeleBanking Login");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 578, 560);
-		getContentPane().setLayout(null);
+		setBounds(100, 100, 572, 328);
+		getContentPane().setLayout(new FormLayout(new ColumnSpec[] {
+				ColumnSpec.decode("10px"),
+				ColumnSpec.decode("10px"),
+				ColumnSpec.decode("83px"),
+				ColumnSpec.decode("95px"),
+				ColumnSpec.decode("244px"),
+				ColumnSpec.decode("32px"),
+				ColumnSpec.decode("27px"),
+				ColumnSpec.decode("30px"),
+				ColumnSpec.decode("38px"),},
+			new RowSpec[] {
+				RowSpec.decode("35px"),
+				RowSpec.decode("15px"),
+				RowSpec.decode("36px"),
+				RowSpec.decode("25px"),
+				RowSpec.decode("15px"),
+				RowSpec.decode("36px"),
+				RowSpec.decode("23px"),
+				RowSpec.decode("27px"),
+				RowSpec.decode("27px"),}));
 		
 		JLabel lblemail = new JLabel("Email:");
-		lblemail.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblemail.setBounds(94, 61, 103, 36);
-		getContentPane().add(lblemail);
+		lblemail.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		getContentPane().add(lblemail, "4, 2, fill, fill");
 		
 		emailField = new JTextField();
 		emailField.setColumns(10);
-		emailField.setBounds(207, 61, 221, 36);
-		getContentPane().add(emailField);
-		
-		
-		JLabel lblPassword = new JLabel("Password:");
-		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblPassword.setBounds(94, 131, 103, 36);
-		getContentPane().add(lblPassword);
-		
-		passwordField = new JPasswordField();
-		passwordField.setBounds(207, 131, 221, 32);
-		getContentPane().add(passwordField);
-		
-		// ------ CheckBox Gives Option to Show Password
-		JLabel lblShowPwd = new JLabel("Show My Password:");
-		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblPassword.setBounds(94, 131, 103, 36);
-		getContentPane().add(lblShowPwd);
+		getContentPane().add(emailField, "4, 3, 2, 1, fill, fill");
 
-		JCheckBox checkShowPassword = new JCheckBox();
+		/*JCheckBox checkShowPassword = new JCheckBox();
 		getContentPane().add(checkShowPassword);
-		getContentPane().add(checkShowPassword);
+		getContentPane().add(checkShowPassword);*/
 		// ----- User Can Show Password to Locate Errors
 		
 		JButton btnLogin = new JButton("Login");
@@ -119,7 +122,7 @@ public class Login extends JFrame {
 					if(response.isSuccess()) {
 						User loggedInUser = AuthController.getLoggedInUser();
 						JOptionPane.showMessageDialog(null, "Welcome " + loggedInUser.getFirstName());
-						setVisible(false);			
+						dispose();		
 						//Sending Customer Information to Customer Dashboard
 						if(loggedInUser.getType().equals("customer")) {
 							new CustomerDashboard(loggedInUser);
@@ -131,25 +134,18 @@ public class Login extends JFrame {
 			}
 		});
 		
-		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnLogin.setBounds(94, 267, 149, 42);
-		getContentPane().add(btnLogin);
+		JLabel lblPassword = new JLabel("Password:");
+		getContentPane().add(lblPassword, "4, 5");
 		
-		JButton btnRegister = new JButton("Register");
-		btnRegister.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				RegistrationView registrationWindow = new RegistrationView();
-				registrationWindow.setVisible(true);
-				dispose();
-				
-			}
-		});
-		btnRegister.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnRegister.setBounds(279, 267, 149, 42);
-		getContentPane().add(btnRegister);
+		passwordField = new JPasswordField();
+		passwordField.setPreferredSize(new Dimension(13, 40));
+		getContentPane().add(passwordField, "4, 6, 2, 1, fill, default");
+		
+		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		getContentPane().add(btnLogin, "4, 9, fill, fill");
 		
 		JCheckBox passwordCheckBox = new JCheckBox(" Show Password");
-		passwordCheckBox.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		passwordCheckBox.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		passwordCheckBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(passwordCheckBox.isSelected()) {
@@ -159,8 +155,20 @@ public class Login extends JFrame {
 				}
 			}
 		});
-		passwordCheckBox.setBounds(94, 217, 181, 23);
-		getContentPane().add(passwordCheckBox);
+		getContentPane().add(passwordCheckBox, "4, 7, 2, 1, fill, fill");
+		
+		JButton btnRegister = new JButton("<html><u style=\"color: blue\">Don't have an account? Create one.</u></html>");
+		btnRegister.setContentAreaFilled(false);
+		btnRegister.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				RegistrationView registrationWindow = new RegistrationView();
+				registrationWindow.setVisible(true);
+				dispose();
+				
+			}
+		});
+		btnRegister.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		getContentPane().add(btnRegister, "5, 9, fill, fill");
 		
 		
 		

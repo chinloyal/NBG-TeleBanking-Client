@@ -45,6 +45,8 @@ import javax.swing.ButtonGroup;
 
 import models.User;
 import models.Photo;
+import java.awt.Dimension;
+import java.awt.Color;
 
 public class RegistrationView extends JFrame implements ActionListener {
 
@@ -67,6 +69,8 @@ public class RegistrationView extends JFrame implements ActionListener {
 	private File uploadedImage;
 	private String uploadedImageName;
 	private AuthController auth;
+	private JPanel lgnRegPanel;
+	private JButton btnLogin;
 	
 
 	/**
@@ -102,24 +106,9 @@ public class RegistrationView extends JFrame implements ActionListener {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new FormLayout(new ColumnSpec[] {
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(156dlu;default):grow"),
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,},
+				ColumnSpec.decode("30dlu"),
+				ColumnSpec.decode("50dlu:grow"),
+				ColumnSpec.decode("30dlu"),},
 			new RowSpec[] {
 				FormSpecs.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("default:grow"),
@@ -146,16 +135,10 @@ public class RegistrationView extends JFrame implements ActionListener {
 				FormSpecs.RELATED_GAP_ROWSPEC,
 				FormSpecs.DEFAULT_ROWSPEC,
 				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("default:grow"),
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,}));
+				RowSpec.decode("default:grow"),}));
 		
 		JPanel pnlRadioBtns = new JPanel();
-		contentPane.add(pnlRadioBtns, "10, 2, fill, fill");
+		contentPane.add(pnlRadioBtns, "2, 2, fill, fill");
 		pnlRadioBtns.setLayout(new GridLayout(0, 2, 0, 0));
 		
 		rdbtnCustomer = new JRadioButton("Customer");
@@ -168,40 +151,40 @@ public class RegistrationView extends JFrame implements ActionListener {
 		pnlRadioBtns.add(rdbtnManager);
 		
 		JLabel lblFirstName = new JLabel("First Name:");
-		contentPane.add(lblFirstName, "10, 4");
+		contentPane.add(lblFirstName, "2, 4");
 		
 		txtFname = new JTextField();
-		contentPane.add(txtFname, "10, 6, fill, default");
+		contentPane.add(txtFname, "2, 6, fill, default");
 		txtFname.setColumns(10);
 		
 		JLabel lblLastName = new JLabel("Last Name");
-		contentPane.add(lblLastName, "10, 8");
+		contentPane.add(lblLastName, "2, 8");
 		
 		txtLname = new JTextField();
-		contentPane.add(txtLname, "10, 10, fill, default");
+		contentPane.add(txtLname, "2, 10, fill, default");
 		txtLname.setColumns(10);
 		
 		JLabel lblEmail = new JLabel("Email");
-		contentPane.add(lblEmail, "10, 12");
+		contentPane.add(lblEmail, "2, 12");
 		
 		txtEmail = new JTextField();
-		contentPane.add(txtEmail, "10, 14, fill, default");
+		contentPane.add(txtEmail, "2, 14, fill, default");
 		txtEmail.setColumns(10);
 		
 		JLabel lblPassword = new JLabel("Password");
-		contentPane.add(lblPassword, "10, 16");
+		contentPane.add(lblPassword, "2, 16");
 		
 		passwordField = new JPasswordField();
-		contentPane.add(passwordField, "10, 18, fill, default");
+		contentPane.add(passwordField, "2, 18, fill, default");
 		
 		JLabel lblConfirmPassword = new JLabel("Confirm Password");
-		contentPane.add(lblConfirmPassword, "10, 20");
+		contentPane.add(lblConfirmPassword, "2, 20");
 		
 		confirmPasswordField = new JPasswordField();
-		contentPane.add(confirmPasswordField, "10, 22, fill, default");
+		contentPane.add(confirmPasswordField, "2, 22, fill, default");
 		
 		pnlFileUpload = new JPanel();
-		contentPane.add(pnlFileUpload, "10, 24, fill, fill");
+		contentPane.add(pnlFileUpload, "2, 24, fill, fill");
 		pnlFileUpload.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		JLabel lblUploadAProfile = new JLabel("Upload a Profile Photo");
@@ -210,8 +193,20 @@ public class RegistrationView extends JFrame implements ActionListener {
 		btnOpenFileChooser = new JButton("Open File Chooser");
 		pnlFileUpload.add(btnOpenFileChooser);
 		
+		lgnRegPanel = new JPanel();
+		lgnRegPanel.setPreferredSize(new Dimension(5, 10));
+		contentPane.add(lgnRegPanel, "2, 26, fill, fill");
+		lgnRegPanel.setLayout(new GridLayout(2, 1, 0, 0));
+		
 		btnRegister = new JButton("REGISTER");
-		contentPane.add(btnRegister, "10, 28, 1, 3");
+		lgnRegPanel.add(btnRegister);
+		
+		btnLogin = new JButton("<html><u style=\"color: blue; cursor: pointer;\">Already have an account? Login.</u></html>");
+		btnLogin.setContentAreaFilled(false);
+		btnLogin.setBackground(Color.LIGHT_GRAY);
+		btnLogin.setBorderPainted(false);
+		btnLogin.setBorder(null);
+		lgnRegPanel.add(btnLogin);
 		
 		contentPane.getParent().setFocusable(true);
 		
@@ -229,6 +224,7 @@ public class RegistrationView extends JFrame implements ActionListener {
 		
 		btnRegister.addActionListener(this);
 		
+		btnLogin.addActionListener(this);
 		
 		contentPane.getParent().addKeyListener(new KeyListener() {
 			public void keyPressed(KeyEvent event) {
@@ -329,6 +325,10 @@ public class RegistrationView extends JFrame implements ActionListener {
 			
 			btnRegister.setEnabled(true);
 			
+		}else if(event.getSource().equals(btnLogin)){
+			Login login = new Login();
+			login.setVisible(true);
+			dispose();
 		}
 	}
 	

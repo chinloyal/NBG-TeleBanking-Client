@@ -17,12 +17,17 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.UIManager;
 
 import controllers.AuthController;
 import controllers.CustomerController;
 import controllers.TransactionController;
 import models.Transaction;
 import models.User;
+import java.awt.Dimension;
+import java.awt.Component;
+import javax.swing.SwingConstants;
+import java.awt.Font;
 
 public class CustomerDashboard extends JFrame implements ActionListener {
 	private static User customer = AuthController.getLoggedInUser();
@@ -48,6 +53,12 @@ public class CustomerDashboard extends JFrame implements ActionListener {
 	}
 
 	public static void main(String[] args) {
+		try {
+			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+		} catch(Exception e) {  
+			JOptionPane.showMessageDialog(null,"Cannot set UI");
+		}
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				CustomerDashboard frame = new CustomerDashboard(customer);
@@ -62,47 +73,44 @@ public class CustomerDashboard extends JFrame implements ActionListener {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 
-		getContentPane().setLayout(new GridLayout(3, 1));
+		getContentPane().setLayout(new GridLayout(0, 2));
 
 		// Top Half of Dashboard
-		JPanel heading = new JPanel(new BorderLayout());
-
-		JPanel welcome = new JPanel(new FlowLayout());
-		welcome.add(new JLabel("Welcome to your Dashboard!"));
-		heading.add(welcome, BorderLayout.NORTH);
-
-		CustomerController custControl = new CustomerController(customer);
-		String photo = custControl.getPhotoFromDatabase();
-		cusPhoto = new JLabel(
-				(new ImageIcon(CustomerDashboard.class.getResource("/storage/uploads/" + photo).getFile())));
-		heading.add(cusPhoto, BorderLayout.WEST);
-
-		JPanel cusInfo = new JPanel(new GridLayout(4, 1));
+		JPanel heading = new JPanel();
+		heading.setLayout(new BorderLayout(0, 0));
 		
-		JPanel cusInfo1 = new JPanel(new FlowLayout());
-		cusInfo1.add(new JLabel("\tName: "));
-		cusInfo.add(cusInfo1);
-		
-		JPanel cusInfo2 = new JPanel(new FlowLayout());
-		String fullName = (customer.getFirstName() + " " + customer.getLastName()).toUpperCase();
-		cusInfo2.add(new JLabel("\t" +fullName));
-		cusInfo.add(cusInfo2);
-		
-		JPanel cusInfo3 = new JPanel(new FlowLayout());
-		cusInfo3.add(new JLabel("\tAccount #: "));
-		cusInfo.add(cusInfo3);
-		
-		JPanel cusInfo4 = new JPanel(new FlowLayout());
-		cusInfo4.add(new JLabel("\tCU2018" + customer.getId()));
-		cusInfo.add(cusInfo4);
-		
-		heading.add(cusInfo, BorderLayout.CENTER);
-
-		JPanel cusAmt = new JPanel(new FlowLayout());
-		cusAmt.add(new JLabel("Your Current Account Balance is: $" + TransactionController.getBalance()));
-		heading.add(cusAmt, BorderLayout.SOUTH);
 
 		getContentPane().add(heading);
+		JLabel welcomelbl = new JLabel("Welcome to your Dashboard!");
+		welcomelbl.setFont(new Font("SansSerif", Font.BOLD, 15));
+		welcomelbl.setHorizontalAlignment(SwingConstants.CENTER);
+		welcomelbl.setAlignmentX(Component.CENTER_ALIGNMENT);
+		heading.add(welcomelbl, BorderLayout.NORTH);
+		
+		cusPhoto = new JLabel(new ImageIcon(new ImageIcon(CustomerDashboard.class.getResource("/storage/uploads/" + customer.getPhoto().getName())).getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT)));
+		cusPhoto.setBorder(UIManager.getBorder("TitledBorder.border"));
+		cusPhoto.setIconTextGap(0);
+		cusPhoto.setVerticalAlignment(SwingConstants.TOP);
+		
+		heading.add(cusPhoto, BorderLayout.CENTER);
+
+		JPanel cusInfo = new JPanel(new GridLayout(4, 1));
+		cusInfo.setPreferredSize(new Dimension(230, 0));
+		cusInfo.setBorder(UIManager.getBorder("TitledBorder.border"));
+
+		heading.add(cusInfo, BorderLayout.EAST);
+		String fullName = (customer.getFirstName() + " " + customer.getLastName()).toUpperCase();
+		JLabel label = new JLabel("\tName: " + fullName);
+		label.setPreferredSize(new Dimension(200, 16));
+		label.setSize(new Dimension(20, 0));
+		cusInfo.add(label);
+		label.setHorizontalAlignment(SwingConstants.LEFT);
+		JLabel label_1 = new JLabel("\tAccount #: CU2018-" + customer.getId());
+		cusInfo.add(label_1);
+
+		JPanel cusAmt = new JPanel(new FlowLayout());
+		heading.add(cusAmt, BorderLayout.SOUTH);
+		cusAmt.add(new JLabel("<html>Your Current Account Balance is: <span style=\"color: green;\">$" + TransactionController.getBalance() + "</span></html>"));
 
 		// ---------- Bottom Half of Dashboard
 		JPanel activity = new JPanel(new GridLayout(2, 1));
@@ -132,6 +140,9 @@ public class CustomerDashboard extends JFrame implements ActionListener {
 		yourTrans.add(new JLabel("Your Transactions: "));
 		centerPanel.add(yourTrans, BorderLayout.NORTH);
 		transactionList = new JTextArea("ID | Type | Amount | Description | Debit/Credit");
+		transactionList.setSize(new Dimension(0, 300));
+		transactionList.setPreferredSize(new Dimension(257, 300));
+		transactionList.setRows(300);
 		transactionList.setBounds(100, 300, 120, 30);
 		transactionList.setLineWrap(true);
 		transactionList.setColumns(20);
@@ -144,7 +155,7 @@ public class CustomerDashboard extends JFrame implements ActionListener {
 		filterTrans.add(new JLabel("Filter Your Transactions:"));
 		filters.add(filterTrans);
 
-		JPanel Date = new JPanel(new GridLayout(1, 10));
+		JPanel Date = new JPanel(new GridLayout(2, 10));
 		Date.add(new JLabel("From:"));
 		startMonth = new JComboBox(
 				new String[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" });
@@ -176,7 +187,7 @@ public class CustomerDashboard extends JFrame implements ActionListener {
 
 		filters.add(new JLabel("With Amounts Ranging:"));
 
-		JPanel values = new JPanel(new GridLayout(1, 6));
+		JPanel values = new JPanel(new GridLayout(2, 6));
 		values.add(new JLabel("From: JMD"));
 		lowestVal = new JComboBox(new String[] { "0", "100", "500", "1,000", "2,500", "5,000", "10,000",
 				"25,000", "50,000", "100,000", "250,000", "500,000", "1,000,000" });
@@ -216,12 +227,11 @@ public class CustomerDashboard extends JFrame implements ActionListener {
 			String selection = (String) transactionBox.getSelectedItem();
 			if (selection.equals("Leave a Message")) {
 				JOptionPane.showMessageDialog(null, "Leave a Message for our CSR!");
-				QueryView query = new QueryView(customer);
+				QueryView query = new QueryView(customer, this);
 				query.setVisible(true);
 			} else if (selection.equals("Open Chat Client")) {
-				JOptionPane.showMessageDialog(null, "Lisa is Ready to Help You with your Transaction! :)");
-				setVisible(false);
-				ChatClientView chatView = new ChatClientView();
+				JOptionPane.showMessageDialog(null, "LISA is Ready to Help You with your Transaction! :)");
+				ChatClientView chatView = new ChatClientView(this);
 				chatView.setVisible(true);
 			}
 		} else if (event.getSource().equals(btnFilter)) {

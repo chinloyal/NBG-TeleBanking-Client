@@ -14,6 +14,7 @@ import java.util.concurrent.ExecutionException;
 import javax.net.ssl.SSLHandshakeException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -39,7 +40,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.Timer;
 
-public class ChatClientView extends JFrame implements ActionListener, KeyListener, Hearable{
+public class ChatClientView extends JDialog implements ActionListener, KeyListener, Hearable{
 	private JLabel label;
 	private JTextField txtRequest;
 	private JButton btnRecord;
@@ -65,18 +66,18 @@ public class ChatClientView extends JFrame implements ActionListener, KeyListene
 		EventQueue.invokeLater(
 				new Runnable(){
 					public void run(){
-						ChatClientView frame = new ChatClientView();
+						ChatClientView frame = new ChatClientView(null);
 						frame.setVisible(true);
 					}
 				}
 		);
 	}
 	
-	public ChatClientView() {
-		super("NBG Tele-Banking - Transactions");
+	public ChatClientView(JFrame parent) {
+		super(parent, "NBG Tele-Banking - Transactions", true);
 		getContentPane().setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		setSize(450, 518);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setResizable(false);
 		
 		label = new JLabel("");

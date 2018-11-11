@@ -308,6 +308,7 @@ public class TransactionController extends ArtificialIntelligence{
 			cusMessage.add(message);
 			cusMessage.add(queryType);
 			
+			client.connect();
 			client.send(new Request("store_message",cusMessage));
 			Response response = client.readResponse();
 			

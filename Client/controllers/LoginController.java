@@ -1,5 +1,5 @@
 /**
- * Ths file is not needed
+ * Ths file is not needed there is already a login function in the AuthController
  */
 
 /*package controllers;

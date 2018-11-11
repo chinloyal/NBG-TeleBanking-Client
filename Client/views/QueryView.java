@@ -1,13 +1,11 @@
 package views;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import communication.Response;
 import controllers.TransactionController;
 import models.User;
 
@@ -17,15 +15,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JTextField;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
-public class QueryView extends JFrame {
+public class QueryView extends JDialog  {
 
 	private static User customer;
 	private JPanel contentPane;
@@ -39,7 +36,7 @@ public class QueryView extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					QueryView frame = new QueryView(customer);
+					QueryView frame = new QueryView(customer, null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -51,11 +48,11 @@ public class QueryView extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public QueryView(User customer) {
+	public QueryView(User customer, JFrame parent) {
 
-		super("NBG TeleBanking");
+		super(parent, "NBG TeleBanking - Send a message", true);
 		this.customer = customer;
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 643, 413);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -130,7 +127,7 @@ public class QueryView extends JFrame {
 					JOptionPane.showMessageDialog(null,"Message Sent Successfully! :)");
 					dispose();
 				}else {
-					JOptionPane.showMessageDialog(null,"Message Not Sent! :(\nPlease Try Again.");
+					JOptionPane.showMessageDialog(null,"Message Not Sent! :(\nPlease Try Again.", "An issue occured", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
