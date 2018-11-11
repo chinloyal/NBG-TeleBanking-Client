@@ -10,7 +10,9 @@ local.properties
 .loadpath
 .recommenders
 logs/
-Client/storage/uploads/*
+Client/storage/uploads/*.jpg
+Client/storage/uploads/*.jpeg
+Client/storage/uploads/*.png
 # External tool builders
 .externalToolBuilders/
 

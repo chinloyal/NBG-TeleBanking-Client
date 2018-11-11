@@ -24,7 +24,7 @@ public class Client implements Connection<Request>{
 	public Client() {
 		// TODO Auto-generated constructor stub
 	}
-	
+		
 	public boolean connect() {
 		boolean status = false;
 		
@@ -40,7 +40,6 @@ public class Client implements Connection<Request>{
 		return status;
 	}
 	
-	@Override
 	public void getStreams() throws IOException {
 		oos = new ObjectOutputStream(socket.getOutputStream());
 		ois = new ObjectInputStream(socket.getInputStream());
@@ -50,19 +49,17 @@ public class Client implements Connection<Request>{
 		oos.writeObject("EXIT");
 	}
 
-	@Override
 	public void send(Request data) throws IOException {
 		oos.writeObject(data);
 	}
 
-	@Override
 	public void closeConnection() {
 		try{
 			exit();
 			ois.close();
 			oos.close();
 			socket.close();
-			logger.info("Server closed connection.");
+			logger.info("Client closed connection.");
 		}catch(NullPointerException | IOException e){
 			logger.error("Could not close all connections");
 		}
@@ -72,7 +69,5 @@ public class Client implements Connection<Request>{
 	public Response readResponse() throws ClassNotFoundException, ClassCastException, IOException {
 		return (Response) ois.readObject();
 	}
-	
-	
 
 }
