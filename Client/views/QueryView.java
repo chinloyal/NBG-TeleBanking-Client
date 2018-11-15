@@ -50,7 +50,7 @@ public class QueryView extends JDialog  {
 	 */
 	public QueryView(User customer, JFrame parent) {
 
-		super(parent, "NBG TeleBanking - Send a message", true);
+		super(parent, "NBG TeleBanking - Send a Message", true);
 		this.customer = customer;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 643, 413);
