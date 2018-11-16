@@ -1,143 +1,187 @@
 package views;
 
-import java.awt.EventQueue;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 
+import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.RowSpec;
 
+import controllers.AuthController;
 import controllers.TransactionController;
 import models.User;
 
+import com.jgoodies.forms.layout.FormSpecs;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JTextField;
-import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextArea;
-import javax.swing.JButton;
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
-public class QueryView extends JDialog  {
+public class QueryView extends JDialog {
 
+	private final JPanel contentPanel = new JPanel();
+	
 	private static User customer;
-	private JPanel contentPane;
 	private JTextField txtInsertFullName;
 	private JTextField textEmail;
+	private JButton btnSend;
+	private JButton btnCancel;
+	private JTextArea textMessage;
+	private JComboBox comboBox;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					QueryView frame = new QueryView(customer, null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		try {
+			QueryView dialog = new QueryView(customer, null);
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
-	 * Create the frame.
+	 * Create the dialog.
 	 */
 	public QueryView(User customer, JFrame parent) {
-
 		super(parent, "NBG TeleBanking - Send a message", true);
 		this.customer = customer;
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 643, 413);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-
-		JLabel lblNewLabel = new JLabel("Leave us a message!");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNewLabel.setBounds(204, 24, 215, 29);
-		contentPane.add(lblNewLabel);
-
-		JLabel lblNewLabel_1 = new JLabel("Name:");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblNewLabel_1.setBounds(31, 63, 79, 24);
-		contentPane.add(lblNewLabel_1);
-
-		JLabel lblEmailAddress = new JLabel("Email Address:");
-		lblEmailAddress.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblEmailAddress.setBounds(31, 114, 120, 24);
-		contentPane.add(lblEmailAddress);
-
-		JLabel lblQueryType = new JLabel("Query Type:");
-		lblQueryType.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblQueryType.setBounds(31, 163, 120, 29);
-		contentPane.add(lblQueryType);
-
-		JLabel lblMessage = new JLabel("Message:");
-		lblMessage.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblMessage.setBounds(31, 218, 79, 24);
-		contentPane.add(lblMessage);
-
-		txtInsertFullName = new JTextField();
-		txtInsertFullName.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		txtInsertFullName.setBounds(178, 63, 215, 29);
-		String fullName = (customer.getFirstName() + " " + customer.getLastName()).toUpperCase();
-		txtInsertFullName.setText(fullName);
-		txtInsertFullName.setEditable(false);
-		contentPane.add(txtInsertFullName);
-		txtInsertFullName.setColumns(10);
-
-		textEmail = new JTextField();
-		textEmail.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		textEmail.setColumns(10);
-		textEmail.setBounds(178, 113, 215, 29);
-		textEmail.setText(customer.getEmail());
-		textEmail.setEditable(false);
-		contentPane.add(textEmail);
-
-		String[] messageStrings = { "Balance Inquiry", "Transfer", "Payment", "Support", "Other" };
-
-		JComboBox comboBox = new JComboBox(messageStrings);
-		comboBox.setSelectedIndex(-1);
-		comboBox.setEditable(true);
-		comboBox.setBounds(178, 163, 215, 29);
-		contentPane.add(comboBox);
-
-		JTextArea textMessage = new JTextArea();
-		textMessage.setRows(20);
-		textMessage.setTabSize(4);
-		textMessage.setLineWrap(true);
-		textMessage.setBounds(178, 221, 297, 79);
-		contentPane.add(textMessage);
-
-		JButton btnSend = new JButton("Send");
-		btnSend.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnSend.setBounds(250, 329, 127, 34);
-		btnSend.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				TransactionController message = new TransactionController();
-				boolean success = message.storeMessage(textMessage.getText(), customer.getEmail(), (String)comboBox.getSelectedItem());
-				if (success) {
-					JOptionPane.showMessageDialog(null,"Message Sent Successfully! :)");
-					dispose();
-				}else {
-					JOptionPane.showMessageDialog(null,"Message Not Sent! :(\nPlease Try Again.", "An issue occured", JOptionPane.ERROR_MESSAGE);
-				}
+		setBounds(100, 100, 588, 428);
+		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		contentPanel.setLayout(new FormLayout(new ColumnSpec[] {
+				ColumnSpec.decode("90dlu"),
+				ColumnSpec.decode("50dlu"),
+				FormSpecs.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("max(94dlu;default)"),
+				FormSpecs.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("max(82dlu;default)"),},
+			new RowSpec[] {
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("max(12dlu;default)"),
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("default:grow"),}));
+		{
+			JLabel lblTitle = new JLabel("Leave us a message");
+			lblTitle.setFont(new Font("SansSerif", Font.BOLD, 14));
+			contentPanel.add(lblTitle, "2, 2, 3, 1, center, default");
+		}
+		{
+			JLabel lblName = new JLabel("Name:");
+			contentPanel.add(lblName, "2, 4");
+		}
+		{
+			txtInsertFullName = new JTextField();
+			String fullName = (customer.getFirstName() + " " + customer.getLastName()).toUpperCase();
+			txtInsertFullName.setText(fullName);
+			txtInsertFullName.setEditable(false);
+			contentPanel.add(txtInsertFullName, "2, 6, 3, 1, fill, default");
+			txtInsertFullName.setColumns(10);
+		}
+		{
+			JLabel lblNewLabel = new JLabel("Email Address:");
+			contentPanel.add(lblNewLabel, "2, 8");
+		}
+		{
+			textEmail = new JTextField();
+			textEmail.setText(customer.getEmail());
+			textEmail.setEditable(false);
+			contentPanel.add(textEmail, "2, 10, 3, 1, fill, default");
+			textEmail.setColumns(10);
+		}
+		{
+			JLabel lblQueryType = new JLabel("Query Type:");
+			contentPanel.add(lblQueryType, "2, 12");
+		}
+		{
+			comboBox = new JComboBox();
+			comboBox.setModel(new DefaultComboBoxModel(new String[] {"Balance Inquiry", "Transfer", "Payment", "Support", "Other"}));
+			contentPanel.add(comboBox, "2, 14, 3, 1, fill, default");
+		}
+		{
+			JLabel lblMessage = new JLabel("Message:");
+			contentPanel.add(lblMessage, "2, 16");
+		}
+		{ // Text Area/Message
+			JScrollPane scrollPane = new JScrollPane();
+			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+			contentPanel.add(scrollPane, "2, 18, 3, 1, fill, fill");
+			{
+				textMessage = new JTextArea();
+				textMessage.setLineWrap(true);
+				scrollPane.setViewportView(textMessage);
+			}
+		}
+		{// Buttons
+			JPanel buttonPane = new JPanel();
+			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+			getContentPane().add(buttonPane, BorderLayout.SOUTH);
+			{
+				btnSend = new JButton("Send");
+				buttonPane.add(btnSend);
+				getRootPane().setDefaultButton(btnSend);
+			}
+			{
+				btnCancel = new JButton("Cancel");
+				buttonPane.add(btnCancel);
+			}
+		}
+		
+		configureListeners();
+	}
+	
+	public void configureListeners() {
+		btnSend.addActionListener((event)->{
+			if(textMessage.getText().trim().length() < 1) {
+				JOptionPane.showMessageDialog(null, "Cannot send blank message", "Warning", JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+			
+			TransactionController message = new TransactionController();
+			boolean success = message.storeMessage(textMessage.getText(), customer.getEmail(), (String)comboBox.getSelectedItem());
+			if (success) {
+				JOptionPane.showMessageDialog(null,"Message Sent Successfully! :)");
+				dispose();
+			}else {
+				JOptionPane.showMessageDialog(null,"Message Not Sent! :(\nPlease Try Again.", "An issue occured", JOptionPane.ERROR_MESSAGE);
 			}
 		});
-		contentPane.add(btnSend);
-
-		JScrollPane scrollPane = new JScrollPane(textMessage);
-		scrollPane.setViewportView(textMessage);
-		scrollPane.setBounds(178, 220, 330, 79);
-		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		contentPane.add(scrollPane);
-
+		
+		btnCancel.addActionListener((event)->{
+			dispose();
+		});
+		
 	}
+
 }

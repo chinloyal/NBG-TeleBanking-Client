@@ -18,6 +18,7 @@ import communication.Response;
 import connection.Client;
 import enums.CardType;
 import enums.TransactionType;
+import models.ChartVals;
 import models.Transaction;
 import models.User;
 
@@ -140,6 +141,7 @@ public class TransactionController extends ArtificialIntelligence{
 	private void handleInquiry(String response) {
 		double balance = getBalance();
 		String message = "Your balance is $" + balance;
+		JOptionPane.showMessageDialog(null, message);
 		
 		try {
 			speak(message);
@@ -285,30 +287,29 @@ public class TransactionController extends ArtificialIntelligence{
 		return 0;
 	}
 
-	public double managerchartvalues(String type)
+	public List<ChartVals> managerChartValues()
 	{
 		try {
 			client.connect();
-			client.send(new Request("values_for_chart", type));
-			
+			client.send(new Request("values_for_chart"));
+
 			Response response = (Response)client.readResponse();
-					
+
 			client.send(new Request("EXIT"));
-		
-			
-			return (Double)response.getData();
-			
+
+
+			return (List<ChartVals>) response.getData();
+
 		}catch(IOException e)
 		{
 			logger.error("Unable to send request for chart values ", e.getMessage());
+			e.printStackTrace();
 		}catch(ClassCastException | ClassNotFoundException e)
 		{
 			logger.error("Unable to read response");
 		}
-		return 0;
-		
+		return null;
 
-		
 	}
 	
 	private boolean confirmTransfer(double amount, String email) {

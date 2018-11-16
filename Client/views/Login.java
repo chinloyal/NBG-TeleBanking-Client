@@ -126,6 +126,8 @@ public class Login extends JFrame {
 						//Sending Customer Information to Customer Dashboard
 						if(loggedInUser.getType().equals("customer")) {
 							new CustomerDashboard(loggedInUser);
+						}else if(loggedInUser.getType().equals("manager")) {
+							new ManagerDashboard();
 						}
 					}else {
 						JOptionPane.showMessageDialog(null, "Invalid credentials");
