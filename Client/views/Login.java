@@ -107,11 +107,6 @@ public class Login extends JFrame {
 		emailField.setColumns(10);
 		getContentPane().add(emailField, "4, 3, 2, 1, fill, fill");
 
-		/*JCheckBox checkShowPassword = new JCheckBox();
-		getContentPane().add(checkShowPassword);
-		getContentPane().add(checkShowPassword);*/
-		// ----- User Can Show Password to Locate Errors
-		
 		JButton btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {

@@ -12,7 +12,6 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 
-import controllers.AuthController;
 import controllers.TransactionController;
 import models.User;
 
@@ -21,8 +20,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
@@ -60,7 +57,7 @@ public class QueryView extends JDialog {
 	 * Create the dialog.
 	 */
 	public QueryView(User customer, JFrame parent) {
-		super(parent, "NBG TeleBanking - Send a message", true);
+		super(parent, "NBG TeleBanking - Send a Message", true);
 		this.customer = customer;
 		setBounds(100, 100, 588, 428);
 		getContentPane().setLayout(new BorderLayout());
