@@ -62,8 +62,21 @@ public class Login extends JFrame {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Login frame = new Login();
-					frame.setVisible(true);
+					User loggedInUser = AuthController.getLoggedInUser();
+					if(loggedInUser != null) {
+						if(loggedInUser.getType().equals("customer")) {
+							CustomerDashboard cd = new CustomerDashboard(loggedInUser);
+							cd.setVisible(true);
+						}else {
+							ManagerDashboard md = new ManagerDashboard();
+							md.setVisible(true);
+						}
+					}else {
+						Login frame = new Login();
+						frame.setVisible(true);
+					}
+					
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

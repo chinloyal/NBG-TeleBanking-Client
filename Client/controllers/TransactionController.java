@@ -39,7 +39,7 @@ public class TransactionController extends ArtificialIntelligence {
 
 	public TransactionController(Client client) {
 		this.client = client;
-		mute = false;
+		mute = true;
 
 		loggedInUser = AuthController.getLoggedInUser();
 	}
@@ -54,7 +54,7 @@ public class TransactionController extends ArtificialIntelligence {
 			} else if (response.equals("Excellent, just give me a moment to process your deposit.")) {
 
 				handleDeposit(response, request);
-			} else if (response.substring(0, 15).equals("Sure, I'll find")) {
+			} else if (response.length() > 14 && response.substring(0, 15).equals("Sure, I'll find")) {
 				handleBillPayment(response);
 			}
 
@@ -80,6 +80,7 @@ public class TransactionController extends ArtificialIntelligence {
 				return;
 			}
 			String email = mat.group(4).trim();
+			email = convertVoiceToEmail(email);
 			String emailRegex = "^([a-z0-9]+[\\-\\.]?[\\w]+){1,255}@([a-z0-9]+[\\-]{0,4}[a-z0-9]+){1,255}([\\.][a-z]{2,13}){1,2}$";
 			Pattern emailPat = Pattern.compile(emailRegex);
 			Matcher emailMat = emailPat.matcher(email);
@@ -404,10 +405,47 @@ public class TransactionController extends ArtificialIntelligence {
 			client.send(new Request("EXIT"));
 			return success;
 		} catch (IOException | ClassNotFoundException | ClassCastException e) {
-			logger.error("Unable to send message to customer reppresentative.");
+			logger.error("Unable to send message to customer representative.");
 		}
 
 		return success;
+	}
+	
+	public String convertVoiceToEmail(String input) {
+		//Regex here
+		String regex = "(.*)at(.*)\\.(.*)";
+		Pattern pat = Pattern.compile(regex);
+		Matcher mat = pat.matcher(input);
+		
+		//email
+		StringBuilder email = new StringBuilder("");
+		
+		if(mat.find()) {
+			//append username of email
+			email.append(mat.group(1).toLowerCase().trim().replaceAll("[\\s]", ""));
+			
+			//append @ sign
+			email.append('@');
+			
+			//append domain
+			email.append(mat.group(2).toLowerCase().trim().replaceAll("[\\s]", ""));
+			
+			//append extension
+			email.append('.' + mat.group(3).toLowerCase().trim().replaceAll("[\\s]", ""));
+			
+			return email.toString();
+			
+		}else {
+			return input;
+		}
+	}
+	
+	public void setMute(boolean val) {
+		mute = val;
+	}
+	
+	public boolean getMute() {
+		return mute;
 	}
 
 }
