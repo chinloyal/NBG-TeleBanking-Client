@@ -1,47 +1,59 @@
 package views;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.UIManager;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.border.EmptyBorder;
 
-import ch.qos.logback.classic.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import controllers.AuthController;
-import controllers.CustomerController;
 import controllers.TransactionController;
 import models.Transaction;
 import models.User;
-import java.awt.Dimension;
-import java.awt.Component;
+
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.imageio.ImageIO;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+
+import net.miginfocom.swing.MigLayout;
+import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+
 import java.awt.Font;
+import java.awt.Component;
+import javax.swing.JButton;
+import javax.swing.JSplitPane;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JMenu;
 
 public class CustomerDashboard extends JFrame implements ActionListener {
+
 	private static User customer = AuthController.getLoggedInUser();
+	private JPanel contentPane;
 	private JLabel cusPhoto;
-	private JComboBox<String> transactionBox;
-	private JButton btnGo;
-	private JTextArea transactionList;
+	private JLabel lblAccount;
+	private JLabel lblBalance;
+	private JPanel panel_1;
 	private JComboBox<String> startMonth;
 	private JComboBox<String> startDay;
 	private JComboBox<String> startYear;
@@ -50,205 +62,236 @@ public class CustomerDashboard extends JFrame implements ActionListener {
 	private JComboBox<String> endYear;
 	private JComboBox<String> lowestVal;
 	private JComboBox<String> highestVal;
+	private JButton logout;
+	private JComboBox<String> transactionBox;
+	private JSplitPane splitPane;
 	private JButton btnFilter;
 	private JButton btnClrSearch;
+	private JButton btnGo;
+	private JTable table;
+	private JLabel lblName;
 	
-	private JTable tableTransactions;
-	
-	JPanel tablePanel = new JPanel(new BorderLayout());
 	private JPanel originalTablePanel = new JPanel();
-	JPanel filteredPanel = new JPanel();
-
+	private JPanel filteredPanel = new JPanel();
+	
 	// Table Heading (Column Names)
-	String[] columns = { "ID", "Type", "Amount", "Description", "Debit/Credit", "Date" };
-
-	public CustomerDashboard(User customer) {
-		this.customer = customer;
-		initView();
-		configureListeners();
-	}
-
+	private String[] columns = { "ID", "Type", "Amount", "Description", "Debit/Credit", "Date" };
+	private JMenuBar menuBar;
+	private JMenu mnHelp;
+	private JMenuItem mntmViewUserManual;
+	
+	private static Logger logger = LogManager.getLogger(CustomerDashboard.class);
+	/**
+	 * Launch the application.
+	 */
 	public static void main(String[] args) {
 		try {
 			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Cannot set UI");
 		}
-
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				CustomerDashboard frame = new CustomerDashboard(customer);
-				frame.setVisible(true);
+				try {
+					CustomerDashboard frame = new CustomerDashboard(customer);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
 	}
 
-	public void initView() {
+	/**
+	 * Create the frame.
+	 */
+	public CustomerDashboard(User customer) {
+		initView(customer);
+		configureListeners();
+	}
+	
+	public void initView(User customer) {
 		setTitle("NBG TeleBanking - Customer Dashboard");
-		setSize(1200, 700);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		getContentPane().setLayout(new GridLayout(0, 2));
-
-		// Top Half of Dashboard
-		JPanel heading = new JPanel();
-		heading.setLayout(new BorderLayout(0, 0));
-
-		JLabel welcomelbl = new JLabel("Welcome to your Dashboard!");
-		welcomelbl.setFont(new Font("SansSerif", Font.BOLD, 15));
-		welcomelbl.setHorizontalAlignment(SwingConstants.CENTER);
-		welcomelbl.setAlignmentX(Component.CENTER_ALIGNMENT);
-		heading.add(welcomelbl, BorderLayout.NORTH);
-
-		System.out.println(customer.getPhoto().getName());
-
-		cusPhoto = new JLabel(new ImageIcon(
-				new ImageIcon(CustomerDashboard.class.getResource("/storage/uploads/" + customer.getPhoto().getName()))
-						.getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT)));
-		cusPhoto.setBorder(UIManager.getBorder("TitledBorder.border"));
-		cusPhoto.setIconTextGap(0);
-		cusPhoto.setVerticalAlignment(SwingConstants.TOP);
-
-		heading.add(cusPhoto, BorderLayout.CENTER);
-
-		JPanel cusInfo = new JPanel(new GridLayout(4, 1));
-		cusInfo.setPreferredSize(new Dimension(230, 0));
-		cusInfo.setBorder(UIManager.getBorder("TitledBorder.border"));
-
-		heading.add(cusInfo, BorderLayout.EAST);
+		setBounds(100, 100, 994, 446);
+		
+		menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		mnHelp = new JMenu("Help");
+		menuBar.add(mnHelp);
+		
+		mntmViewUserManual = new JMenuItem("View User Manual (F1)");
+		mnHelp.add(mntmViewUserManual);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(new MigLayout("", "[183.00][274.00,left][470.00,grow]", "[grow][grow][][][][]"));
+		
+		JPanel panel = new JPanel();
+		contentPane.add(panel, "cell 0 0,grow");
+		
+		File file = new File("Client/storage/uploads/" + customer.getPhoto().getName());
+		URL url = null;
+		
+		try {
+			url = new URL("file:/" + file.getAbsolutePath());
+		} catch (MalformedURLException e2) {
+			logger.error("Unable to for URL for image.");
+		}
+//		System.out.println(CustomerDashboard.class.getResource("/storage/uploads/" + customer.getPhoto().getName()));
+		
+		cusPhoto = new JLabel(
+			new ImageIcon(
+				new ImageIcon(
+						url
+				).getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT)
+			)
+		);
+		panel.add(cusPhoto);
+		
 		String fullName = (customer.getFirstName() + " " + customer.getLastName()).toUpperCase();
-		JLabel label = new JLabel("\tName: " + fullName);
-		label.setPreferredSize(new Dimension(200, 16));
-		label.setSize(new Dimension(20, 0));
-		cusInfo.add(label);
-		label.setHorizontalAlignment(SwingConstants.LEFT);
-		JLabel label_1 = new JLabel("\tAccount #: CU2018-" + customer.getId());
-		cusInfo.add(label_1);
-
-		JPanel cusAmt = new JPanel(new FlowLayout());
-		cusAmt.add(new JLabel("<html>Your Current Account Balance is: <span style=\"color: green;\">$"
-				+ TransactionController.getBalance() + "</span></html>"));
-		heading.add(cusAmt, BorderLayout.SOUTH);
 		
-		getContentPane().add(heading);
+		panel_1 = new JPanel();
+		contentPane.add(panel_1, "cell 1 0,grow");
+		panel_1.setLayout(new MigLayout("", "[74.00,grow][74.00,fill][74.00,grow]", "[][][][][][][][][]"));
 		
-		JPanel activity = new JPanel(new GridLayout(3, 1));
-
-		// ----- Transactions - Make New Transaction, OR View List of Transactions
-		JPanel transactions = new JPanel(new BorderLayout());
-
-		// North Panel for Transactions
-		JPanel northPanel = new JPanel(new GridLayout(3, 1));
+		JLabel lblF = new JLabel("Filter Your Transactions");
+		lblF.setAlignmentX(Component.CENTER_ALIGNMENT);
+		lblF.setHorizontalTextPosition(SwingConstants.CENTER);
+		lblF.setFont(new Font("Segoe UI Black", Font.BOLD, 12));
+		lblF.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_1.add(lblF, "cell 0 0 3 1");
 		
-		JPanel newTrans = new JPanel(new FlowLayout());
-		newTrans.add(new JLabel("Make New Transaction:"));
-		northPanel.add(newTrans);
-		transactionBox = new JComboBox(new String[] { "Leave a Message", "Open Chat Client" });
-		northPanel.add(transactionBox);
-		btnGo = new JButton("Go!");
-		northPanel.add(btnGo);
-
-		transactions.add(northPanel, BorderLayout.NORTH);
-
-		activity.add(transactions);
+		JLabel lblFrom = new JLabel("Date From:");
+		panel_1.add(lblFrom, "cell 0 1");
 		
-		activity.add(tablePanel);
-		JPanel yourTrans = new JPanel(new FlowLayout());
-		yourTrans.add(new JLabel("Your Transactions: "));
-		tablePanel.add(yourTrans, BorderLayout.NORTH);
-
+		startMonth = new JComboBox<String>();
+		startMonth.setModel(new DefaultComboBoxModel<>(new String[] {
+				"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"
+		}));
+		
+		panel_1.add(startMonth, "cell 0 2,growx");
+		
+		startDay = new JComboBox<String>();
+		startDay.setModel(new DefaultComboBoxModel<>(new String[] {
+				"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12",
+				"13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", 
+				"25", "26", "27", "28", "29", "30", "31"
+		}));
+		
+		
+		panel_1.add(startDay, "cell 1 2,growx");
+		
+		startYear = new JComboBox<String>();
+		startYear.setModel(new DefaultComboBoxModel<>(new String[] {
+				"2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018" 
+		}));
+		
+		panel_1.add(startYear, "cell 2 2,growx");
+		
+		JLabel lblTo = new JLabel("Date To:");
+		panel_1.add(lblTo, "cell 0 3 2 1");
+		
+		endMonth = new JComboBox<>();
+		endMonth.setModel(new DefaultComboBoxModel<>(new String[] {
+				"12", "11", "10", "09", "08", "07", "06", "05", "04", "03", "02", "01"
+		}));
+		
+		panel_1.add(endMonth, "cell 0 4,growx");
+		
+		endDay = new JComboBox<>();
+		
+		endDay.setModel(new DefaultComboBoxModel<>(new String[] {
+				"31", "30", "29", "28", "27", "26", "25", "24", "23", "22", "21", "20",
+				"19", "18", "17", "16", "15", "14", "13", "12", "11", "10", "09", "08", 
+				"07", "06", "05", "04", "03", "02", "01"
+		}));
+		panel_1.add(endDay, "cell 1 4,growx");
+		
+		endYear = new JComboBox<>();
+		endYear.setModel(new DefaultComboBoxModel<>(new String[] {
+				"2018", "2017", "2016", "2015", "2014", "2013", "2012", "2011", "2010"
+		}));
+		
+		panel_1.add(endYear, "cell 2 4,growx");
+		
+		JLabel lblAmountFrom = new JLabel("Amount From:");
+		panel_1.add(lblAmountFrom, "cell 0 5");
+		
+		lowestVal = new JComboBox<>();
+		lowestVal.setModel(new DefaultComboBoxModel<>(new String[] {
+				"0", "100", "500", "1000", "2500", "5000", "10000", "25000", "50000", "100000", "250000", "500000", "1000000"
+		}));
+		
+		panel_1.add(lowestVal, "cell 0 6,growx");
+		
+		JLabel lblAmountTo = new JLabel("Amount To:");
+		panel_1.add(lblAmountTo, "cell 0 7");
+		
+		highestVal = new JComboBox<>();
+		highestVal.setModel(new DefaultComboBoxModel<>(new String[] {
+				"1000000", "500000", "250000", "100000", "50000", "25000", "10000",
+				"5000", "2500", "1000", "500", "100", "0"
+		}));
+		
+		panel_1.add(highestVal, "cell 0 8,growx");
+		
 		// Displaying Recent Transactions
 		TransactionController tran = new TransactionController();
 		List<Transaction> cusTrans = tran.getTransactions(customer);
-
-		tableTransactions = this.getTable(cusTrans, columns);
-		JScrollPane tablePane = new JScrollPane(tableTransactions);
+		
+		table = getTable(cusTrans, columns);
+		JScrollPane tablePane = new JScrollPane(table);
 		originalTablePanel.add(tablePane);
-		tablePanel.add(originalTablePanel, BorderLayout.CENTER);
+		contentPane.add(originalTablePanel, "cell 2 0 1 6,grow");
 		
-		JPanel logoutPanel = new JPanel(new GridLayout(2,1));
-		logoutPanel.add(new JLabel("You can logout of your dashboard at any time.\nJust click the button below. :)"));
-		JButton logout = new JButton("Logout");
-		logoutPanel.add(logout);
+		lblName = new JLabel("Name: " + fullName);
+		contentPane.add(lblName, "cell 0 1");
 		
-		activity.add(logoutPanel);
+		splitPane = new JSplitPane();
+		contentPane.add(splitPane, "cell 1 1");
 		
-		getContentPane().add(activity);
+		btnFilter = new JButton("Filter");
+		splitPane.setLeftComponent(btnFilter);
 		
-		// ----- Filters
-		JPanel filters = new JPanel(new GridLayout(5, 1));
-
-		JPanel filterTrans = new JPanel(new FlowLayout());
-		filterTrans.add(new JLabel("Filter Your Transactions:"));
-		filters.add(filterTrans);
-
-		JPanel Date = new JPanel(new GridLayout(2, 10));
-		Date.add(new JLabel("From:"));
-		startMonth = new JComboBox(
-				new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" });
-		Date.add(startMonth);
-		startDay = new JComboBox(new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12",
-				"13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29",
-				"30", "31" });
-		Date.add(startDay);
-		startYear = new JComboBox(
-				new String[] { "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018" });
-		Date.add(startYear);
-		Date.add(new JLabel(" "));
-		Date.add(new JLabel("To:"));
-		endMonth = new JComboBox(
-				new String[] { "12", "11", "10", "09", "08", "07", "06", "05", "04", "03", "02", "01" });
-
-		Date.add(endMonth);
-		endDay = new JComboBox(new String[] { "31", "30", "29", "28", "27", "26", "25", "24", "23", "22", "21", "20",
-				"19", "18", "17", "16", "15", "14", "13", "12", "11", "10", "09", "08", "07", "06", "05", "04", "03",
-				"02", "01" });
-
-		Date.add(endDay);
-		endYear = new JComboBox(
-				new String[] { "2018", "2017", "2016", "2015", "2014", "2013", "2012", "2011", "2010" });
-		Date.add(endYear);
-		Date.add(new JLabel(" "));
-
-		filters.add(Date);
-
-		filters.add(new JLabel("With Amounts Ranging:"));
-
-		JPanel values = new JPanel(new GridLayout(2, 6));
-		values.add(new JLabel("From: JMD"));
-		lowestVal = new JComboBox(new String[] { "0", "100", "500", "1000", "2500", "5000", "10000", "25000", "50000",
-				"100000", "250000", "500000", "1000000" });
-		values.add(lowestVal);
-		values.add(new JLabel(" "));
-		values.add(new JLabel("To: JMD"));
-		highestVal = new JComboBox(new String[] { "1000000", "500000", "250000", "100000", "50000", "25000", "10000",
-				"5000", "2500", "1000", "500", "100", "0" });
-		values.add(highestVal);
-		values.add(new JLabel(" "));
-
-		filters.add(values);
-
-		JPanel search = new JPanel(new GridLayout(1, 2));
-		btnFilter = new JButton("Filter Results!");
-		search.add(btnFilter);
 		btnClrSearch = new JButton("Clear Search");
-		search.add(btnClrSearch);
-		filters.add(search);
-
-		filters.add(search);
-
-		getContentPane().add(filters);
-
-		setVisible(true);
+		splitPane.setRightComponent(btnClrSearch);
+		
+		lblAccount = new JLabel("Account #: CU2018-" + customer.getId());
+		contentPane.add(lblAccount, "cell 0 2");
+		
+		JLabel lblMakeATransaction = new JLabel("Open a Dialog");
+		lblMakeATransaction.setFont(new Font("Segoe UI Black", Font.BOLD, 12));
+		contentPane.add(lblMakeATransaction, "cell 1 3");
+		
+		lblBalance = new JLabel("<html>Your Balance is: <span style=\"color: green;\">$"
+				+ TransactionController.getBalance() + "</span></html>");
+		contentPane.add(lblBalance, "cell 0 4");
+		
+		transactionBox = new JComboBox<>();
+		transactionBox.setModel(new DefaultComboBoxModel<>(new String[] {
+				"Leave a Message", "Open Chat Client"
+		}));
+		
+		contentPane.add(transactionBox, "cell 1 4,growx");
+		
+		logout = new JButton("Logout");
+		contentPane.add(logout, "cell 0 5");
+		
+		btnGo = new JButton("Go");
+		contentPane.add(btnGo, "cell 1 5");
 	}
-
+	
 	public void configureListeners() {
 		btnGo.addActionListener(this);
 		btnFilter.addActionListener(this);
 		btnClrSearch.addActionListener(this);
+		logout.addActionListener(this);
+		mntmViewUserManual.addActionListener(this);
 	}
-
-	@Override
+	
 	public void actionPerformed(ActionEvent event) {
 		if (event.getSource().equals(btnGo)) {
 			// PERFORM TRanSACTION
@@ -262,7 +305,7 @@ public class CustomerDashboard extends JFrame implements ActionListener {
 
 				// OPEN CHAT CLIENT
 			} else if (selection.equals("Open Chat Client")) {
-				JOptionPane.showMessageDialog(null, "LISA is Ready to Help You with your Transaction! :)");
+				JOptionPane.showMessageDialog(null, "Our Assistant is Ready to Help You with your Transaction! :)");
 				ChatClientView chatView = new ChatClientView(this);
 				chatView.setVisible(true);
 			}
@@ -281,14 +324,13 @@ public class CustomerDashboard extends JFrame implements ActionListener {
 		
 			JOptionPane.showMessageDialog(null, "Filtering...\nReturned "+length+" record(s).");
 			
-			tableTransactions = this.getTable(filteredTrans, columns);
+			table = this.getTable(filteredTrans, columns);
+			JScrollPane scroll = new JScrollPane(table);
 			
-			filteredPanel = new JPanel();
-			JScrollPane scroll = new JScrollPane(tableTransactions);
 			filteredPanel.add(scroll);
 			
-			tablePanel.remove(originalTablePanel);
-			tablePanel.add(filteredPanel, BorderLayout.CENTER);
+			contentPane.remove(originalTablePanel);
+			contentPane.add(filteredPanel, "cell 2 0 1 6,grow");
 			this.validate();
 			
 			// Display filtered transactions inside TransactionList Text Area
@@ -305,6 +347,24 @@ public class CustomerDashboard extends JFrame implements ActionListener {
 
 			lowestVal.setSelectedItem("0");
 			highestVal.setSelectedItem("1000000");
+		}else if(event.getSource().equals(logout)) {
+			if(AuthController.logout()) {
+				dispose();
+
+				SwingUtilities.invokeLater(()->{
+					Login login = new Login();
+
+					login.setVisible(true);
+					login.repaint();
+					login.revalidate();
+				});
+			
+			}else {
+				JOptionPane.showMessageDialog(null, "Unable to logout", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+			
+		}else if(event.getSource().equals(mntmViewUserManual)) {
+			//Open user manual
 		}
 	}
 	
@@ -349,4 +409,5 @@ public class CustomerDashboard extends JFrame implements ActionListener {
 		
 		return table;	
 	}
+
 }

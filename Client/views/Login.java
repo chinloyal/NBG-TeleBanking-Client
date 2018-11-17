@@ -24,6 +24,7 @@ import java.awt.GridLayout;
 import java.awt.Label;
 
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
@@ -58,7 +59,7 @@ public class Login extends JFrame {
 			JOptionPane.showMessageDialog(null,"Cannot set UI");
 		}
 		
-		EventQueue.invokeLater(new Runnable() {
+		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					Login frame = new Login();
@@ -120,7 +121,16 @@ public class Login extends JFrame {
 						dispose();		
 						//Sending Customer Information to Customer Dashboard
 						if(loggedInUser.getType().equals("customer")) {
-							new CustomerDashboard(loggedInUser);
+							
+							SwingUtilities.invokeLater(()->{
+								CustomerDashboard cd = new CustomerDashboard(loggedInUser);
+								
+								cd.setVisible(true);
+								cd.repaint();
+								cd.revalidate();
+							});
+							
+							
 						}else if(loggedInUser.getType().equals("manager")) {
 							new ManagerDashboard();
 						}

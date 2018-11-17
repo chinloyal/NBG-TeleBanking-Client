@@ -51,6 +51,7 @@ public class AuthController {
 	}
 	
 	public boolean isValid(User user) {
+		
 		try {
 			ValidatorFactory validatoryFactory = Validation.buildDefaultValidatorFactory();
 			Validator validator = validatoryFactory.getValidator();
@@ -82,8 +83,8 @@ public class AuthController {
 			client.connect();
 			client.send(request);
 			response = client.readResponse();
-			client.send(new Request("EXIT"));
-			client.closeConnection();
+			/*client.send(new Request("EXIT"));
+			client.closeConnection();*/
 		} catch(IOException | ClassNotFoundException e ) {
 			logger.error("Invalid data", e.getMessage());
 		}
@@ -100,8 +101,8 @@ public class AuthController {
 			client.send(request);
 			
 			Response response = client.readResponse();
-			client.send(new Request("EXIT"));
-			client.closeConnection();
+			/*client.send(new Request("EXIT"));
+			client.closeConnection();*/
 			
 			return (User) response.getData();
 		}catch(IOException | ClassNotFoundException | NullPointerException e) {
@@ -109,6 +110,26 @@ public class AuthController {
 		}
 		
 		return null;
+	}
+	
+	public static boolean logout() {
+		try {
+			Client client = new Client();
+			
+			client.connect();
+			client.send(new Request("logout"));
+			
+			Response response = (Response) client.readResponse();
+			
+			/*client.send(new Request("EXIT"));
+			client.closeConnection();*/
+
+			return response.isSuccess();
+		}catch(IOException | ClassNotFoundException e) {
+			LogManager.getLogger().error("Unabale to send or read logout response/request");
+		}
+		
+		return false;
 	}
 
 }

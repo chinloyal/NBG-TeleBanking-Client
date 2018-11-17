@@ -1,6 +1,7 @@
 package views;
 
 
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -12,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -21,6 +23,7 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import connection.Client;
+import controllers.AuthController;
 import controllers.TransactionController;
 import models.ChartVals;
 
@@ -45,7 +48,6 @@ public class ManagerDashboard extends JFrame implements ActionListener {
 		final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		for(ChartVals val : chartValues) {
 			dataset.addValue(val.getTotal(), val.getCardType(), val.getTransactionType());
-			System.out.println(val.getTotal());
 		}
 		
 		return dataset; 
@@ -54,14 +56,14 @@ public class ManagerDashboard extends JFrame implements ActionListener {
 	private void initView()
 	{
 		
-		this.setLayout(new FlowLayout(FlowLayout.CENTER));
+		this.setLayout(new BorderLayout());
 		
 		JPanel pnlTop = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		
 		pnlTop.add( label = new JLabel ("MANAGER DASHBOARD"));
 		label.setFont(new Font("Serif", Font.PLAIN, 30) );
 		
-		this.add(pnlTop);
+		this.add(pnlTop, BorderLayout.NORTH);
 		
 
 		JFreeChart barChart = ChartFactory.createBarChart(
@@ -74,7 +76,7 @@ public class ManagerDashboard extends JFrame implements ActionListener {
 		ChartPanel BarChart = new ChartPanel(barChart);
 		ChartPanel chartPanel = new ChartPanel( barChart );        
 		chartPanel.setPreferredSize(new java.awt.Dimension( 50 , 30 ) );        
-		add(BarChart);
+		add(BarChart, BorderLayout.CENTER);
 
 
 
@@ -84,7 +86,7 @@ public class ManagerDashboard extends JFrame implements ActionListener {
 
 		pnlFooter.add(btnLogout);
 		btnLogout.setPreferredSize( new java.awt.Dimension(200, 30) );
-		this.add(pnlFooter);
+		this.add(pnlFooter, BorderLayout.SOUTH);
 		btnLogout.addActionListener(this);
 
 		pack();
@@ -102,7 +104,15 @@ public class ManagerDashboard extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource().equals(btnLogout))
 		{
-			 JOptionPane.showMessageDialog(this, "Back to the Login Page");
+			AuthController.logout();
+			SwingUtilities.invokeLater(()->{
+				Login login = new Login();
+				login.setVisible(true);
+				login.repaint();
+				login.revalidate();
+			});
+			
+			dispose();
 		}
 	}
 	

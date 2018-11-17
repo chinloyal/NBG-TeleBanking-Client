@@ -74,7 +74,7 @@ public class ChatClientView extends JDialog implements ActionListener, KeyListen
 	}
 	
 	public ChatClientView(JFrame parent) {
-		super(parent, "NBG Tele-Banking - Transactions", true);
+		super(parent, "NBG TeleBanking - Transactions", true);
 		getContentPane().setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		setSize(450, 518);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
