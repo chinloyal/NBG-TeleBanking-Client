@@ -11,7 +11,6 @@ import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-import javax.net.ssl.SSLHandshakeException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -22,6 +21,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,23 +31,25 @@ import com.chinloyal.listen.Hearable;
 
 import controllers.TransactionController;
 import controllers.VoiceInputController;
-import javazoom.jl.decoder.JavaLayerException;
 
 import java.awt.SystemColor;
 import java.awt.Font;
-import javax.swing.JProgressBar;
 import java.awt.Color;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.Timer;
+import javax.swing.JToggleButton;
+import javax.swing.JSlider;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
+import java.awt.Dimension;
 
-public class ChatClientView extends JDialog implements ActionListener, KeyListener, Hearable{
+public class ChatClientView extends JDialog implements ActionListener, KeyListener, ChangeListener, Hearable{
 	private JLabel label;
 	private JTextField txtRequest;
 	private JButton btnRecord;
 	private JTextArea txtrUserRequest;
 	private JTextArea txtrBotResponse;
-	private JProgressBar progressBar;
 	private JTextArea txtrSpeakNow;
 	
 	private TransactionController tc = new TransactionController();
@@ -55,6 +58,9 @@ public class ChatClientView extends JDialog implements ActionListener, KeyListen
 	private JScrollPane scrollPaneInstructions;
 	private JScrollPane scrollPaneBot;
 	private JScrollPane scrollPane;
+	private JPanel pnlAction;
+	private JToggleButton tglbtnMute;
+	private JSlider slider;
 	
 	public static void main(String[] args) {
 		try {
@@ -74,7 +80,7 @@ public class ChatClientView extends JDialog implements ActionListener, KeyListen
 	}
 	
 	public ChatClientView(JFrame parent) {
-		super(parent, "NBG Tele-Banking - Transactions", true);
+		super(parent, "NBG TeleBanking - Transactions", true);
 		getContentPane().setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		setSize(450, 518);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -134,8 +140,33 @@ public class ChatClientView extends JDialog implements ActionListener, KeyListen
 		txtrUserRequest.setEnabled(false);
 		txtrUserRequest.setEditable(false);
 		
-		progressBar = new JProgressBar();
-		panel.add(progressBar);
+		pnlAction = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) pnlAction.getLayout();
+		flowLayout.setAlignment(FlowLayout.LEFT);
+		panel.add(pnlAction);
+		
+		tglbtnMute = new JToggleButton("Mute");
+		pnlAction.add(tglbtnMute);
+		
+		if(tc.getMute() == true) {
+			tglbtnMute.setSelected(true);
+			tglbtnMute.setText("Unmute");
+		}
+		
+		JSeparator separator = new JSeparator();
+		separator.setPreferredSize(new Dimension(25, 20));
+		separator.setOrientation(SwingConstants.VERTICAL);
+		pnlAction.add(separator);
+		
+		JLabel lblIncreaseTalkkTime = new JLabel("Change Talk Time:");
+		pnlAction.add(lblIncreaseTalkkTime);
+		
+		slider = new JSlider();
+		slider.setValue(5);
+		slider.setPaintTicks(true);
+		slider.setMajorTickSpacing(1);
+		slider.setMaximum(10);
+		pnlAction.add(slider);
 		
 		JLabel lblMessageHit = new JLabel("Message (Hit <Enter> to send a message to the bot):");
 		getContentPane().add(lblMessageHit);
@@ -154,18 +185,20 @@ public class ChatClientView extends JDialog implements ActionListener, KeyListen
 	private void configureListeners() {
 		txtRequest.addKeyListener(this);
 		btnRecord.addActionListener(this);
+		tglbtnMute.addActionListener(this);
+		
+		slider.addChangeListener(this);
 		
 		vc.setRecordTime(5000);
 		vc.listen();
 		vc.addRespondListener(this);
-		
-		progressBar.setValue(VoiceInputController.PROGRESS);
 	}
 
 
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource().equals(btnRecord)) {
 			txtRequest.setEnabled(false);
+			slider.setEnabled(false);
 			txtrSpeakNow.setText("Speak now...");
 			btnRecord.setEnabled(false);
 			
@@ -179,6 +212,7 @@ public class ChatClientView extends JDialog implements ActionListener, KeyListen
 
 			ActionListener listener = (ev) -> {
 				txtrSpeakNow.setText("Stop speaking...");
+				slider.setEnabled(true);
 				txtRequest.setEnabled(true);
 				btnRecord.setEnabled(true);
 			};
@@ -186,6 +220,14 @@ public class ChatClientView extends JDialog implements ActionListener, KeyListen
 			Timer timer = new Timer(vc.getRecordTime(), listener);
 			timer.setRepeats(false);
 		    timer.start();
+		}else if(event.getSource().equals(tglbtnMute)) {
+			if(tglbtnMute.isSelected()) {
+				tc.setMute(true);
+				tglbtnMute.setText("Unmute");
+			}else {
+				tc.setMute(false);
+				tglbtnMute.setText("Mute");
+			}
 		}
 		
 	}
@@ -239,5 +281,12 @@ public class ChatClientView extends JDialog implements ActionListener, KeyListen
 		} catch (InterruptedException | ExecutionException e) {
 			logger.error("The assistant was unable to produce voice output.");
 		}
+	}
+
+	public void stateChanged(ChangeEvent event) {
+		if(event.getSource().equals(slider)) {
+			vc.setRecordTime(slider.getValue() * 1000);
+		}
+		
 	}
 }

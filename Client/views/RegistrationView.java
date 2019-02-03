@@ -280,7 +280,7 @@ public class RegistrationView extends JFrame implements ActionListener {
 					user.setType("customer");
 					
 					if(uploadedImage != null) {
-						Pattern extensions = Pattern.compile("([^\\s]+(\\.(?i)(jpg|jpeg|png))$)");
+						Pattern extensions = Pattern.compile("((.*).(jpeg|jpg|png))");
 						if(!extensions.matcher(uploadedImage.getName()).matches()) {
 							JOptionPane.showMessageDialog(null, "Unacceptable file format.", "Error", JOptionPane.ERROR_MESSAGE);
 							
