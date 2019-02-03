@@ -11,7 +11,6 @@ import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-import javax.net.ssl.SSLHandshakeException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -32,16 +31,13 @@ import com.chinloyal.listen.Hearable;
 
 import controllers.TransactionController;
 import controllers.VoiceInputController;
-import javazoom.jl.decoder.JavaLayerException;
 
 import java.awt.SystemColor;
 import java.awt.Font;
-import javax.swing.JProgressBar;
 import java.awt.Color;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.Timer;
-import java.awt.Component;
 import javax.swing.JToggleButton;
 import javax.swing.JSlider;
 import javax.swing.JSeparator;

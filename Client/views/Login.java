@@ -1,14 +1,7 @@
 package views;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JInternalFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import communication.Response;
 import connection.Client;
@@ -19,25 +12,20 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
-import java.awt.Frame;
-import java.awt.GridLayout;
-import java.awt.Label;
 
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.JRadioButton;
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
-import javax.swing.JCheckBox;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
 import java.awt.Dimension;
 
@@ -48,7 +36,7 @@ public class Login extends JFrame {
 	private JTextField emailField;
 	private AuthController auth = new AuthController(new Client());
 	private JPasswordField passwordField;
-
+	private JButton btnLogin;
 	/**
 	 * Launch the application.
 	 */
@@ -121,7 +109,7 @@ public class Login extends JFrame {
 		emailField.setColumns(10);
 		getContentPane().add(emailField, "4, 3, 2, 1, fill, fill");
 
-		JButton btnLogin = new JButton("Login");
+		btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(emailField.getText().equals("") | passwordField.equals(null)) {
@@ -189,8 +177,25 @@ public class Login extends JFrame {
 		});
 		btnRegister.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		getContentPane().add(btnRegister, "5, 9, fill, fill");
-		
-		
-		
+		configureListeners();
+	}
+	
+	public void configureListeners() {
+		passwordField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent event) {
+				if(event.getKeyCode() == KeyEvent.VK_ENTER) {
+					btnLogin.doClick();
+				}
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent event) {}
+			
+			@Override
+			public void keyPressed(KeyEvent event) {}
+		});
 	}
 }

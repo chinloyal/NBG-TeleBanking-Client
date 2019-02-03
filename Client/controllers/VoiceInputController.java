@@ -8,7 +8,7 @@ public class VoiceInputController extends Hear {
 	
 
 	public VoiceInputController() {
-		// TODO Auto-generated constructor stub
+		super("My Google API Key");
 	}
 
 	@Override

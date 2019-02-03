@@ -48,7 +48,7 @@ import javax.swing.JMenu;
 
 public class CustomerDashboard extends JFrame implements ActionListener {
 
-	private static User customer = AuthController.getLoggedInUser();
+	private static User customer;
 	private JPanel contentPane;
 	private JLabel cusPhoto;
 	private JLabel lblAccount;
@@ -112,6 +112,7 @@ public class CustomerDashboard extends JFrame implements ActionListener {
 	}
 	
 	public void initView(User customer) {
+		this.customer = customer;
 		setTitle("NBG TeleBanking - Customer Dashboard");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 994, 446);
@@ -138,7 +139,7 @@ public class CustomerDashboard extends JFrame implements ActionListener {
 		try {
 			url = new URL("file:/" + file.getAbsolutePath());
 		} catch (MalformedURLException e2) {
-			logger.error("Unable to for URL for image.");
+			logger.error("Unable to get URL for image.");
 		}
 //		System.out.println(CustomerDashboard.class.getResource("/storage/uploads/" + customer.getPhoto().getName()));
 		
@@ -151,7 +152,6 @@ public class CustomerDashboard extends JFrame implements ActionListener {
 		);
 		panel.add(cusPhoto);
 		
-		String fullName = (customer.getFirstName() + " " + customer.getLastName()).toUpperCase();
 		
 		panel_1 = new JPanel();
 		contentPane.add(panel_1, "cell 1 0,grow");
@@ -247,6 +247,7 @@ public class CustomerDashboard extends JFrame implements ActionListener {
 		originalTablePanel.add(tablePane);
 		contentPane.add(originalTablePanel, "cell 2 0 1 6,grow");
 		
+		String fullName = (customer.getFirstName() + " " + customer.getLastName()).toUpperCase();
 		lblName = new JLabel("Name: " + fullName);
 		contentPane.add(lblName, "cell 0 1");
 		
@@ -322,13 +323,14 @@ public class CustomerDashboard extends JFrame implements ActionListener {
 			List<Transaction> filteredTrans = filter.filter(start, end, lowerVal, higherVal, customer);
 			int length = filteredTrans.size();
 		
-			JOptionPane.showMessageDialog(null, "Filtering...\nReturned "+length+" record(s).");
+			JOptionPane.showMessageDialog(null, "Filtering...\r\nReturned "+length+" record(s).");
 			
 			table = this.getTable(filteredTrans, columns);
 			JScrollPane scroll = new JScrollPane(table);
-			
+			filteredPanel.removeAll();
 			filteredPanel.add(scroll);
 			
+			contentPane.remove(filteredPanel);
 			contentPane.remove(originalTablePanel);
 			contentPane.add(filteredPanel, "cell 2 0 1 6,grow");
 			this.validate();
@@ -347,6 +349,7 @@ public class CustomerDashboard extends JFrame implements ActionListener {
 
 			lowestVal.setSelectedItem("0");
 			highestVal.setSelectedItem("1000000");
+			
 		}else if(event.getSource().equals(logout)) {
 			if(AuthController.logout()) {
 				dispose();

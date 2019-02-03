@@ -60,6 +60,7 @@ public class QueryView extends JDialog {
 		super(parent, "NBG TeleBanking - Send a Message", true);
 		this.customer = customer;
 		setBounds(100, 100, 588, 428);
+		setResizable(false);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);

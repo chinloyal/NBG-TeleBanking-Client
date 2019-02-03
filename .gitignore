@@ -10,9 +10,8 @@ local.properties
 .loadpath
 .recommenders
 logs/
-Client/storage/uploads/*.jpg
-Client/storage/uploads/*.jpeg
-Client/storage/uploads/*.png
+Client/storage/uploads/*
+!Client/storage/uploads/.gitkeep
 # External tool builders
 .externalToolBuilders/
 

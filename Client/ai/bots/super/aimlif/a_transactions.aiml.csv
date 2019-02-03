@@ -1,0 +1,35 @@
+0,* MAKE A TRANSACTION *,*,*,<think><set name="topic">BANKING TRANSACTIONS</set></think>What type of transaction would you like to make?,a_transactions.aiml
+0,MAKE A TRANSACTION,*,*,<srai>* MAKE A TRANSACTION *</srai>,a_transactions.aiml
+0,TRANSACTION,*,*,<srai>* MAKE A TRANSACTION *</srai>,a_transactions.aiml
+0,* TRANSACTION,*,*,<srai>* MAKE A TRANSACTION *</srai>,a_transactions.aiml
+0,* TRANSACTION *,*,*,<srai>* MAKE A TRANSACTION *</srai>,a_transactions.aiml
+0,* PAY A BILL,*,*,<think><set name="topic">PROVIDER BILLS</set></think>How much money would you like to pay#Comma and to which service provider?,a_transactions.aiml
+0,PAY A BILL,*,*,<srai>* PAY A BILL</srai>,a_transactions.aiml
+0,* CHECK MY BALANCE,*,BANKING TRANSACTIONS,Give me a few seconds to check your balance.,a_transactions.aiml
+0,* CHECK MY ACCOUNT BALANCE,*,BANKING TRANSACTIONS,<srai>* CHECK MY BALANCE</srai>,a_transactions.aiml
+0,* BALANCE INQUIRY,*,BANKING TRANSACTIONS,<srai>* CHECK MY BALANCE</srai>,a_transactions.aiml
+0,BALANCE INQUIRY,*,BANKING TRANSACTIONS,<srai>* CHECK MY BALANCE</srai>,a_transactions.aiml
+0,HOW MUCH MONEY * I *,*,BANKING TRANSACTIONS,<srai>* CHECK MY BALANCE</srai>,a_transactions.aiml
+0,WHAT IS MY BALANCE,*,BANKING TRANSACTIONS,<srai>* CHECK MY BALANCE</srai>,a_transactions.aiml
+0,* MY BALANCE,*,BANKING TRANSACTIONS,<srai>* CHECK MY BALANCE</srai>,a_transactions.aiml
+0,HOW MUCH MONEY * MY *,*,BANKING TRANSACTIONS,<srai>* CHECK MY BALANCE</srai>,a_transactions.aiml
+0,CHECK MY BALANCE,*,BANKING TRANSACTIONS,<srai>* CHECK MY BALANCE</srai>,a_transactions.aiml
+0,* TRANSFER * TO *,*,BANKING TRANSACTIONS,OK#Comma I need a few seconds to transfer <star index="2"/> to <star index="3"/>,a_transactions.aiml
+0,* SEND * TO *,*,BANKING TRANSACTIONS,<srai>* TRANSFER <star index="2"/> TO <star index="3"/></srai>,a_transactions.aiml
+0,SEND * TO *,*,BANKING TRANSACTIONS,<srai>* TRANSFER <star index="1"/> TO <star index="2"/></srai>,a_transactions.aiml
+0,TRANSFER * TO *,*,BANKING TRANSACTIONS,<srai>* TRANSFER <star index="1"/> TO <star index="2"/></srai>,a_transactions.aiml
+0,ADD MONEY TO MY ACCOUNT,*,BANKING TRANSACTIONS,How much money do you want to add to your account?,a_transactions.aiml
+0,* ADD MONEY TO MY ACCOUNT,*,BANKING TRANSACTIONS,<srai>ADD MONEY TO MY ACCOUNT</srai>,a_transactions.aiml
+0,* ADD FUNDS TO MY ACCOUNT,*,BANKING TRANSACTIONS,<srai>ADD MONEY TO MY ACCOUNT</srai>,a_transactions.aiml
+0,ADD FUNDS TO MY ACCOUNT,*,BANKING TRANSACTIONS,<srai>ADD MONEY TO MY ACCOUNT</srai>,a_transactions.aiml
+0,MAKE A DEPOSIT,*,BANKING TRANSACTIONS,<srai>ADD MONEY TO MY ACCOUNT</srai>,a_transactions.aiml
+0,* MAKE A DEPOSIT,*,BANKING TRANSACTIONS,<srai>ADD MONEY TO MY ACCOUNT</srai>,a_transactions.aiml
+0,* MAKE A DEPOSIT *,*,BANKING TRANSACTIONS,<srai>ADD MONEY TO MY ACCOUNT</srai>,a_transactions.aiml
+0,* DEPOSIT,*,BANKING TRANSACTIONS,<srai>ADD MONEY TO MY ACCOUNT</srai>,a_transactions.aiml
+0,DEPOSIT,*,BANKING TRANSACTIONS,<srai>ADD MONEY TO MY ACCOUNT</srai>,a_transactions.aiml
+0,* ADD * TO *,*,BANKING TRANSACTIONS,Excellent#Comma just give me a moment to process your deposit.,a_transactions.aiml
+0,ADD * TO *,*,BANKING TRANSACTIONS,<srai>* ADD * TO *</srai>,a_transactions.aiml
+0,_,HOW MUCH MONEY DO YOU WANT TO ADD TO YOUR ACCOUNT,BANKING TRANSACTIONS,Excellent#Comma just give me a moment to process your deposit.,a_transactions.aiml
+0,*,WHAT TYPE OF TRANSACTION WOULD YOU LIKE TO MAKE,BANKING TRANSACTIONS,I've never heard of that type of transaction before.,a_transactions.aiml
+0,* PAY * TO *,*,PROVIDER BILLS,Sure#Comma I'll find <star index="3"/> and pay them <star index="2"/>,a_transactions.aiml
+0,PAY * TO *,*,PROVIDER BILLS,<srai>* PAY <star index="1"/> TO <star index="2"/></srai>,a_transactions.aiml

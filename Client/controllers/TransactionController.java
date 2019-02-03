@@ -11,12 +11,14 @@ import javax.swing.JOptionPane;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import ai.abstracts.ArtificialIntelligence;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import abstracts.ArtificialIntelligence;
 import communication.Request;
 import communication.Response;
 import connection.Client;
@@ -42,6 +44,7 @@ public class TransactionController extends ArtificialIntelligence {
 		mute = true;
 
 		loggedInUser = AuthController.getLoggedInUser();
+		
 	}
 
 	public void processAction(String response, String request) {
