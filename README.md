@@ -1,8 +1,19 @@
-# AP Group Project
-
+# NBG TeleBanking Client
+Prerequistes:
+- Maven
 Instructions:
 
- - `git clone <url>`
-- After cloning, checkout to a new branch `git checkout -b feature/<branch_name>`
-
-**#NB**: use the command line.
+ ```shell
+ $ git clone https://github.com/chinloyal/NBG-TeleBanking-Client
+ # cd into the project
+ # then
+ $ mvn eclipse:eclipse
+ ```
+ You'll also need the server
+ ```shell
+ $ git clone https://github.com/chinloyal/NBG-Server
+ # cd into the project
+ # then
+ $ mvn eclipse:eclipse
+ ```
+ You need to run the server app before running the client.
